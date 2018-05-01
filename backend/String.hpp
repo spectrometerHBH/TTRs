@@ -54,6 +54,35 @@ public:
 		return *this;
 	}
 
+	/*
+	String operator+(const char * ap) {
+		String sum(*this);
+		if (ap != nullptr) {
+			int i = 0, j = 0;
+			while (sum[i] != '\0') ++i;
+			while (ap[j] != '\0' && i + j < N) {
+				sum[i + j] = ap[j];
+				++j;
+			}
+			sum[i + j] = '\0';
+		}
+		return sum;
+	}
+
+	template<int M>
+	String operator+(const String<M> & ap) {
+		String sum(*this);
+		int i = 0, j = 0;
+		while (sum[i] != '\0') ++i;
+		while (ap[j] != '\0' && i + j < N) {
+			sum[i + j] = ap[j];
+			++j;
+		}
+		sum[i + j] = '\0';
+		return sum;
+	}
+	*/
+
 	bool operator<(const String & other) const {
 		int len1, len2, len, i;
 		len1 = strlen(ch);
@@ -83,6 +112,11 @@ public:
 		return ch[index];
 	}
 
+	char * getAddress() {
+		char * p = ch;
+		return p;
+	}
+
 	const char & operator[](size_t index) const {
 		return ch[index];
 	}
@@ -99,3 +133,43 @@ public:
 	}
 };
 
+template<int L1, int L2> 
+String<L1 + L2> operator+(const String<L1> & s1, const String<L2> & s2) {
+	String<L1 + L2> sum;
+	for (int i = 0; i < L1; ++i) {
+		sum[i] = s1[i];
+	}
+	for (int i = 0; i < L2; ++i) {
+		sum[L1 + i] = s2[i];
+	}
+	sum[L1 + L2] = '\0';
+	return sum;
+}
+
+template<int N>
+String<N> IntToString(int x) {
+	String<N> num;
+	int i = N - 1;
+	while (x != 0 && i >= 0) {
+		num[i] = (char)(x % 10 + '0');
+		x /= 10;
+		i--;
+	}
+	while (i >= 0) {
+		num[i] = '0';
+		--i;
+	}
+	num[N] = '\0';
+	return num;
+}
+
+
+#ifndef SIGNAL
+#define SIGNAL
+typedef String<5> Time;
+typedef String<10> Catalog;
+typedef String<20> Location;
+typedef String<20> TrainID;
+typedef String<20> TrainName;
+typedef String<20> Ticket;
+#endif // !SIGNAL
