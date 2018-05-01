@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>NAIVE订票系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+
+      <a class="navbar-brand" href="/">NAIVE订票系统</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu" aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/query">查询</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">订票</a>
+          </li>
+        </ul>
+
+        <div class="btn-group">
+          <a href="/login" class="btn btn-secondary">
+            登录
+          </a>
+          <a href="/signup" class="btn btn-primary">
+            注册
+          </a>
+        </div>
+      </div>
+    </nav>
+
+     
+
+      
+      <main role="main" class="container">
+        {% if message %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        <form class="form-signin" action="/action/login" method="post">
+            <div class="form-group">
+              <input class="form-control" name="userid" placeholder="用户ID">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" name="password" placeholder="密码">
+            </div>
+          <button type="submit" class="btn btn-primary">登录</button>
+        </form>
+      
+    </main>
+ 
+    
+
+    <footer class="container">
+      <p>&copy;没有版权 1926-</p>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>NAIVE订票系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+
+      <a class="navbar-brand" href="/">NAIVE订票系统</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu" aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="navbar-toggler-icon"></span>
+  	  </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/query">查询</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">订票</a>
+          </li>
+        </ul>
+
+        <div class="btn-group">
+          {% if user %}
+          <a href="/user/{{ user }}" class="btn btn-secondary">
+            {{ user }}
+          </a>
+          <a href="/action/logout" class="btn btn-primary">
+            Log out
+          </a>
+          {% else %}
+          <a href="/login" class="btn btn-secondary">
+            登录
+          </a>
+          <a href="/signup" class="btn btn-primary">
+            注册
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+     <main role="main">
+
+      
+      
+
+      <div class="container">
+        {% if message %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+      	<div class="jumbotron">
+
+        <div class="container">
+          <h1 class="display-5">很垃圾的订票系统</h1>
+          <p>按什么按钮都不会有反应的</p>
+          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn 不到 more &raquo;</a></p>
+        </div>
+      	</div>
+        <div class="row">
+          <div class="col-md-4">
+            <h2>查询</h2>
+            <p>很慢的查询功能</p>
+            <p><a class="btn btn-secondary" href="#" role="button">没有 details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>订票</h2>
+            <p>订到了票也没有车坐</p>
+            <p><a class="btn btn-secondary" href="#" role="button">没有 details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>用户</h2>
+            <p>一群傻子</p>
+            <p><a class="btn btn-secondary" href="#" role="button">没有 details &raquo;</a></p>
+          </div>
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
+
+    </main>
+
+    <footer class="container">
+      <p>&copy;没有版权 1926-</p>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
