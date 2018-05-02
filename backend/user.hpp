@@ -28,7 +28,7 @@ private:
 	UserInformation info;
 	std::ostream * uout;
 
-	String<20> generateID() {
+	/*String<20> generateID() {
 		for (int i = 19; i >= 0; --i) {
 			if (currentID[i] < '9') {
 				++currentID[i];
@@ -38,6 +38,22 @@ private:
 				currentID[i] = '0';
 			}
 		}
+	}*/
+	String<20> generateID(){
+		int i, len  = strlen(currentID.getAddress());
+		for (i = len - 1; i >= 0; --i) {
+			if (currentID[i] < '9') {
+				++currentID[i];
+				return currentID;
+			}
+			else {
+				currentID[i] = '0';
+			}
+		}
+		for (i = len + 1; i >= 1; --i)
+			currentID[i] = currentID[i-1];
+		currentID[0] = '1';
+		return currentID;
 	}
 
 	void update_id(){
@@ -49,7 +65,7 @@ private:
 
 public:
 	UserState(std::ostream & _out = std::cout) : 
-		record("userRecord", "indexUserRecord"), currentID("00000000000000002017"), uout(&_out) {
+		record("userRecord", "indexUserRecord"), currentID("2017"), uout(&_out) {
 		std::ifstream in("cntID.txt");
 		if (!in.is_open()) {
 			record.init();
@@ -115,7 +131,7 @@ public:
 		}*/
 		String<20> _id = generateID();
 		UserInformation registerInfo(_id, _name, _password, _email, _phone, 1);
-		if (_id == "00000000000000002018") registerInfo.privilege = 2;
+		if (_id == "2018") registerInfo.privilege = 2;
 		record.insert(_id, registerInfo);
 		update_id();
 		*uout << _id << "\n";
@@ -229,5 +245,7 @@ public:
 		record.traverse();
 	}
 };
+
+
 
 int read_command(UserState & userState, std::istream &in, std::ostream &out);

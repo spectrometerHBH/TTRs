@@ -1,7 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include "user.h"
+#include "user.hpp"
+
+std::ostream & operator<<(std::ostream & os, const UserInformation & info) {
+    os << info.id << '\n' << info.name << '\n' << info.email << '\n' << info.phone << '\n' << info.privilege << '\n';
+    return os;
+}
 
 int read_command(UserState & userState, std::istream &in, std::ostream &out) {
 	String<20> word, id, id2, name, password, email, phone;
@@ -63,10 +68,7 @@ int read_command(UserState & userState, std::istream &in, std::ostream &out) {
 	return -2;
 }
 
-std::ostream & operator<<(std::ostream & os, const UserInformation & info) {
-	os << info.id << '\n' << info.name << '\n' << info.email << '\n' << info.phone << '\n' << info.privilege << '\n';
-	return os;
-}
+
 
 int test() {
 	UserState userState(std::cout); // Here std::cout can be changed to any specific std::ostream

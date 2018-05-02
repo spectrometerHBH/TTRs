@@ -1,0 +1,5 @@
+/backend/*.o
+/backend/server
+/backend/client
+/backend/main
+/backend/*.in

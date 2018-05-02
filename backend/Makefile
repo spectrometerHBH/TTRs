@@ -25,7 +25,7 @@ user: user.o alloc.o
 alloc.o: alloc.h exceptions.h
 	g++ -c alloc.cpp -o alloc.o --std=c++11
 
-user.o : alloc.h alloc.cpp bptree.hpp exceptions.h String.hpp user.h
+user.o : alloc.h alloc.cpp bptree.hpp exceptions.h String.hpp user.hpp
 	g++ -c user.cpp -o user.o --std=c++11
 
 .PHONY : clean

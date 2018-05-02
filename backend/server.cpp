@@ -3,7 +3,7 @@
 #include <boost/array.hpp>
 #include <iostream>
 #include <strstream>
-#include "user.h"
+#include "user.hpp"
 #include <cstring>
 
 #include <ctime>
