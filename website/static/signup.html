@@ -17,65 +17,73 @@
     <link href="style.css" rel="stylesheet">
      <script src="jquery.min.js"></script>
     <script src="jquery.validate.min.js"></script>
+    <script src="additional-methods.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
        <script>
   $().ready(function() {
 
 // 在键盘按下并释放及提交后验证提交表单
   $("#signupForm").validate({
-    errorPlacement: function(error, element) {  
-    error.appendTo(element.parent());  
-    },
-    errorElement: "span",
+    errorLabelContainer: $("div.error"),
+    errorContainer: ".error",
+    wrapper: "div",
     rules: {
       username: {
         required: true,
-        minlength: 2
+        minlength: 2,
+        noSpace:true,
+        byteRangeLength:20
       },
       password: {
         required: true,
-        minlength: 6
+        minlength: 6,
+        noSpace:true,
+        byteRangeLength:20
       },
       password2: {
-        required: true,
-        minlength: 6,
-        equalTo: "#password"
+        equalTo: "#password",
       },
       email: {
         required: true,
-        email: true
+        email: true,
+        noSpace:true,
+        byteRangeLength:20
       },
       phone: {
         required: true,
-        minlength: 2
+        digits:true,
+        byteRangeLength:20
       },
+
     },
     messages: {
       username: {
         required: "请输入用户名",
-        minlength: "用户名必需由两个字母组成"
+        minlength: "用户名必需由两个字母组成",
+        noSpace:"用户名不能含有空格",
+        byteRangeLength:"用户名不能超过20B"
       },
       password: {
         required: "请输入密码",
-        minlength: "密码长度不能小于 6 个字母"
+        minlength: "密码长度不能小于 6 个字母",
+        noSpace:"密码不能含有空格",
+        byteRangeLength:"密码不能超过20B"
       },
       password2: {
-        required: "请输入密码",
-        minlength: "密码长度不能小于 6 个字母",
-        equalTo: "两次密码输入不一致"
+        equalTo: "两次密码输入不一致",
       },
-      email: "请输入一个正确的邮箱",
+      email: {
+        required:"请输入一个正确的邮箱",
+        email:"请输入一个正确的邮箱",
+        noSpace:"邮箱不能含有空格",
+        byteRangeLength:"邮箱不能超过20B"
+      },
       phone: "请输入一个正确的电话号码"
      }
     })
-});
+  });
     </script>
-    <style>
-.error{
-  color:red;
-  font-size:10px;
-}
-</style>
+
   </head>
 
   <body>
@@ -115,6 +123,8 @@
       <main role="main" class="container">
       
         <form class="form-signin" id="signupForm">
+          <div class="alert alert-warning  error" role="alert" name="error" style="display: none;">
+          </div>
             <div class="form-group row">
               <label for="username" class="col-sm-3 col-form-label">用户名</label>
               <div class="col-sm-9">
