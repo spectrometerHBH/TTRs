@@ -20,6 +20,9 @@ public:
 			}
 			ch[i] = '\0';
 		}
+		else {
+			ch[0] = '\0';
+		}
 	}
 
 	String(const String & other) {
@@ -97,12 +100,16 @@ public:
 	}
 
 	bool operator==(const String & other) const {
+		return this->operator==(other.ch);
+	}
+
+	bool operator==(const char * other) const {
 		int len1, len2;
 		len1 = strlen(ch);
-		len2 = strlen(other.ch);
+		len2 = strlen(other);
 		if (len1 != len2) return 0;
 		for (int i = 0; i < len1; ++i) {
-			if (ch[i] != other.ch[i])
+			if (ch[i] != other[i])
 				return 0;
 		}
 		return 1;
@@ -166,6 +173,14 @@ String<N> IntToString(int x) {
 
 #ifndef SIGNAL
 #define SIGNAL
+//about user
+typedef String<20> UserName;
+typedef String<20> Password;
+typedef String<20> Email;
+typedef String<20> Phone;
+typedef long long UserID;
+
+// about train
 typedef String<5> Time;
 typedef String<10> Catalog;
 typedef String<20> Location;
