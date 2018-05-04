@@ -502,7 +502,7 @@ private:
 			nn.prev = p.pos;
 			save_node(nn);
 		}
-		free_node(p);
+		free_node(r);
 		save_node(p);
 		buf_save_b(b, p);
 	}
@@ -633,7 +633,7 @@ private:
 	}
 
 	void _balance_right_t(buffer_p b, node &p, node &r) {
-		printf("baka\n");
+		//printf("baka\n");
 		buffer_t br;
 		buf_load_t(br, r);
 		p.sz++;
@@ -690,7 +690,7 @@ private:
 			nn.prev = p.pos;
 			save_node(nn);
 		}
-		free_node(p);;
+		free_node(r);
 		save_node(p);
 		buf_save_t(b, p);
 	}
@@ -764,10 +764,15 @@ private:
 		return 0;
 	}
 
+	class iterator {
+
+	};
+
+
 public:
 	bptree(const char * fname, const char * index_fname) :
-		//tnode_max(10),
-		//block_max(10)
+		//tnode_max(5),
+		//block_max(5)
 		tnode_max((node_size - sizeof(node)) / (sizeof(key_t) + sizeof(off_t)) - 1),
 		block_max((node_size - sizeof(node)) / (sizeof(key_t) + sizeof(value_t)) - 1)
 	{
