@@ -17,6 +17,7 @@
     <script src="/static/jquery.validate.min.js"></script>
     <script src="/static/additional-methods.js"></script>
     <!-- Custom styles for this template -->
+    <link href="/static/style.css" rel="stylesheet">
     <script>
   $().ready(function() {
 
@@ -62,6 +63,7 @@
         byteRangeLength:"用户名不能超过20B"
       },
       password: {
+        required: "请输入密码",
         minlength: "密码长度不能小于 6 个字母",
         noSpace:"密码不能含有空格",
         byteRangeLength:"密码不能超过20B"
@@ -80,7 +82,6 @@
     })
   });
     </script>
-    <link href="/static/style.css" rel="stylesheet">
   </head>
 
   <body>
@@ -159,7 +160,7 @@
             <div class="form-group row">
               <label for="password2" class="col-sm-3 col-form-label">重复密码</label>
               <div class="col-sm-9">
-                <input type="password" class="form-control" name="password2" id="password2"placeholder="重复密码">
+                <input type="password" class="form-control" name="password2" id="password2" placeholder="重复密码">
               </div>
             </div>
             <div class="form-group row">
@@ -186,10 +187,5 @@
     </footer>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/static/jquery.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

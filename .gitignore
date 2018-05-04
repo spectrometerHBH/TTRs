@@ -3,3 +3,7 @@
 /backend/client
 /backend/main
 /backend/*.in
+
+/backend/*Record
+/backend/*txt
+/website/*.pyc
