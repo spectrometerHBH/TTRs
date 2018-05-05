@@ -57,7 +57,8 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:src="@drawable/ic_person_black_24dp" />
+            android:src="@drawable/ic_person_black_24dp"
+            android:tint="@color/icon_default_color"/>
 
         <View
             android:id="@+id/loginUserid_Cursor"
@@ -90,7 +91,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:src="@drawable/ic_backspace_black_24dp"
+            android:src="@drawable/ic_highlight_off_white_24dp"
+            android:tint="@color/icon_default_color"
             android:visibility="invisible" />
 
     </RelativeLayout>
@@ -114,7 +116,8 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:src="@drawable/ic_lock_outline_black_24dp" />
+            android:src="@drawable/ic_lock_outline_black_24dp"
+            android:tint="@color/icon_default_color" />
 
         <View
             android:id="@+id/loginPassword_Cursor"
@@ -149,7 +152,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:src="@drawable/ic_backspace_black_24dp"
+            android:src="@drawable/ic_highlight_off_white_24dp"
+            android:tint="@color/icon_default_color"
             android:visibility="invisible" />
 
     </RelativeLayout>
