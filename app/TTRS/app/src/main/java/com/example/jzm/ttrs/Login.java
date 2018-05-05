@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
 
 import org.json.JSONObject;
@@ -146,15 +147,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }else return false;
     }
 
+    private boolean checkWhiteSpace(String s, String message){
+        if (s.contains(" ")) {
+            showResponse(message + "不能有空格呀~QAQ~");
+            return true;
+        }else return false;
+    }
+
     private boolean usernameCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "id")) return false;
         if (tooLong(s, "id")) return false;
+        if (checkWhiteSpace(s, "id")) return false;
         return true;
     }
 
     private boolean passwordCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "密码")) return false;
         if (tooLong(s, "密码")) return false;
+        if (checkWhiteSpace(s, "密码")) return false;
         return true;
     }
 }

@@ -3,6 +3,8 @@ package com.example.jzm.ttrs;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,8 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private List<Train> trainList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +30,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +48,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Toast.makeText(MainActivity.this, "登录成功~♪（＾∀＾●）", Toast.LENGTH_SHORT).show();
+
+        initializeTrains();
+        RecyclerView recyclerView = findViewById(R.id.front_page_recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        TrainAdapter adapter = new TrainAdapter(trainList);
+        recyclerView.setAdapter(adapter);
+    }
+    //String trainID, String trainName, String catalog, String departure, String destination, String departTime, String arriveTime, String departDate, String arriveDate
+    private void initializeTrains(){
+        for (int i = 0; i < 50; i++) {
+            Train testTrain = new Train("c101", "fuck", "C", "北京", "夏威夷", "08:00", "08:01",
+                    "2018-03-28", "2018-03-28");
+            trainList.add(testTrain);
+        }
     }
 
     @Override
