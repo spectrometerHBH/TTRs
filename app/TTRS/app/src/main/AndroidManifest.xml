@@ -20,10 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".MainActivity"
-                  android:label="我购买的车票列表">
+                  android:label="我购买的车票列表"
+                  android:screenOrientation="portrait">
         </activity>>
-        <activity android:name=".Register"></activity>
+        <activity android:name=".Register"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
