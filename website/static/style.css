@@ -11,3 +11,11 @@ body {
   padding: 15px;
   margin: 0 auto;
 }
+.table tbody tr td{
+        vertical-align: middle;
+        margin-top:0;
+    }
+
+.table thead tr th{
+        vertical-align: middle;
+    }
