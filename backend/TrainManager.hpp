@@ -3,10 +3,10 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
-#include "bplus_tree\exceptions.h"
-#include "bplus_tree\bptree.hpp"
-#include "bplus_tree\vector.hpp"
-#include "bplus_tree\pair.hpp"
+#include "exceptions.h"
+#include "bptree.hpp"
+#include "vector.hpp"
+#include "pair.hpp"
 #include "String.hpp"
 #include "date.hpp"
 

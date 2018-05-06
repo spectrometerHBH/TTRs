@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+const int _date_mon[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 class Date {
 private:
@@ -19,7 +20,7 @@ public:
 	Date(int y = 0, int m = 0, int d = 0) : year(y), month(m), day(d) {}
 	
 	Date operator++() {
-		int m = mon[month];
+		int m = _date_mon[month];
 		if (is_leap_year(year) && month == 2) {
 			m = 29;
 		}
@@ -104,7 +105,6 @@ public:
 	}
 };
 
-int Date::mon[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-Date start_date(2018, 5, 1), end_date(2018, 6, 1);
+const Date start_date(2018, 5, 1), end_date(2018, 6, 1);
 

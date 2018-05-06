@@ -3,12 +3,11 @@
 #include <boost/array.hpp>
 #include <iostream>
 #include <strstream>
-#include "user.hpp"
+#include "command.h"
 #include <cstring>
 
 #include <ctime>
 using boost::asio::ip::tcp;
-UserState userState;
 int Session(tcp::socket socket) {
   try {
     char bin[1024];
@@ -28,12 +27,10 @@ int Session(tcp::socket socket) {
       std::istringstream is(bin);
       std::ostringstream os(bout);
 
-
-      userState.set_out(os);
       char response[1024] = "";
       
 
-      read_command(userState, is, os);
+      read_command(is, os);
       os << "\0";      
 
       //sleep(60);
