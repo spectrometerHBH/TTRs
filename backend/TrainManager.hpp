@@ -339,6 +339,13 @@ public:
 
 		return 1;
 	}
+
+	int query_transfer() {}
+
+	int buy_ticket() {}
+
+	int refund_ticket() {}
+
 };
 
 
