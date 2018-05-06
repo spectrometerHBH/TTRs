@@ -13,7 +13,7 @@ public class ContentFragment_train_detail extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.contain_train_detail, container, false);
+        view = inflater.inflate(R.layout.contain_trainid_query, container, false);
         return view;
     }
 }
