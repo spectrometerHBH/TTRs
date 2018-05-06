@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import client
 import json
+from jsontool import *
 app = Flask(__name__)
 
 import sys
@@ -156,88 +157,12 @@ def action_logout():
     session.pop('userid', None)
     return redirect('/?from=logout')
 
-def json_register(data):
-    para = ("name", "password", "email", "phone")
-    for item in para:
-        if not data.has_key(item):
-            return ""
-    result = client.register(data["name"],
-            data["password"],
-            data["email"],
-            data["phone"])
-    json_obj={}
-    if result == "0\n\0":
-        json_obj["success"] = False
-    else:
-        json_obj["success"] = True
-        json_obj["id"] = result[:-2]
-    return json.dumps(json_obj)
-
-def json_login(data):
-    para = ("id", "password")
-    for item in para:
-        if not data.has_key(item):
-            return ""
-    result = client.login(data["id"],
-            data["password"],)
-    json_obj={}
-    if result == "0\n\0":
-        json_obj["success"] = False
-    else:
-        json_obj["success"] = True
-    return json.dumps(json_obj)
-
-def json_query_profile(data):
-    para = ("id",)
-    #print data,data.has_key("id")
-    for item in para:
-        if not data.has_key(item):
-            print item
-            return ""
-    #print "here"
-    result = client.query_profile(data["id"])
-    json_obj={}
-    if result == "0\n\0":
-        json_obj["success"] = False
-    else:
-        json_obj["success"] = True
-        info = result[:-2].split(' ')
-        json_obj["name"]  = info[0]
-        json_obj["email"] = info[1]
-        json_obj["phone"] = info[2]
-    return json.dumps(json_obj)
-
-def json_modify_profile(data):
-    para = ("id", "name", "password", "email", "phone")
-    for item in para:
-        if not data.has_key(item):
-            return ""
-    result = client.modify_profile(data["id"],
-            data["name"],
-            data["password"],
-            data["email"],
-            data["phone"])
-    json_obj={}
-    if result == "0\n\0":
-        json_obj["success"] = False
-    else:
-        json_obj["success"] = True
-    return json.dumps(json_obj)
-
-def json_modify_privilege(data):
-    para = ("id1", "id2", "privilege")
-    for item in para:
-        if not data.has_key(item):
-            return ""
-    result = client.modify_privilege(data["id1"],
-            data["id2"],
-            data["privilege"])
-    json_obj={}
-    if result == "0\n\0":
-        json_obj["success"] = False
-    else:
-        json_obj["success"] = True
-    return json.dumps(json_obj)
+func = {"register":(encode_register, decode_register),
+                "login":(encode_login, decode_login),
+                "query_profile":(encode_query_profile, decode_query_profile),
+                "modify_profile":(encode_modify_profile, decode_modify_profile),
+                "modify_privilege":(encode_modify_privilege, decode_modify_privilege),
+                }
 
 @app.route('/action/post', methods=['POST', 'GET'])
 def action_post():
@@ -250,15 +175,10 @@ def action_post():
         #return str(data)
         if (not (isinstance(data, dict) and data.has_key("type"))):
             return ""
-        func = {"register":json_register,
-                "login":json_login,
-                "query_profile":json_query_profile,
-                "modify_profile":json_modify_profile,
-                "modify_privilege":json_modify_privilege
-                }
         #print data["type"],func.has_key(data["type"])
         if func.has_key(data["type"]):
-            return func[data["type"]](data)
+            result = client.send(func[data['type']][0](data))
+            return json.dumps(func[data['type']][1](result))
         else:
             return ""
     return ""

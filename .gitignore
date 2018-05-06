@@ -4,6 +4,6 @@
 /backend/main
 /backend/*.in
 
-/backend/*Record
+/backend/*record
 /backend/*txt
 /website/*.pyc
