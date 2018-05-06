@@ -34,8 +34,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        layout="@layout/contain_train_query"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_train_query"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
 </android.support.design.widget.CoordinatorLayout>

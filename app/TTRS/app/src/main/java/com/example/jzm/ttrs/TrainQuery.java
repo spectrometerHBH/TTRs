@@ -4,19 +4,31 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TrainQuery extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener{
+
+    List<String> titles = new ArrayList<>();
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +46,35 @@ public class TrainQuery extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TabLayout tabLayout = findViewById(R.id.tablayout_train_query);
-        tabLayout.addTab(tabLayout.newTab().setText("车次筛选"));
-        tabLayout.addTab(tabLayout.newTab().setText("车次"));
+        titles.add("车次筛选");
+        titles.add("车次详细");
+        initializeViewPager();
+    }
+
+    private void initializeViewPager(){
+        tabLayout = findViewById(R.id.tablayout_train_query);
+        viewPager = findViewById(R.id.view_pager_train_query);
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                Fragment fragment;
+                if (position == 0){
+                    fragment = new ContentFragment_train_query();
+                }else{
+                    fragment = new ContentFragment_train_detail();
+                }
+                return fragment;
+            }
+            @Override
+            public int getCount() {
+                return titles.size();
+            }
+            @Override
+            public CharSequence getPageTitle(int position){
+                return titles.get(position);
+            }
+        });
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

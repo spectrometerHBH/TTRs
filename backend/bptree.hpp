@@ -764,7 +764,85 @@ private:
 		return 0;
 	}
 
+<<<<<<< HEAD
 public:
+=======
+	void _search(node &p, array_t & arr, const key_t & key, bool(*compar)(const key_t &, const key_t &)) {
+		//printf("%d %d %d %d\n",p.key, p.pos, key, p.type);
+		if (compar(key, p.key)) {
+			return ;
+		}
+		if (p.type) {
+			//puts("haha");
+			buffer_t b;
+			buf_load_b(b, p);
+			node pp = p;
+			size_t x;// = bsearch_b(b, key, p.sz);
+			
+			size_t l = 0, r = p.sz, mid;
+			key_t * t;
+			while (l < r) {
+				mid = (l + r) / 2;
+				t = nthk_b(b, mid);
+				if (compar(*t, key)) {
+					l = mid + 1;
+				}
+				else {
+					r = mid;
+				}
+			}
+
+			x = l;
+			if (x == p.sz) {
+				if (pp.next == invalid_off) return;
+				pp = read_node(pp.next);
+				buf_load_b(b, pp);
+				x = 0;
+			}
+
+			while (!compar(key, *nthk_b(b, x)) ) {
+				if (!compar(*nthk_b(b, x), key)) arr.push_back(pair_t(*nthk_b(b,x), *nthv_b(b,x)));
+				++x;
+				if (x == pp.sz) {
+					if (pp.next == invalid_off) break;
+					pp = read_node(pp.next);
+					buf_load_b(b, pp);
+					x = 0;
+				}
+			}
+			return;
+		}
+		buffer_t b;
+		buf_load_t(b, p);
+		size_t x;// = bsearch_t(b, key, p.sz);
+		
+		/* binary search */
+
+		size_t l = 0, r = p.sz - 1, mid;
+		key_t * t;
+		while (l < r) {
+			mid = (l + r + 1) / 2;
+			t = nthk_t(b, mid);
+			if (compar(*t, key)) {
+				l = mid;
+			}
+			else {
+				r = mid - 1;
+			}
+		}
+
+		x = l;
+		node cn = read_node(*nthc_t(b, x));
+		//printf("%d %d %d\n", key, *nthk_t(b, x), compar(*nthk_t(b, x), key));
+		return _search(cn, arr, key, compar);
+	}
+
+
+public:	
+
+
+
+>>>>>>> parent of 997bd9b... add query_ticket function  make some small changes in bptree  add vector exception
 	bptree(const char * fname, const char * index_fname) :
 		//tnode_max(10),
 		//block_max(10)
@@ -856,6 +934,16 @@ public:
 		printf("[file: %s | index file: %s]\n", filename, index_file);
 	}
 
+<<<<<<< HEAD
+=======
+	//array_t search(bool (*compar)(const void*, const void*));
+
+	void search(array_t & arr, const key_t & key, bool (*compar)(const key_t &, const key_t &)) {
+		if (empty()) return;
+		_search(read_node(root), arr, key, compar);
+	}
+
+>>>>>>> parent of 997bd9b... add query_ticket function  make some small changes in bptree  add vector exception
 	void print() {
 		print_tnode(read_node(root), 0);
 	}
