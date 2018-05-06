@@ -18,6 +18,8 @@ private:
 		User() : privilege(1) {}
 	};
 
+	std::istream & is;
+	std::ostream & os;
 	String<20> user_file_name;
 	UserID current_id;
 
@@ -36,21 +38,11 @@ private:
 	*/
 
 public:
-	UserManager() : user_file_name("user_record") {
+	UserManager(std::istream & _is = std::cin, std::ostream & _os = std::cout) : is(_is), os(_os), user_file_name("user_record") {
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
 		if (!iofile) {
-			std::ofstream out;
-			out.open(user_file_name.getAddress());
-			out.seekp(0, std::ios::end);
-			current_id = 2018;
-			out.write(reinterpret_cast<char *> (&current_id), sizeof(UserID));
-			User default_admin;
-			default_admin.id = current_id;
-			default_admin.password = "123456";
-			default_admin.privilege = 2;
-			out.write(reinterpret_cast<char *> (&default_admin), sizeof(User));
-			out.close();
+			init();
 		}
 		else {
 			iofile.seekg(0, std::ios::beg);
@@ -59,34 +51,28 @@ public:
 		}
 	}
 
-	/*
 	void init() {
-	std::ofstream out;
-	out.open(user_file_name.getAddress());
-	if (!out) {
-	std::cerr << "create file error\n";
+		std::ofstream out;
+		out.open(user_file_name.getAddress());
+		out.seekp(0, std::ios::end);
+		current_id = 2018;
+		out.write(reinterpret_cast<char *> (&current_id), sizeof(UserID));
+		User default_admin;
+		default_admin.id = current_id;
+		default_admin.password = "123456";
+		default_admin.privilege = 2;
+		out.write(reinterpret_cast<char *> (&default_admin), sizeof(User));
+		out.close();
 	}
-	User default_admin;
-	default_admin.id = current_id;
-	default_admin.password = "123456";
-	default_admin.privilege = 2;
-	out.seekp(0, std::ios::end);
-	out.write(reinterpret_cast<char *> (&default_admin), sizeof(User));
-	out.close();
-	}
-	*/
+	
 
 	UserID sign_up() {
 		User user;
-		std::cin >> user.name >> user.password >> user.email >> user.phone;
+		is >> user.name >> user.password >> user.email >> user.phone;
 		++current_id;
 		user.id = current_id;
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
-		if (!iofile) {
-			std::cerr << "create file error\n";
-			return -1;
-		}
 		iofile.seekp(0, std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&current_id), sizeof(UserID));
 		iofile.seekp(0, std::ios::end);
@@ -98,16 +84,12 @@ public:
 	int login() {
 		UserID user_id;
 		Password password;
-		std::cin >> user_id >> password;
+		is >> user_id >> password;
 		if (user_id > current_id || user_id < 2018) {
 			return 0;
 		}
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
-		if (!iofile) {
-			std::cerr << "create file error\n";
-			return 0;
-		}
 		iofile.seekg(sizeof(UserID) + (user_id - 2018) * sizeof(User), std::ios::beg);
 		User user;
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
@@ -122,31 +104,23 @@ public:
 		}
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
-		if (!iofile) {
-			std::cerr << "create file error\n";
-			return 0;
-		}
 		iofile.seekg(sizeof(UserID) + (user_id - 2018) * sizeof(User), std::ios::beg);
 		User user;
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
 		iofile.close();
-		std::cout << user.name << ' ' << user.email << ' ' << user.phone << '\n';
+		os << user.name << ' ' << user.email << ' ' << user.phone << '\n';
 		return 1;
 	}
 
 	int modify_profile() {
 		User user;
-		std::cin >> user.id;
+		is >> user.id;
 		if (user.id > current_id || user.id < 2018) {
 			return 0;
 		}
-		std::cin >> user.name >> user.password >> user.email >> user.phone;
+		is >> user.name >> user.password >> user.email >> user.phone;
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
-		if (!iofile) {
-			std::cerr << "create file error\n";
-			return 0;
-		}
 		iofile.seekp(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
 		iofile.close();
@@ -160,10 +134,6 @@ public:
 		User user1, user2;
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
-		if (!iofile) {
-			std::cerr << "create file error\n";
-			return 0;
-		}
 		iofile.seekg(sizeof(UserID) + (id1 - 2018) * sizeof(User), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (&user1), sizeof(User));
 		if (user1.privilege == 1) {

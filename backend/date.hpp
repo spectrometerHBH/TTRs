@@ -91,12 +91,12 @@ public:
 			}
 		}
 		*/
-		if (d2 < d1) {
+		if (d1 < d2) {
 			return -(operator-(d2, d1));
 		}
-		Date d = d1;
+		Date d = d2;
 		int dis = 0;
-		while (d != d2) {
+		while (d != d1) {
 			++d;
 			++dis;
 		}
@@ -106,5 +106,5 @@ public:
 
 int Date::mon[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-Date start_date, end_date;
+Date start_date(2018, 5, 1), end_date(2018, 6, 1);
 
