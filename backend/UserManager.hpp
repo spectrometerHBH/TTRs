@@ -18,8 +18,7 @@ private:
 		User() : privilege(1) {}
 	};
 
-	std::istream & is;
-	std::ostream & os;
+
 	String<20> user_file_name;
 	UserID current_id;
 
@@ -38,7 +37,7 @@ private:
 	*/
 
 public:
-	UserManager(std::istream & _is = std::cin, std::ostream & _os = std::cout) : is(_is), os(_os), user_file_name("user_record") {
+	UserManager() : user_file_name("user_record") {
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
 		if (!iofile) {
@@ -51,7 +50,7 @@ public:
 		}
 	}
 
-	void init() {
+	void init(std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		std::ofstream out;
 		out.open(user_file_name.getAddress());
 		out.seekp(0, std::ios::end);
@@ -66,7 +65,7 @@ public:
 	}
 	
 
-	UserID sign_up() {
+	UserID sign_up(std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		User user;
 		is >> user.name >> user.password >> user.email >> user.phone;
 		++current_id;
@@ -81,7 +80,7 @@ public:
 		return user.id;
 	}
 
-	int login() {
+	int login(std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		UserID user_id;
 		Password password;
 		is >> user_id >> password;
@@ -98,7 +97,7 @@ public:
 		else return 0;
 	}
 
-	int query_profile(UserID & user_id) {
+	int query_profile(UserID & user_id, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		if (user_id > current_id || user_id < 2018) {
 			return 0;
 		}
@@ -112,7 +111,7 @@ public:
 		return 1;
 	}
 
-	int modify_profile() {
+	int modify_profile(std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		User user;
 		is >> user.id;
 		if (user.id > current_id || user.id < 2018) {
@@ -127,7 +126,7 @@ public:
 		return 1;
 	}
 
-	int modify_privilege(UserID & id1, UserID & id2, int privilege) {
+	int modify_privilege(UserID & id1, UserID & id2, int privilege, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		if (id1 > current_id || id1 < 2018 || id2 > current_id || id2 < 2018) {
 			return 0;
 		}

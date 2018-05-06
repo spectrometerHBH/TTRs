@@ -46,36 +46,36 @@ void read_command(std::istream & is, std::ostream & os) {
 	while (is >> command) {
 		// about user
 		if (command == "register") {
-			os << user_manager.sign_up() << '\n';
+			os << user_manager.sign_up(is, os) << '\n';
 			continue;
 		}
 		if (command == "login") {
-			os << user_manager.login() << '\n';
+			os << user_manager.login(is, os) << '\n';
 			continue;
 		}
 		if (command == "query_profile") {
 			UserID user_id;
 			is >> user_id;
-			int flag = user_manager.query_profile(user_id);
+			int flag = user_manager.query_profile(user_id, is, os);
 			if (flag == 0) {
 				os << 0 << '\n';
 			}
 			continue;
 		}
 		if (command == "modify_profile") {
-			os << user_manager.modify_profile() << '\n';
+			os << user_manager.modify_profile(is, os) << '\n';
 			continue;
 		}
 		if (command == "modify_privilege") {
 			UserID id1, id2;
 			int privilege;
 			is >> id1 >> id2 >> privilege;
-			os << user_manager.modify_privilege(id1, id2, privilege) << '\n';
+			os << user_manager.modify_privilege(id1, id2, privilege, is, os) << '\n';
 			continue;
 		}
 		// about ticket
 		if (command == "query_ticket") {
-			int flag = train_manager.query_ticket();
+			int flag = train_manager.query_ticket(is, os);
 			if (flag == -1) {
 				os << -1 << '\n';
 			}
@@ -85,34 +85,34 @@ void read_command(std::istream & is, std::ostream & os) {
 		if (command == "add_train") {
 			TrainID trian_id;
 			is >> trian_id;
-			os << train_manager.add_train(trian_id) << '\n';
+			os << train_manager.add_train(trian_id, is, os) << '\n';
 			continue;
 		}
 		if (command == "sale_train") {
 			TrainID train_id;
 			is >> train_id;
-			os << train_manager.sale_train(train_id) << '\n';
+			os << train_manager.sale_train(train_id, is, os) << '\n';
 			continue;
 		}
 		if (command == "query_train") {
 			TrainID train_id;
 			is >> train_id;
-			train_manager.query_train(train_id);
+			train_manager.query_train(train_id, is, os);
 			continue;
 		}
 		if (command == "delete_train") {
 			TrainID train_id;
 			is >> train_id;
-			os << train_manager.delete_train(train_id) << '\n';
+			os << train_manager.delete_train(train_id, is, os) << '\n';
 			continue;
 		}
 		if (command == "modify_train") {
-			os << train_manager.modify_train() << '\n';
+			os << train_manager.modify_train(is, os) << '\n';
 			continue;
 		}
 		if (command == "clean") {
-			train_manager.init();
-			user_manager.init();
+			train_manager.init(is, os);
+			user_manager.init(is, os);
 			os << 1 << '\n';
 		}
 		if (command == "exit") {
