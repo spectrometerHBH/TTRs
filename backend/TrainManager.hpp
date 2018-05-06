@@ -52,8 +52,6 @@ private:
 
 	typedef bptree<BindKey, Catalog> StationRecord;
 
-	std::istream & is;
-	std::ostream & os;
 	TrainRecord train_record;
 	StationRecord station_record;
 	String<20> route_file;
@@ -61,7 +59,7 @@ private:
 	String<20> ticket_left_file;
 
 	// for a specific train, query ticket.
-	void query_ticket(const TrainID & train_id, const Date & date, const Location & loc1, const Location & loc2) {
+	void query_ticket(const TrainID & train_id, const Date & date, const Location & loc1, const Location & loc2, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		
 		Train train = train_record.find(train_id);
 		if (train.station_num == 0) return;
@@ -129,7 +127,7 @@ private:
 	}
 
 public:
-	TrainManager(std::istream & _is = std::cin, std::ostream & _os = std::cout) : is(_is), os(_os), 
+	TrainManager() : 
 		train_record("train_record", "index_train_record"), station_record("station_record", "index_station_record"),
 		route_file("route_record"), ticket_price_file("ticket_price_record"), ticket_left_file("ticket_left_record") {
 		std::fstream iofile;
@@ -142,7 +140,7 @@ public:
 		}
 	}
 
-	void init() {
+	void init(std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		train_record.init();
 		station_record.init();
 		std::ofstream out;
@@ -154,7 +152,7 @@ public:
 		out.close();
 	}
 	
-	int sale_train(const TrainID & train_id) {
+	int sale_train(const TrainID & train_id, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		Train train = train_record.find(train_id);
 		if (train.station_num == 0) return 0;
 		if (train.open == 1) return 0;
@@ -163,7 +161,7 @@ public:
 		return 1;
 	}
 
-	int query_train(const TrainID & train_id) {
+	int query_train(const TrainID & train_id, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 
 		Train train = train_record.find(train_id);
 		if (train.station_num == 0) return 0;
@@ -205,7 +203,7 @@ public:
 		return 1;
 	}
 	
-	int add_train(const TrainID & train_id) {
+	int add_train(const TrainID & train_id, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 
 		Train train;
 		train.id = train_id;
@@ -268,7 +266,7 @@ public:
 	}
 	
 
-	int delete_train(TrainID & train_id) {
+	int delete_train(TrainID & train_id, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		Train train = train_record.find(train_id);
 		if (train.station_num = 0) return 0;
 		if (train.sale == 1) return 0;
@@ -292,7 +290,7 @@ public:
 		return 1;
 	}
 
-	int modify_train() {
+	int modify_train(std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		TrainID train_id;
 		is >> train_id;
 		int flag = delete_train(train_id);
@@ -300,7 +298,7 @@ public:
 		return add_train(train_id);
 	}
 
-	int query_ticket() {
+	int query_ticket(std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		Location loc1, loc2;
 		Date date;
 		Catalog catalog;

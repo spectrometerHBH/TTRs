@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 自动完成（Autocomplete） - 默认功能</title>
+  <link rel="stylesheet" href="jquery-ui.css">
+  <script src="jquery.min.js"></script>
+  <script src="jquery-ui.min.js"></script>
+  <script>
+  $(function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  });
+  </script>
+</head>
+<body>
+ 
+<div class="ui-widget">
+  <label for="tags">标签：</label>
+  <input id="tags">
+</div>
+ 
+ 
+</body>
+</html>

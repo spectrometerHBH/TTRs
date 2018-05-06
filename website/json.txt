@@ -1,0 +1,198 @@
+User Management
+------------------
+
+register *name* *password* *email* *phone*
+
+INPUT:
+{"type":"register",
+ "name":"xxx",
+ "password":"xxx",
+ "email":"aaa@bbb.ccc",
+ "phone":"123456"}
+
+OUTPUT:
+{"success":true,
+"id":"1234"}
+
+login *id* *password*
+
+INPUT:
+{"type":"login",
+"id":"1234",
+"password":"xxx"}
+
+OUTPUT:
+{"success":true}
+
+query_profile *id*
+
+INPUT:
+{"type":"query_profile",
+"id":"1234"
+}
+
+OUTPUT:
+{"success":true,
+"name":"xxx",
+"email":"asd@sf.fs",
+"phone":"123456"}
+
+modify_profile *id* *name* *password* *email* *phone*
+
+INPUT:
+
+{"type":"modify_profile",
+"id":"1234",
+"name":"longriver",
+"password":"xxxx",
+"email":"fsdf@fdsfs.fe",
+"phone":"344234"
+}
+
+OUTPUT:
+{"success":true}
+
+modify_privilege *id1* *id2* *privilege*
+
+INPUT:
+{"type":"modify_privilege",
+"id1":"1234",
+"id2":"2345",
+"privilege":1}
+
+OUTPUT:
+{"success":true}
+
+Ticket Management
+--------------------
+
+query_ticket *loc1* *loc2* *date* *catalog*
+
+INPUT:
+{"type":"query_ticket",
+"loc1":"Hangzhou",
+"loc2":"Suzhou"
+"data":"2018-09-09"
+}
+
+OUTPUT:
+{"success":true,
+"num":1,
+"result":[
+	{
+		"train_id":"c100",
+		"locfrom":"Hangzhou",
+		"datefrom":"2018-09-09",
+		"timefrom":"08:12",
+		"locto":"Suzhou",
+		"dateto":"2018-09-09",
+		"timeto":"12:00",
+		"tiket":{
+			"一等座":{
+				"num":2000
+				"price":765.50
+			},
+			"二等座":{
+				"num":"2000"
+				"price":400.00
+			}
+		}
+	}
+]}
+
+buy_ticket *id* *num* *train_id* *loc1* *loc2* *date* *ticket_kind*
+
+INPUT:
+{"type":"buy_ticket",
+"id":"1234",
+"num":10,
+"train_id":"c100",
+"loc1":"Hangzhou",
+"loc2":"Suzhou",
+"data":"2018-09-09",
+"ticket_kind":"二等座"}
+
+OUTPUT:
+{"success":true}
+
+query_order *id* *date* *catalog*
+
+INPUT:
+{"type":"query_order"
+"id":"1234",
+"data":"2018-09-09",
+"catalog":"C"}
+
+OUTPUT:
+请参考query_ticket
+
+refund_ticket *id* *num* *train_id* *loc1* *loc2* *date* *ticket_kind*
+
+INPUT:
+{"type":"refund_ticket",
+"id":"1234",
+"num":1,
+"train_id":"c100",
+"loc1":"Hangzhou",
+"loc2":"Suzhou",
+"data":"2018-09-09",
+"ticket_kind":"二等座"}
+
+OUTPUT:
+{"success":true}
+
+Train Management
+-------------------
+
+add_train *train_id* *name* *num(station)* *num(price)* *(name(price) ) * num(price)*
+*[name time(arriv) time(start) time(stopover) (price) * num(price) ] *num(station)*
+
+INPUT:
+{"type":"add_train",
+"train_id":"c100",
+"name":"和谐号",
+"stationnum":2,
+"pricenum":2,
+"ticket":["一等座","二等座"],
+"station":[
+{"name":"Hangzhou",
+"timearriv":"xx:xx",
+"timestart":"08:12"
+"timestopover":"00:00",
+"ticket":[0.0,0.0],
+},
+{"name":"Suzhou",
+"timearriv":"12:00",
+"timestart":"xx:xx"
+"timestopover":"00:00",
+"ticket":[756.00,432.00],
+}
+]
+}
+
+OUTPUT:
+{"success":true}
+
+sale_train *train_id*
+
+INPUT:
+{"type":"sale_train",
+"train_id":"c100"}
+
+OUTPUT:
+{"success":true}
+
+query_train *train_id*
+
+INPUT:
+{"type":"query_train",
+"train_id":"c100"}
+
+OUTPUT:
+{"success":true,
+剩下参考add_train的输入}
+
+modify_train *train_id* *name* *num(station)* *num(price)* *(name(price) ) * num(price)
+*[name time(arriv) time(start) time(stopover) (price) * num(price) ] *num(station)*
+
+参考add_train
