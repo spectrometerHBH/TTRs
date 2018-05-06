@@ -19,6 +19,7 @@
     <color name="swapButton">#1A237E</color>
     <color name="black">#000000</color>
     <color name="drawer_color">#7986CB</color>
+    <color name="gray">#A9A9A9</color>
     <drawable name="checkbox">#666666</drawable>
     <drawable name="camera_back_press">#1b1b1b</drawable>
     <drawable name="camera_back_default">#2f2f2f</drawable>

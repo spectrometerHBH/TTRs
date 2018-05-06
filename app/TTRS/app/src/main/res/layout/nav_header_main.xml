@@ -15,8 +15,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/drawer_Icon"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_logo"/>
 

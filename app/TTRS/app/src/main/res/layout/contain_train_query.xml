@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/contain_train_query_departure"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:gravity="center"
+        android:hint="起点"
+        android:text="上海"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/contain_train_query_exchange"
+        app:layout_constraintEnd_toStartOf="@+id/contain_train_query_exchange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/contain_train_query_exchange" />
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/contain_train_query_exchange"
+        android:layout_width="100dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="128dp"
+        android:background="#00000000"
+        android:src="@drawable/ic_swap_horiz_black_36dp"
+        app:layout_constraintEnd_toStartOf="@+id/contain_train_query_destination"
+        app:layout_constraintStart_toEndOf="@+id/contain_train_query_departure"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/contain_train_query_destination"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:gravity="center"
+        android:hint="终点"
+        android:text="幻想乡"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/contain_train_query_exchange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintStart_toEndOf="@+id/contain_train_query_exchange"
+        app:layout_constraintTop_toTopOf="@+id/contain_train_query_exchange"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/contain_train_query_h_cursor1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_exchange" />
+
+    <TextView
+        android:id="@+id/contain_train_query_textview1"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="出发日期"
+        android:textColor="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_h_cursor1" />
+
+    <View
+        android:id="@+id/contain_train_query_v_cursor1"
+        android:layout_width="1dip"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintBottom_toTopOf="@+id/contain_train_query_h_cursor2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_exchange" />
+
+    <View
+        android:id="@+id/contain_train_query_h_cursor2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="100dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_h_cursor1" />
+
+    <TextView
+        android:id="@+id/contain_train_query_textview2"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="7dp"
+        android:text="列车类型"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.236"
+        app:layout_constraintStart_toEndOf="@+id/contain_train_query_v_cursor1"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_h_cursor1" />
+
+    <TextView
+        android:id="@+id/contain_train_query_textview3"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="席别"
+        android:textColor="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_h_cursor2" />
+
+    <View
+        android:id="@+id/contain_train_query_h_cursor3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_h_cursor2" />
+
+    <Button
+        android:id="@+id/contain_train_query_button"
+        android:layout_width="340dp"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/round_corner_bg_loginbtn"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="查询"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_h_cursor3" />
+
+</android.support.constraint.ConstraintLayout>
