@@ -99,6 +99,18 @@ public:
 		else return 0;
 	}
 
+	bool operator>=(const String & other) const {
+		return !(this->operator<(other));
+	}
+
+	bool operator>(const String & other) const {
+		return other.operator<(*this);
+	}
+
+	bool operator<=(const String & other) const {
+		return !(this->operator>(other));
+	}
+
 	bool operator==(const String & other) const {
 		return this->operator==(other.ch);
 	}

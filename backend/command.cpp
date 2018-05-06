@@ -41,68 +41,123 @@ void init_switch() {
 }
 */
 
-void read_command() {
+void read_command(std::istream & is, std::ostream & os) {
 	String<50> command;
-	while (std::cin >> command) {
+	while (is >> command) {
+		// about user
 		if (command == "register") {
-			std::cout << user_manager.sign_up() << '\n';
+			os << user_manager.sign_up() << '\n';
 			continue;
 		}
 		if (command == "login") {
-			std::cout << user_manager.login() << '\n';
+			os << user_manager.login() << '\n';
 			continue;
 		}
 		if (command == "query_profile") {
 			UserID user_id;
-			std::cin >> user_id;
+			is >> user_id;
 			int flag = user_manager.query_profile(user_id);
 			if (flag == 0) {
-				std::cout << 0 << '\n';
+				os << 0 << '\n';
 			}
 			continue;
 		}
 		if (command == "modify_profile") {
-			std::cout << user_manager.modify_profile() << '\n';
+			os << user_manager.modify_profile() << '\n';
 			continue;
 		}
 		if (command == "modify_privilege") {
 			UserID id1, id2;
 			int privilege;
-			std::cin >> id1 >> id2 >> privilege;
-			std::cout << user_manager.modify_privilege(id1, id2, privilege) << '\n';
+			is >> id1 >> id2 >> privilege;
+			os << user_manager.modify_privilege(id1, id2, privilege) << '\n';
 			continue;
 		}
+		// about ticket
+		if (command == "query_ticket") {
+			int flag = train_manager.query_ticket();
+			if (flag == -1) {
+				os << -1 << '\n';
+			}
+			continue;
+		}
+		// about train
 		if (command == "add_train") {
-			std::cout << train_manager.add_train() << '\n';
+			TrainID trian_id;
+			is >> trian_id;
+			os << train_manager.add_train(trian_id) << '\n';
 			continue;
 		}
 		if (command == "sale_train") {
 			TrainID train_id;
-			std::cin >> train_id;
-			std::cout << train_manager.safe_train(train_id) << '\n';
+			is >> train_id;
+			os << train_manager.sale_train(train_id) << '\n';
 			continue;
 		}
 		if (command == "query_train") {
 			TrainID train_id;
-			std::cin >> train_id;
+			is >> train_id;
 			train_manager.query_train(train_id);
 			continue;
 		}
 		if (command == "delete_train") {
 			TrainID train_id;
-			std::cin >> train_id;
-			std::cout << train_manager.delete_train(train_id) << '\n';
+			is >> train_id;
+			os << train_manager.delete_train(train_id) << '\n';
 			continue;
 		}
 		if (command == "modify_train") {
-			std::cout << train_manager.modify_train() << '\n';
+			os << train_manager.modify_train() << '\n';
 			continue;
 		}
+		if (command == "clean") {
+			train_manager.init();
+			user_manager.init();
+			os << 1 << '\n';
+		}
 		if (command == "exit") {
+			os << "BYE\n";
 			break;
 		}
 	}
 }
+
+/*
+struct mykey {
+	Location loc;
+	int x;
+};
+
+class Less {
+public:
+	bool operator()(const mykey & a, const mykey & b) {
+		if (a.loc < b.loc) return true;
+		if (a.loc == b.loc && a.x < b.x) return true;
+		return false;
+	}
+};
+
+bool Less1(const mykey & a, const mykey & b) {
+	return a.loc < b.loc;
+}*/
+
+/*
+struct mykey {
+	int f1, f2;
+};
+
+class Less {
+public:
+	bool operator()(const mykey & a, const mykey & b) {
+		if (a.f1 < b.f1) return true;
+		if (a.f1 == b.f1 && a.f2 < b.f2) return true;
+		return false;
+	}
+};
+
+bool Less1(const mykey & a, const mykey & b) {
+	return a.f1 < b.f1;
+}*/
 
 int main() {
 	/*
@@ -142,7 +197,60 @@ int main() {
 	test.init();
 	std::cout << test.count(1) << '\n';
 	std::cout << test.find(1) << '\n';
+	
+	char ch[20];
+	std::cin >> ch;
+	int i = 0;
+	while (ch[i] != '\0') {
+	std::cout << ch[i] << '$';
+	++i;
+	}
+	std::cout << '\n';
+	std::cout << ch;
 	*/
-	read_command();
+	/*
+	bptree<mykey, int, 4096, Less> a("db", "index");
+	a.init();
+	int i, j;
+	for (i = 0; i < 3; i++)
+		for (j = 0; j < 3; j++) {
+			mykey k;
+			std::cin >> k.loc;
+			k.x = j + i * 3;
+			a.insert(k, 2 * i);
+		}
+
+	mykey stdkey;
+	stdkey.loc = Location("sansan");
+	stdkey.x = 1;
+	sjtu::vector<sjtu::pair<mykey, int> > arr;
+	a.search(arr, stdkey, Less1);
+	for (i = 0; i < arr.size(); i++) {
+		std::cout << arr[i].first.loc << ' ' << arr[i].first.x << std::endl;
+	}*/
+	/*
+	bptree<mykey, int, 4096, Less> a("db", "index");
+	a.init();
+	int i, j;
+	for (i = 0; i < 10; i++)
+		for (j = 0; j < 10; j++) {
+			mykey k = { i,j };
+			a.insert(k, 2 * i);
+		}
+
+	mykey stdkey = { 4,5 };
+	sjtu::vector<sjtu::pair<mykey, int> > arr;
+	a.search(arr, stdkey, Less1);
+	for (i = 0; i < arr.size(); i++) {
+		std::cout << arr[i].first.f1 << ' ' << arr[i].first.f2 << std::endl;
+	}
+	*/
+	read_command(std::cin, std::cout);
 	return 0;
 }
+
+
+
+
+
+

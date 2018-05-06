@@ -769,7 +769,7 @@ private:
 		return 0;
 	}
 
-	void _search(node &p, array_t & arr, const key_t & key, bool(*compar)(const key_t &, const key_t &)) {
+	void _search(node &p, array_t & arr, const key_t & key, std::function<bool(const key_t &, const key_t &)> compar) {
 		//printf("%d %d %d %d\n",p.key, p.pos, key, p.type);
 		if (compar(key, p.key)) {
 			return ;
@@ -937,9 +937,10 @@ public:
 
 	//array_t search(bool (*compar)(const void*, const void*));
 
-	void search(array_t & arr, const key_t & key, bool (*compar)(const key_t &, const key_t &)) {
+	void search(array_t & arr, const key_t & key, std::function<bool(const key_t &, const key_t &)> compar) {
 		if (empty()) return;
-		_search(read_node(root), arr, key, compar);
+		node r = read_node(root);                     // read_node(root) is not a lvalue 
+		_search(r, arr, key, compar);
 	}
 
 	void print() {
