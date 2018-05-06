@@ -20,6 +20,18 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout_train_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorRegisterButton"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabTextAppearance="@android:style/TextAppearance"
+            app:tabIndicatorColor="@color/red"
+            app:tabTextColor="@color/blank" />
+
     </android.support.design.widget.AppBarLayout>
 
     <include

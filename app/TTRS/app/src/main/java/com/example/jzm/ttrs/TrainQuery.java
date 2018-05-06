@@ -1,7 +1,9 @@
 package com.example.jzm.ttrs;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 public class TrainQuery extends AppCompatActivity
@@ -30,6 +33,10 @@ public class TrainQuery extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TabLayout tabLayout = findViewById(R.id.tablayout_train_query);
+        tabLayout.addTab(tabLayout.newTab().setText("车次筛选"));
+        tabLayout.addTab(tabLayout.newTab().setText("车次"));
     }
 
     @Override
