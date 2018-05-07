@@ -12,13 +12,13 @@
             android:id="@+id/number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="站序"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/economic_seat"
+            app:layout_constraintBottom_toTopOf="@+id/trainid_Cursor"
             app:layout_constraintEnd_toStartOf="@+id/station"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,150 +89,16 @@
             app:layout_constraintStart_toEndOf="@+id/stopover_time"
             app:layout_constraintTop_toTopOf="@+id/stopover_time" />
 
-        <TextView
-            android:id="@+id/economic_seat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="商务座:--"
-            app:layout_constraintBottom_toTopOf="@+id/first_class_seat"
-            app:layout_constraintEnd_toStartOf="@+id/top_class_seat"
+        <View
+            android:id="@+id/trainid_Cursor"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/number" />
 
-        <TextView
-            android:id="@+id/hard_sleeper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="硬卧:--"
-            app:layout_constraintBottom_toBottomOf="@id/Cursor"
-            app:layout_constraintEnd_toStartOf="@+id/soft_sleeper"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_class_seat" />
 
-        <TextView
-            android:id="@+id/soft_sleeper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="软卧:--"
-            app:layout_constraintBottom_toBottomOf="@+id/hard_sleeper"
-            app:layout_constraintEnd_toStartOf="@+id/bullet_sleeper"
-            app:layout_constraintStart_toEndOf="@+id/hard_sleeper"
-            app:layout_constraintTop_toTopOf="@+id/hard_sleeper" />
-
-        <TextView
-            android:id="@+id/bullet_sleeper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="动卧:--"
-            app:layout_constraintBottom_toBottomOf="@+id/soft_sleeper"
-            app:layout_constraintEnd_toStartOf="@+id/advanced_soft_sleeper"
-            app:layout_constraintStart_toEndOf="@+id/soft_sleeper"
-            app:layout_constraintTop_toTopOf="@+id/soft_sleeper" />
-
-        <TextView
-            android:id="@+id/advanced_soft_sleeper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="高级软卧:--"
-            app:layout_constraintBottom_toBottomOf="@+id/bullet_sleeper"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/bullet_sleeper"
-            app:layout_constraintTop_toTopOf="@+id/bullet_sleeper" />
-
-        <TextView
-            android:id="@+id/no_seat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="无座:--"
-            app:layout_constraintBottom_toBottomOf="@+id/second_class_sleeper"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/second_class_sleeper"
-            app:layout_constraintTop_toTopOf="@+id/second_class_sleeper" />
-
-        <TextView
-            android:id="@+id/top_class_seat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="特等座:--"
-            app:layout_constraintBottom_toBottomOf="@+id/economic_seat"
-            app:layout_constraintEnd_toStartOf="@+id/hard_seat"
-            app:layout_constraintStart_toEndOf="@+id/economic_seat"
-            app:layout_constraintTop_toTopOf="@+id/economic_seat" />
-
-        <TextView
-            android:id="@+id/first_class_seat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="一等座:--"
-            app:layout_constraintBottom_toTopOf="@+id/hard_sleeper"
-            app:layout_constraintEnd_toStartOf="@+id/second_class_sleeper"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/economic_seat" />
-
-        <TextView
-            android:id="@+id/second_class_sleeper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="二等座:--"
-            app:layout_constraintBottom_toBottomOf="@+id/first_class_seat"
-            app:layout_constraintEnd_toStartOf="@+id/no_seat"
-            app:layout_constraintStart_toEndOf="@+id/first_class_seat"
-            app:layout_constraintTop_toTopOf="@+id/first_class_seat" />
-
-        <TextView
-            android:id="@+id/hard_seat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="硬座:--"
-            app:layout_constraintBottom_toBottomOf="@+id/top_class_seat"
-            app:layout_constraintEnd_toStartOf="@+id/soft_seat"
-            app:layout_constraintStart_toEndOf="@+id/top_class_seat"
-            app:layout_constraintTop_toTopOf="@+id/top_class_seat" />
-
-        <TextView
-            android:id="@+id/soft_seat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="软座:--"
-            app:layout_constraintBottom_toBottomOf="@+id/hard_seat"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/hard_seat"
-            app:layout_constraintTop_toTopOf="@+id/hard_seat" />
-
-        <view
-            android:id="@+id/Cursor"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hard_sleeper" />
 
     </android.support.constraint.ConstraintLayout>
 
