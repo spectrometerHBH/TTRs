@@ -37,7 +37,7 @@ int Session(tcp::socket socket) {
       //char response[1024];
       strcpy(response, os.str().c_str());
       //std::cout << strlen(os.str().c_str())<< ' ' <<strlen(response) << std::endl;
-      socket.write_some(boost::asio::buffer(response,strlen(response) + 1));
+      socket.write_some(boost::asio::buffer(response,strlen(response) ));
     //}
   } catch (std::exception& e) {
     std::cerr << "Exception: " <<  e.what() << std::endl;
