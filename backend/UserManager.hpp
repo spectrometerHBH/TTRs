@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <fstream>
-#include "exceptions.h"
-#include "bptree.hpp"
+#include "bplus_tree\exceptions.h"
+#include "bplus_tree\bptree.hpp"
 #include "String.hpp"
 
 class UserManager {
@@ -17,7 +17,6 @@ private:
 		int privilege;
 		User() : privilege(1) {}
 	};
-
 
 	String<20> user_file_name;
 	UserID current_id;
@@ -50,7 +49,7 @@ public:
 		}
 	}
 
-	void init(std::istream & is = std::cin,	std::ostream & os = std::cout) {
+	void init() {
 		std::ofstream out;
 		out.open(user_file_name.getAddress());
 		out.seekp(0, std::ios::end);
@@ -65,7 +64,7 @@ public:
 	}
 	
 
-	UserID sign_up(std::istream & is = std::cin,	std::ostream & os = std::cout) {
+	UserID sign_up(std::istream & is = std::cin, std::ostream & os = std::cout) {
 		User user;
 		is >> user.name >> user.password >> user.email >> user.phone;
 		++current_id;
@@ -80,7 +79,7 @@ public:
 		return user.id;
 	}
 
-	int login(std::istream & is = std::cin,	std::ostream & os = std::cout) {
+	int login(std::istream & is = std::cin, std::ostream & os = std::cout) {
 		UserID user_id;
 		Password password;
 		is >> user_id >> password;
@@ -97,7 +96,7 @@ public:
 		else return 0;
 	}
 
-	int query_profile(UserID & user_id, std::istream & is = std::cin,	std::ostream & os = std::cout) {
+	int query_profile(UserID & user_id, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		if (user_id > current_id || user_id < 2018) {
 			return 0;
 		}
@@ -111,7 +110,7 @@ public:
 		return 1;
 	}
 
-	int modify_profile(std::istream & is = std::cin,	std::ostream & os = std::cout) {
+	int modify_profile(std::istream & is = std::cin, std::ostream & os = std::cout) {
 		User user;
 		is >> user.id;
 		if (user.id > current_id || user.id < 2018) {
@@ -126,7 +125,44 @@ public:
 		return 1;
 	}
 
-	int modify_privilege(UserID & id1, UserID & id2, int privilege, std::istream & is = std::cin,	std::ostream & os = std::cout) {
+	int modify_profile2(std::istream & is = std::cin, std::ostream & os = std::cout) {                   // need not modify password
+		User user;
+		UserID id;
+		is >> id;
+		if (id > current_id || id < 2018) {
+			return 0;
+		}
+
+		std::fstream iofile;
+		iofile.open(user_file_name.getAddress());
+		iofile.seekg(sizeof(UserID) + (id - 2018) * sizeof(User), std::ios::beg);
+		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
+
+		is >> user.name >> user.email >> user.phone;
+
+		iofile.seekp(sizeof(UserID) + (id - 2018) * sizeof(User), std::ios::beg);
+		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
+		iofile.close();
+
+		return 1;
+	}
+
+	int get_privilege(std::istream & is = std::cin, std::ostream & os = std::cout) {
+		User user;
+		UserID id;
+		is >> id;
+		if (id > current_id || id < 2018) {
+			return 0;
+		}
+		std::fstream iofile;
+		iofile.open(user_file_name.getAddress());
+		iofile.seekg(sizeof(UserID) + (id - 2018) * sizeof(User), std::ios::beg);
+		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
+		iofile.close();
+		return user.privilege;
+	}
+
+	int modify_privilege(UserID & id1, UserID & id2, int privilege, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		if (id1 > current_id || id1 < 2018 || id2 > current_id || id2 < 2018) {
 			return 0;
 		}
@@ -149,4 +185,9 @@ public:
 		iofile.close();
 		return 1;
 	}
+
+	int buy_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {
+	}
+
+	int refund_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {}
 };
