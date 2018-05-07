@@ -17,4 +17,9 @@
         <item name="android:textSize">@dimen/text_16_sp</item>
     </style>
 
+    <style name="translucent" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@color/translucent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 </resources>

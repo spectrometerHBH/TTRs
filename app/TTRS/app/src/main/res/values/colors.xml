@@ -24,4 +24,5 @@
     <drawable name="checkbox">#666666</drawable>
     <drawable name="camera_back_press">#1b1b1b</drawable>
     <drawable name="camera_back_default">#2f2f2f</drawable>
+    <color name="translucent">#01000000</color>
 </resources>
