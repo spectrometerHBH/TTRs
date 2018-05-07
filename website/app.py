@@ -163,7 +163,10 @@ func = {"register":(encode_register, decode_register),
         "query_profile":(encode_query_profile, decode_query_profile),
         "modify_profile":(encode_modify_profile, decode_modify_profile),
         "modify_privilege":(encode_modify_privilege, decode_modify_privilege),
-        "query_ticket":(encode_query_ticket, decode_query_ticket)
+        "query_ticket":(encode_query_ticket, decode_query_ticket),
+        "add_train":(encode_add_train, decode_add_train),
+        "sale_train":(encode_sale_train, decode_sale_train),
+        "query_train":(encode_query_train, decode_query_train),
         }
 
 @app.route('/action/post', methods=['POST', 'GET'])
@@ -175,10 +178,13 @@ def action_post():
         except ValueError:
             return ""
         #return str(data)
+        #print data
         if (not (isinstance(data, dict) and data.has_key("type"))):
             return ""
         #print data["type"],func.has_key(data["type"])
         if func.has_key(data["type"]):
+            #print data, func[data['type']][0](data)
+            #return func[data['type']][0](data)
             result = client.send(func[data['type']][0](data))
             return json.dumps(func[data['type']][1](result))
         else:
