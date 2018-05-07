@@ -205,7 +205,7 @@ public:
 			char ch;
 			for (int j = 0; j < train.seat_num; ++j) {
 				//is >> ch >> tp_array[i + j * train.station_num];
-				is >> ch >> ch >> tp_array[i + j * train.station_num];
+				is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
 			}
 			BindKey bind_key(s_array[i].loc, train.id);
 			BindValue bind_value(i, train.catalog);
