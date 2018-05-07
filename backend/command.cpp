@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "bplus_tree\exceptions.h"
-#include "bplus_tree\bptree.hpp"
+#include "exceptions.h"
+#include "bptree.hpp"
 #include "String.hpp"
 #include "UserManager.hpp"
 #include "TrainManager.hpp"
@@ -167,7 +167,7 @@ bool Less1(const mykey & a, const mykey & b) {
 	return a.f1 < b.f1;
 }*/
 
-int main() {
+int __main() {
 	/*
 	init_switch();
 	

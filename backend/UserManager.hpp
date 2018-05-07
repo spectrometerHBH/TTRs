@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <fstream>
-#include "bplus_tree\exceptions.h"
-#include "bplus_tree\bptree.hpp"
+#include "exceptions.h"
+#include "bptree.hpp"
 #include "String.hpp"
 
 class UserManager {

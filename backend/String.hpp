@@ -198,5 +198,5 @@ typedef String<10> Catalog;
 typedef String<20> Location;
 typedef String<20> TrainID;
 typedef String<20> TrainName;
-typedef String<20> Ticket;
+typedef String<20> Seat;
 #endif // !SIGNAL
