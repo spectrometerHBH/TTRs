@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/userinfo_category_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="9dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="96dp"
+        android:text="用户名"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userinfo_category_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="电子邮箱"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/userinfo_username"
+        app:layout_constraintStart_toStartOf="@+id/userinfo_username"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_username" />
+
+    <TextView
+        android:id="@+id/userinfo_category_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="电话"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/userinfo_email"
+        app:layout_constraintStart_toStartOf="@+id/userinfo_email"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_email" />
+
+    <TextView
+        android:id="@+id/userinfo_category_privilege"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="权限"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/userinfo_phone"
+        app:layout_constraintStart_toStartOf="@+id/userinfo_phone"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_phone" />
+
+    <TextView
+        android:id="@+id/userinfo_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="username"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/userinfo_category_email"
+        app:layout_constraintEnd_toEndOf="@+id/userinfo_category_username"
+        app:layout_constraintStart_toStartOf="@+id/userinfo_category_username"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_category_username" />
+
+    <TextView
+        android:id="@+id/userinfo_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="username@sjtu.edu.cn"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/userinfo_category_email"
+        app:layout_constraintStart_toStartOf="@+id/userinfo_category_email"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_category_email" />
+
+    <TextView
+        android:id="@+id/userinfo_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="54749110"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/userinfo_category_phone"
+        app:layout_constraintStart_toStartOf="@+id/userinfo_category_phone"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_category_phone" />
+
+    <TextView
+        android:id="@+id/userinfo_privilege"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="666666"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/userinfo_category_privilege"
+        app:layout_constraintStart_toStartOf="@+id/userinfo_category_privilege"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_category_privilege" />
+
+    <Button
+        android:id="@+id/userinfo_modify_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
+        android:background="@color/colorLoginButton"
+        android:text="用户信息修改"
+        android:textColor="@color/blank"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo_privilege" />
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>
