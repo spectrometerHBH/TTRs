@@ -126,6 +126,21 @@ public:
 		return 1;
 	}
 
+	int modify_profile2(std::istream & is = std::cin,	std::ostream & os = std::cout) {
+		User user;
+		is >> user.id;
+		if (user.id > current_id || user.id < 2018) {
+			return 0;
+		}
+		is >> user.name >> user.password >> user.email >> user.phone;
+		std::fstream iofile;
+		iofile.open(user_file_name.getAddress());
+		iofile.seekp(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
+		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
+		iofile.close();
+		return 1;
+	}
+
 	int modify_privilege(UserID & id1, UserID & id2, int privilege, std::istream & is = std::cin,	std::ostream & os = std::cout) {
 		if (id1 > current_id || id1 < 2018 || id2 > current_id || id2 < 2018) {
 			return 0;

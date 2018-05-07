@@ -221,7 +221,7 @@ public:
 			is >> s_array[i].loc >> s_array[i].arrive >> s_array[i].depart >> s_array[i].stop;
 			char ch;
 			for (int j = 0; j < train.ticket_num; ++j) {
-				is >> ch >> tp_array[i + j * train.station_num];
+				is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
 			}
 			BindKey bind_key(s_array[i].loc, train.id);
 			station_record.insert(bind_key, train.catalog);
@@ -303,7 +303,6 @@ public:
 		Date date;
 		Catalog catalog;
 		is >> loc1 >> loc2 >> date >> catalog;
-		
 		BindKey bk1(loc1), bk2(loc2);
 		sjtu::vector<sjtu::pair<BindKey, Catalog> > p_array1, p_array2;       // p_array: array of train_id that pass the station
 		auto same_loc = [](const BindKey & bind_key1, const BindKey & bind_key2)->bool { return bind_key1.loc < bind_key2.loc; };

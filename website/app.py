@@ -33,10 +33,10 @@ def userinfo(userid="0"):
     fromWhere = request.args.get("from","")
     result = client.query_profile(userid)
     print result
-    if result == "0\n\0":
+    if result == "0\n":
         return "Not Found"
     result = unicode(result, "utf-8")
-    data = result[:-2].split(" ")
+    data = result[:-1].split(" ")
     #print data
     return render_template('userinfo.html',
                             user = current_user,
@@ -83,7 +83,7 @@ def action_login():
         
         result = client.login(request.form['userid'],request.form['password'])
         print(result, len(result))
-        if result == "1\n\0":
+        if result == "1\n":
             session['userid'] = request.form['userid']
             return redirect('/?from=login')
         else:
@@ -107,10 +107,10 @@ def action_signup():
                 request.form['email'],
                 request.form['phone']
                 )
-        if result == "-1\n\0":
+        if result == "-1\n":
             return redirect('/')
         else:
-            session['userid'] = result[:-2]
+            session['userid'] = result[:-1]
             return redirect('/?from=signup')
     return "invalid signup"
 
@@ -141,7 +141,8 @@ def action_modify_profile():
                 request.form['email'],
                 request.form['phone']
                 )
-        if result == "1\n\0":
+        print "!!!!!",len(result)
+        if result == "1\n":
             return redirect('/user/'+userid+'?from=modify')
         else:
             return redirect('/user/'+userid+'?from=modifyfail')
@@ -158,11 +159,12 @@ def action_logout():
     return redirect('/?from=logout')
 
 func = {"register":(encode_register, decode_register),
-                "login":(encode_login, decode_login),
-                "query_profile":(encode_query_profile, decode_query_profile),
-                "modify_profile":(encode_modify_profile, decode_modify_profile),
-                "modify_privilege":(encode_modify_privilege, decode_modify_privilege),
-                }
+        "login":(encode_login, decode_login),
+        "query_profile":(encode_query_profile, decode_query_profile),
+        "modify_profile":(encode_modify_profile, decode_modify_profile),
+        "modify_privilege":(encode_modify_privilege, decode_modify_privilege),
+        "query_ticket":(encode_query_ticket, decode_query_ticket)
+        }
 
 @app.route('/action/post', methods=['POST', 'GET'])
 def action_post():

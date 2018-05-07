@@ -39,7 +39,6 @@ void init_switch() {
 void read_command(std::istream & is, std::ostream & os) {
 	String<50> command;
 	while (is >> command) {
-		// about user
 		if (command == "register") {
 			os << user_manager.sign_up(is, os) << '\n';
 			continue;
@@ -58,6 +57,12 @@ void read_command(std::istream & is, std::ostream & os) {
 			continue;
 		}
 		if (command == "modify_profile") {
+			//puts("here");
+			os << user_manager.modify_profile(is, os) << '\n';
+			continue;
+		}
+		if (command == "modify_profile2") {
+			//puts("here");
 			os << user_manager.modify_profile(is, os) << '\n';
 			continue;
 		}
