@@ -208,7 +208,7 @@ def decode_query_train(data):
     #print data
     #print "haha"
     result = {}
-    if data == "-1\n" or data == "": 
+    if data == "0\n" or data == "": 
         result["success"] = False
     else:
         result["success"] = True
@@ -216,6 +216,7 @@ def decode_query_train(data):
         keywd = ("train_id", "name", "catalog", "stationnum", "pricenum",)
         station_keywd = ("name", "timearriv", "timestart", "timestopover")
         first_line = trainlist[0].split(" ")
+        print first_line
         for i in range(len(keywd)):
             result[keywd[i]] = first_line[i]
         result["stationnum"] = int(result["stationnum"])
