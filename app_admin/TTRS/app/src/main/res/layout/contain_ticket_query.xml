@@ -20,12 +20,14 @@
 
     <TextView
         android:id="@+id/contain_ticket_query_textview1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="出发日期"
         android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_button_v_cursor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_h_cursor1" />
 
@@ -36,22 +38,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:src="@drawable/ic_date_range_black_24dp"
+        android:src="@drawable/ic_date_range_black_36dp"
         android:tint="@color/icon_default_color"
-        app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_textview1"
-        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintEnd_toEndOf="@+id/contain_ticket_query_textview1"
         app:layout_constraintStart_toStartOf="@+id/contain_ticket_query_textview1"
         app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_textview1" />
 
-    <TextView
-        android:id="@+id/inquiry_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="日期"
-        app:layout_constraintBottom_toBottomOf="@+id/calendar_icon"
-        app:layout_constraintStart_toEndOf="@+id/calendar_icon"
-        app:layout_constraintTop_toTopOf="@+id/calendar_icon" />
 
     <Button
         android:id="@+id/calendar_enter"
@@ -117,12 +109,14 @@
 
     <TextView
         android:id="@+id/contain_ticket_query_textview2"
-        android:layout_width="65dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="车次类别"
         android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_checkBox_all"
         app:layout_constraintStart_toEndOf="@+id/contain_ticket_query_button_v_cursor"
         app:layout_constraintTop_toTopOf="@+id/contain_ticket_query_button_v_cursor" />
 
@@ -267,9 +261,9 @@
         android:tint="@color/colorCursor"
         app:layout_constraintBottom_toTopOf="@+id/contain_ticket_query_h_cursor2"
         app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_button_v_cursor"
-        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/calendar_enter"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintVertical_bias="0.7" />
 
 </android.support.constraint.ConstraintLayout>
