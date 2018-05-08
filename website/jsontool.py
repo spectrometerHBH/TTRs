@@ -175,6 +175,7 @@ def encode_buy_ticket(data):
 
 def decode_buy_ticket(data):
     result={}
+    print data
     if data == "1\n":
         result["success"] = True
     else:
