@@ -59,6 +59,15 @@ def login():
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
+@app.route('/query_train')
+def query_train():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+
+    return render_template('query_train.html',
+                            message = message.get(fromWhere, ""),
+                            user = current_user)
+
 @app.route('/signup')
 def signup():
     current_user = session.get('userid','')
@@ -118,7 +127,6 @@ def action_signup():
 def action_modify_profile():
     if request.method == 'POST':
         para = ("userid", "name", "password", "password2", "email", "phone")
-        
         for item in para:
             if not request.form.has_key(item):
                 print item
@@ -141,7 +149,6 @@ def action_modify_profile():
                 request.form['email'],
                 request.form['phone']
                 )
-        print "!!!!!",len(result)
         if result == "1\n":
             return redirect('/user/'+userid+'?from=modify')
         else:
@@ -158,6 +165,20 @@ def action_logout():
     session.pop('userid', None)
     return redirect('/?from=logout')
 
+@app.route('/action/query_train')
+def action_query_train():
+    train_id = request.args.get("train_id",'')
+    if not train_id:
+        return ""
+    command = {"type" : "query_train",
+               "train_id" : train_id}
+    raw_result = client.send(encode_query_train(command))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_train(raw_result)
+    print result
+    return render_template('query_train_result.html',
+        data = result)
+
 func = {"register":(encode_register, decode_register),
         "login":(encode_login, decode_login),
         "query_profile":(encode_query_profile, decode_query_profile),
@@ -173,6 +194,7 @@ func = {"register":(encode_register, decode_register),
 def action_post():
     if request.method == 'POST':
         raw_text = request.form.get('input','')
+        raw_text = unicode(raw_text, "utf-8")
         try:
             data = json.loads(raw_text)
         except ValueError:

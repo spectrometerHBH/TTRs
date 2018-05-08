@@ -1,0 +1,28 @@
+<meta charset="utf-8">
+<h2> {{data.train_id}} - {{data.name}} - {{data.catalog}} </h2>
+<table class="table">
+    <thead class="thead-dark">
+     <tr>
+        <th scope="col">站点</th>
+        <th scope="col">到达时间</th>
+        <th scope="col">出发时间</th>
+        <th scope="col">停留时间</th>
+        {% for item in data.ticket %}
+            <th scope="col">{{item}}</th>
+        {% endfor %}
+     </tr>
+    </thead>
+    <tbody>
+    {% for station in data.station %}
+    <tr>
+        <td>{{station.name}}</td>
+        <td>{{station.timearriv}}</td>
+        <td>{{station.timestart}}</td>
+        <td>{{station.timestopover}}</td>
+        {% for ticket in station.ticket %}
+            <td>￥{{ticket}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
