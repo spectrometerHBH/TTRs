@@ -228,6 +228,7 @@ public:
 		clear();
 		int i;
 		for (i = 0 ; i < other.theSize ; i++) push_back(other[i]);
+		return *this;
 	}
 	/**
 	 * assigns specified element with bounds checking

@@ -20,7 +20,7 @@ public:
 	Date(int y = 0, int m = 0, int d = 0) : year(y), month(m), day(d) {}
 	
 	Date operator++() {
-		int m = _date_mon[month];
+		int m = mon[month];
 		if (is_leap_year(year) && month == 2) {
 			m = 29;
 		}
@@ -56,6 +56,18 @@ public:
 		if (d1.day < d2.day) return 1;
 		if (d1.day > d2.day) return 0;
 		return 0;
+	}
+
+	friend bool operator>(const Date & d1, const Date & d2) {
+		return operator<(d2, d1);
+	}
+
+	friend bool operator>=(const Date & d1, const Date & d2) {
+		return !(operator<(d1, d2));
+	}
+
+	friend bool operator<=(const Date & d1, const Date & d2) {
+		return !(operator>(d1, d2));
 	}
 
 	friend std::istream & operator>>(std::istream & is, Date & date) {

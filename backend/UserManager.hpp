@@ -2,9 +2,10 @@
 
 #include <iostream>
 #include <fstream>
-#include "exceptions.h"
-#include "bptree.hpp"
+#include "bplus_tree\exceptions.h"
+#include "bplus_tree\bptree.hpp"
 #include "String.hpp"
+#include "date.hpp"
 
 class UserManager {
 private:
@@ -110,6 +111,10 @@ public:
 		return 1;
 	}
 
+	bool check_id(const UserID & user_id) {
+		return (user_id >= 2018 && user_id <= current_id);
+	}
+
 	int modify_profile(std::istream & is = std::cin, std::ostream & os = std::cout) {
 		User user;
 		is >> user.id;
@@ -186,8 +191,4 @@ public:
 		return 1;
 	}
 
-	int buy_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {
-	}
-
-	int refund_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {}
 };

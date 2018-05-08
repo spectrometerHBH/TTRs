@@ -194,7 +194,8 @@ typedef long long UserID;
 
 // about train
 typedef String<5> Time;
-typedef String<10> Catalog;
+typedef String<10> CatalogList;
+typedef char Catalog;
 typedef String<20> Location;
 typedef String<20> TrainID;
 typedef String<20> TrainName;

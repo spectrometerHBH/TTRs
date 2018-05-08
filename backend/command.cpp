@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "exceptions.h"
-#include "bptree.hpp"
+#include "bplus_tree\exceptions.h"
+#include "bplus_tree\bptree.hpp"
 #include "String.hpp"
 #include "UserManager.hpp"
 #include "TrainManager.hpp"
@@ -89,6 +89,41 @@ void read_command(std::istream & is, std::ostream & os) {
 			}
 			continue;
 		}
+		if (command == "buy_ticket") {
+			UserID user_id;
+			is >> user_id;
+			if (user_manager.check_id(user_id) == false) {
+				os << 0 << '\n';
+			}
+			else {
+				os << train_manager.buy_ticket(user_id, is, os) << '\n';
+			}
+			continue;
+		}
+		if (command == "query_order") {
+			UserID user_id;
+			is >> user_id;
+			if (user_manager.check_id(user_id) == false) {
+				os << -1 << '\n';
+			}
+			else {
+				if (train_manager.query_order(user_id, is, os) == -1) {
+					os << -1 << '\n';
+				}
+			}
+			continue;
+		}
+		if (command == "refund_ticket") {
+			UserID user_id;
+			is >> user_id;
+			if (user_manager.check_id(user_id) == false) {
+				os << 0 << '\n';
+			}
+			else {
+				os << train_manager.refund_ticket(user_id, is, os) << '\n';
+			}
+			continue;
+		}
 		// about train
 		if (command == "add_train") {
 			TrainID trian_id;
@@ -105,7 +140,10 @@ void read_command(std::istream & is, std::ostream & os) {
 		if (command == "query_train") {
 			TrainID train_id;
 			is >> train_id;
-			train_manager.query_train(train_id, is, os);
+			int flag = train_manager.query_train(train_id, is, os);
+			if (flag == 0) {
+				os << 0 << '\n';
+			}
 			continue;
 		}
 		if (command == "delete_train") {
@@ -167,7 +205,7 @@ bool Less1(const mykey & a, const mykey & b) {
 	return a.f1 < b.f1;
 }*/
 
-int __main() {
+int main() {
 	/*
 	init_switch();
 	
