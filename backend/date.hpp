@@ -20,7 +20,7 @@ public:
 	Date(int y = 0, int m = 0, int d = 0) : year(y), month(m), day(d) {}
 	
 	Date operator++() {
-		int m = mon[month];
+		int m = _date_mon[month];
 		if (is_leap_year(year) && month == 2) {
 			m = 29;
 		}
