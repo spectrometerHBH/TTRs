@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/logoScreenBackground"
+    tools:context=".Register">
+
+    <TextView
+        android:id="@+id/addTrain_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="基本信息"
+        android:textColor="#000"
+        android:textSize="25sp"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toTopOf="@+id/addTrainID_Layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <RelativeLayout
+        android:id="@+id/addTrainID_Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_Title"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rectangle_edittext"
+        app:layout_constraintBottom_toTopOf="@+id/addTrainName_Layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTrain_Title">
+
+        <ImageView
+            android:id="@+id/addTrainID_Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_train_black_24dp"
+            android:tint="@color/icon_default_color" />
+
+        <View
+            android:id="@+id/addTrainID_Cursor"
+            android:layout_width="1dip"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainID_Icon"
+            android:background="@color/colorCursor" />
+
+        <EditText
+            android:id="@+id/addTrainID_Edit"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainID_Cursor"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:ems="19"
+            android:hint="车次ID"
+            android:singleLine="true"
+            android:textColorHint="@color/colorCursor"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/addTrainID_Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_highlight_off_white_24dp"
+            android:tint="@color/icon_default_color"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addTrainName_Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle_edittext"
+        app:layout_constraintBottom_toTopOf="@+id/addTrainStation_Layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTrainID_Layout">
+
+        <ImageView
+            android:id="@+id/addTrainName_Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_title_black_24dp"
+            android:tint="@color/icon_default_color" />
+
+        <View
+            android:id="@+id/addTrainName_Cursor"
+            android:layout_width="1dip"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainName_Icon"
+            android:background="@color/colorCursor" />
+
+        <EditText
+            android:id="@+id/addTrainName_Edit"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainName_Cursor"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:ems="19"
+            android:hint="车次名称"
+            android:singleLine="true"
+            android:textColorHint="@color/colorCursor"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/addTrainName_Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_highlight_off_white_24dp"
+            android:tint="@color/icon_default_color"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addTrainStation_Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle_edittext"
+        app:layout_constraintBottom_toTopOf="@+id/addTrainCategory_Layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTrainName_Layout">
+
+        <ImageView
+            android:id="@+id/addTrainStation_Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_location_city_black_24dp"
+            android:tint="@color/icon_default_color" />
+
+        <View
+            android:id="@+id/addTrainStation_Cursor"
+            android:layout_width="1dip"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainStation_Icon"
+            android:background="@color/colorCursor" />
+
+        <EditText
+            android:id="@+id/addTrainStation_Edit"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainStation_Cursor"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:ems="19"
+            android:hint="经停站数"
+            android:singleLine="true"
+            android:textColorHint="@color/colorCursor"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/addTrainStation_Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_highlight_off_white_24dp"
+            android:tint="@color/icon_default_color"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addTrainCategory_Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle_edittext"
+        app:layout_constraintBottom_toTopOf="@+id/addTrain_Cursor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTrainStation_Layout">
+
+        <ImageView
+            android:id="@+id/addTrainCategory_Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_sort_by_alpha_black_24dp"
+            android:tint="@color/icon_default_color" />
+
+        <View
+            android:id="@+id/addTrainCategory_Cursor"
+            android:layout_width="1dip"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainCategory_Icon"
+            android:background="@color/colorCursor" />
+
+        <EditText
+            android:id="@+id/addTrainCategory_Edit"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/addTrainCategory_Cursor"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:ems="19"
+            android:hint="车次类型"
+            android:singleLine="true"
+            android:textColorHint="@color/colorCursor"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/addTrainCategory_Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_highlight_off_white_24dp"
+            android:tint="@color/icon_default_color"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/addTrain_Cursor1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_swz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTrainCategory_Layout" />
+
+    <Button
+        android:id="@+id/addtrain_goto_setp2_Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/round_corner_bg_loginbtn"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="下一步"
+        android:textColor="@color/blank"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_tdz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_swz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="商务座"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_ydz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_yz"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTrain_Cursor1" />
+
+    <CheckBox
+        android:id="@+id/checkBox_tdz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="特等座"
+        app:layout_constraintBottom_toTopOf="@+id/addtrain_goto_setp2_Button"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_gjrw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_edz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_ydz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="一等座"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_edz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_rz"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_swz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_edz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="二等座"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_tdz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_wz"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_ydz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_yz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="硬座"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_swz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_yw"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_swz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_swz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_rz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="软座"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_ydz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_rw"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_ydz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_ydz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_wz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="无座"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_edz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_dw"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_edz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_edz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_dw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="动卧"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_wz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_wz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_wz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_yw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="硬卧"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_yz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_yz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_yz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_rw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="软卧"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_rz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_rz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_rz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_gjrw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="高级软卧"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_tdz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_tdz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_tdz" />
+
+</android.support.constraint.ConstraintLayout>

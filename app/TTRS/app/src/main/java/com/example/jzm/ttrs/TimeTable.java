@@ -26,11 +26,12 @@ public class TimeTable extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_table);
         View view = findViewById(R.id.activity_time_table);
+        view.setBackgroundColor(Color.parseColor("#90000000"));
         Intent intent = getIntent();
         try {
             JSONArray stations = new JSONArray(intent.getStringExtra("station"));
             int ticket_type = intent.getIntExtra("ticket_type", 0);
-            for (int i = 0; i < stations.length(); i++){
+            for (int i = 0; i < stations.length(); i++) {
                 JSONObject jsonObject = stations.getJSONObject(i);
                 JSONArray prices = jsonObject.getJSONArray("ticket");
                 Object object = prices.get(ticket_type);
@@ -38,42 +39,19 @@ public class TimeTable extends AppCompatActivity {
                 Station station = new Station(jsonObject.getString("name"),
                         jsonObject.getString("timearriv"),
                         jsonObject.getString("timestart"),
+                        jsonObject.getString("timestopover"),
                         haha);
                 stationList.add(station);
             }
             RecyclerView recyclerView = findViewById(R.id.time_table_recyclerview);
-            recyclerView.setBackgroundColor(Color.parseColor("#90000000"));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             StationAdapter adapter = new StationAdapter(stationList);
             recyclerView.setAdapter(adapter);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 }
 
-/*
-{"type":"add_train",
- "train_id":"c100",
- "name":"和谐号",
- "stationnum":2,
- "pricenum":2,
- "ticket":["一等座","二等座"],
- "station":[
-    {"name":"Hangzhou",
-    "timearriv":"xx:xx",
-    "timestart":"08:12"
-    "timestopover":"00:00",
-    "ticket":[0.0,0.0],
-    },
-    {"name":"Suzhou",
-    "timearriv":"12:00",
-    "timestart":"xx:xx"
-    "timestopover":"00:00",
-    "ticket":[756.00,432.00],
-    }
- ]
- }
- */

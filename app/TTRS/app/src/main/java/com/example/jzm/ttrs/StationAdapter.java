@@ -12,21 +12,25 @@ import java.util.List;
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> {
     private List<Station> mStationList;
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView station;
         TextView arrive_time;
         TextView depart_time;
+        TextView stop_time;
         TextView fare;
-        public ViewHolder(View view){
+        View line_down;
+        public ViewHolder(View view) {
             super(view);
             station = view.findViewById(R.id.station);
             arrive_time = view.findViewById(R.id.arrive_time);
             depart_time = view.findViewById(R.id.depart_time);
+            stop_time = view.findViewById(R.id.stopover);
             fare = view.findViewById(R.id.fare);
+            line_down = view.findViewById(R.id.line_down);
         }
     }
 
-    public StationAdapter(List<Station> stationList){
+    public StationAdapter(List<Station> stationList) {
         mStationList = stationList;
     }
 
@@ -39,16 +43,18 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(StationAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(StationAdapter.ViewHolder holder, int position) {
         Station station = mStationList.get(position);
         holder.station.setText(station.getStation());
         holder.arrive_time.setText(station.getArriveTime());
         holder.depart_time.setText(station.getDepartTime());
+        holder.stop_time.setText(station.getStopTime());
         holder.fare.setText(String.valueOf(station.getFare()));
+        if (position == mStationList.size() - 1) holder.line_down.setBackgroundColor(Color.parseColor("#00000000"));
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mStationList.size();
     }
 }

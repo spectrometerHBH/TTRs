@@ -4,15 +4,18 @@ public class Station {
     private String station;
     private String arriveTime;
     private String departTime;
+    private String stopTime;
     private double fare;
 
-    public Station(){
+    public Station() {
 
     }
-    public Station(String station, String arriveTime, String departTime, double fare){
+
+    public Station(String station, String arriveTime, String departTime, String stopTime, double fare) {
         this.station = station;
         this.arriveTime = arriveTime;
         this.departTime = departTime;
+        this.stopTime = stopTime;
         this.fare = fare;
     }
 
@@ -32,6 +35,10 @@ public class Station {
         this.fare = fare;
     }
 
+    public void setStopTime(String stopTime) {
+        this.stopTime = stopTime;
+    }
+
     public String getStation() {
         return station;
     }
@@ -46,5 +53,9 @@ public class Station {
 
     public double getFare() {
         return fare;
+    }
+
+    public String getStopTime() {
+        return stopTime;
     }
 }
