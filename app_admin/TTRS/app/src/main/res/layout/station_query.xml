@@ -16,10 +16,10 @@
             android:layout_marginStart="8dp"
             android:text="站名"
             android:textColor="@color/blank"
-            app:layout_constraintBottom_toBottomOf="@+id/arrive_time"
+            app:layout_constraintBottom_toBottomOf="@+id/dot"
             app:layout_constraintEnd_toStartOf="@+id/arrive_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/arrive_time" />
+            app:layout_constraintStart_toEndOf="@+id/dot"
+            app:layout_constraintTop_toTopOf="@+id/dot" />
 
         <TextView
             android:id="@+id/arrive_time"
@@ -29,10 +29,10 @@
             android:layout_marginStart="8dp"
             android:text="到时"
             android:textColor="@color/blank"
-            app:layout_constraintBottom_toBottomOf="@+id/dot"
-            app:layout_constraintEnd_toStartOf="@+id/dot"
+            app:layout_constraintBottom_toBottomOf="@+id/station"
+            app:layout_constraintEnd_toStartOf="@+id/stopover"
             app:layout_constraintStart_toEndOf="@+id/station"
-            app:layout_constraintTop_toTopOf="@+id/dot" />
+            app:layout_constraintTop_toTopOf="@+id/station" />
 
         <TextView
             android:id="@+id/depart_time"
@@ -42,10 +42,10 @@
             android:layout_marginStart="8dp"
             android:text="发时"
             android:textColor="@color/blank"
+            app:layout_constraintBottom_toBottomOf="@+id/stopover"
             app:layout_constraintEnd_toStartOf="@+id/fare"
-            app:layout_constraintStart_toEndOf="@+id/dot"
-            app:layout_constraintBottom_toBottomOf="@+id/dot"
-            app:layout_constraintTop_toTopOf="@+id/dot" />
+            app:layout_constraintStart_toEndOf="@+id/stopover"
+            app:layout_constraintTop_toTopOf="@+id/stopover" />
 
         <TextView
             android:id="@+id/fare"
@@ -59,6 +59,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/depart_time"
             app:layout_constraintTop_toTopOf="@+id/depart_time" />
+
+        <TextView
+            android:id="@+id/stopover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="停时"
+            android:textColor="@color/blank"
+            app:layout_constraintBottom_toBottomOf="@+id/arrive_time"
+            app:layout_constraintEnd_toStartOf="@+id/depart_time"
+            app:layout_constraintStart_toEndOf="@+id/arrive_time"
+            app:layout_constraintTop_toTopOf="@+id/arrive_time" />
 
         <View
             android:id="@+id/line_up"
@@ -84,12 +97,10 @@
             android:id="@+id/dot"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="32dp"
             android:src="@drawable/ic_dot"
             android:tint="@color/blank"
             app:layout_constraintBottom_toTopOf="@+id/line_down"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line_up" />
 

@@ -15,11 +15,13 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:hint="站名"
+            android:textColor="@color/blank"
+            android:textColorHint="@color/blank"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/station_modify_arrive"
+            app:layout_constraintBottom_toBottomOf="@+id/station_modify_dot"
             app:layout_constraintEnd_toStartOf="@+id/station_modify_arrive"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/station_modify_arrive" />
+            app:layout_constraintStart_toEndOf="@+id/station_modify_dot"
+            app:layout_constraintTop_toTopOf="@+id/station_modify_dot" />
 
         <EditText
             android:id="@+id/station_modify_arrive"
@@ -28,11 +30,13 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:hint="到时"
+            android:textColor="@color/blank"
+            android:textColorHint="@color/blank"
             android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@+id/station_modify_dot"
+            app:layout_constraintBottom_toBottomOf="@+id/station_modify_name"
+            app:layout_constraintEnd_toStartOf="@+id/station_modify_depart"
             app:layout_constraintStart_toEndOf="@+id/station_modify_name"
-            app:layout_constraintTop_toTopOf="@id/station_modify_dot"
-            app:layout_constraintBottom_toBottomOf="@id/station_modify_dot" />
+            app:layout_constraintTop_toTopOf="@+id/station_modify_name" />
 
         <EditText
             android:id="@+id/station_modify_depart"
@@ -41,11 +45,13 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:hint="发时"
+            android:textColor="@color/blank"
+            android:textColorHint="@color/blank"
             android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/station_modify_arrive"
             app:layout_constraintEnd_toStartOf="@+id/station_modify_stopover"
-            app:layout_constraintStart_toEndOf="@+id/station_modify_dot"
-            app:layout_constraintTop_toTopOf="@id/station_modify_dot"
-            app:layout_constraintBottom_toBottomOf="@id/station_modify_dot" />
+            app:layout_constraintStart_toEndOf="@+id/station_modify_arrive"
+            app:layout_constraintTop_toTopOf="@+id/station_modify_arrive" />
 
         <EditText
             android:id="@+id/station_modify_stopover"
@@ -54,6 +60,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:hint="停时"
+            android:textColor="@color/blank"
+            android:textColorHint="@color/blank"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/station_modify_depart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +73,7 @@
             android:id="@+id/station_modify_line_up"
             android:layout_width="1dp"
             android:layout_height="24dp"
-            android:background="@color/black"
+            android:background="@color/blank"
             app:layout_constraintBottom_toTopOf="@+id/station_modify_dot"
             app:layout_constraintEnd_toEndOf="@+id/station_modify_dot"
             app:layout_constraintStart_toStartOf="@+id/station_modify_dot"
@@ -75,7 +83,7 @@
             android:id="@+id/station_modify_line_down"
             android:layout_width="1dp"
             android:layout_height="24dp"
-            android:background="@color/black"
+            android:background="@color/blank"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/station_modify_dot"
             app:layout_constraintStart_toStartOf="@+id/station_modify_dot"
@@ -85,11 +93,10 @@
             android:id="@+id/station_modify_dot"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="32dp"
             android:src="@drawable/ic_dot"
+            android:tint="@color/blank"
             app:layout_constraintBottom_toTopOf="@+id/station_modify_line_down"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/station_modify_line_up" />
 
