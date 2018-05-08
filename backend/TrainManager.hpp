@@ -220,7 +220,7 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
-				os << "гд" << tp_array[i + j * train.station_num] << ' ';
+				os <<"я┐е"<< tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
 		}

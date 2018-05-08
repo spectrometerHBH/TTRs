@@ -32,7 +32,7 @@ def userinfo(userid="0"):
     current_user = session.get('userid','')
     fromWhere = request.args.get("from","")
     result = client.query_profile(userid)
-    print result
+    #print result
     if result == "0\n":
         return "Not Found"
     result = unicode(result, "utf-8")
@@ -68,6 +68,10 @@ def query_train():
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
+@app.route('/debug')
+def debug():
+    return render_template('debugger.html')
+
 @app.route('/signup')
 def signup():
     current_user = session.get('userid','')
@@ -87,11 +91,11 @@ def action_login():
         
         for item in para:
             if not request.form.has_key(item):
-                print item
+                #print item
                 return ""
         
         result = client.login(request.form['userid'],request.form['password'])
-        print(result, len(result))
+        #print(result, len(result))
         if result == "1\n":
             session['userid'] = request.form['userid']
             return redirect('/?from=login')
@@ -106,7 +110,7 @@ def action_signup():
         
         for item in para:
             if not request.form.has_key(item):
-                print item
+                #print item
                 return ""
         if (request.form['password'] != request.form['password2']):
             return redirect('/signup?from=pwdfail')
@@ -129,7 +133,7 @@ def action_modify_profile():
         para = ("userid", "name", "password", "password2", "email", "phone")
         for item in para:
             if not request.form.has_key(item):
-                print item
+                #print item
                 return ""
         userid = request.form['userid']
         if (request.form['password'] != request.form['password2']):
@@ -175,7 +179,7 @@ def action_query_train():
     raw_result = client.send(encode_query_train(command))
     raw_result = unicode(raw_result, "utf-8")
     result = decode_query_train(raw_result)
-    print result
+    #print result
     return render_template('query_train_result.html',
         data = result)
 
@@ -194,7 +198,7 @@ func = {"register":(encode_register, decode_register),
 def action_post():
     if request.method == 'POST':
         raw_text = request.form.get('input','')
-        raw_text = unicode(raw_text, "utf-8")
+        #raw_text = unicode(raw_text, "utf-8")
         try:
             data = json.loads(raw_text)
         except ValueError:
@@ -207,7 +211,11 @@ def action_post():
         if func.has_key(data["type"]):
             #print data, func[data['type']][0](data)
             #return func[data['type']][0](data)
-            result = client.send(func[data['type']][0](data))
+            command = func[data['type']][0](data)
+            if command == "":
+                return ""
+            result = client.send(command)
+            result = unicode(result, "utf-8")
             return json.dumps(func[data['type']][1](result))
         else:
             return ""

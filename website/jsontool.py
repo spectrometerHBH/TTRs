@@ -124,10 +124,10 @@ def encode_add_train(data):
 
 def decode_add_train(data):
     result={}
-    if data == "0\n":
-        result["success"] = False
-    else:
+    if data == "1\n":
         result["success"] = True
+    else:
+        result["success"] = False
     return result
 
 def encode_query_ticket(data):
@@ -135,7 +135,8 @@ def encode_query_ticket(data):
     for item in para:
         if not data.has_key(item):
             return ""
-    return "query_ticket {train_id} {loc2} {date} {catalog}\n".format(**data)    
+    #print "haha"
+    return "query_ticket {loc1} {loc2} {date} {catalog}\n".format(**data)    
 
 def decode_query_ticket(data):
     result = {}
@@ -156,7 +157,10 @@ def decode_query_ticket(data):
             for i in range(len(keywd)):
                 info_dict[keywd[i]] = info[i]
             info_dict["ticket"] = {}
+            info.remove("")
+            #print info,len(info)
             for i in range(len(keywd), len(info), 3):
+                #print i
                 info_dict["ticket"][info[i]] = {"num": int(info[i+1]), "price":float(info[i+2])}
             result["ticket"].append(info_dict)
     return result
