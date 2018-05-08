@@ -86,11 +86,11 @@ def decode_modify_privilege(data):
     return result
 
 def encode_sale_train(data):
-    para = ("id",)
+    para = ("train_id",)
     for item in para:
         if not data.has_key(item):
             return ""
-    command = "modify_privilege {id}\n".format(**data)
+    command = "sale_train {train_id}\n".format(**data)
     return command
 
 def decode_sale_train(data):

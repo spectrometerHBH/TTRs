@@ -204,7 +204,7 @@ def action_post():
         try:
             data = json.loads(raw_text)
         except ValueError:
-            return ""
+            return "not a valid json"
         #return str(data)
         #print data
         if (not (isinstance(data, dict) and data.has_key("type"))):
