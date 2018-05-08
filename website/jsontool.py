@@ -165,6 +165,22 @@ def decode_query_ticket(data):
             result["ticket"].append(info_dict)
     return result
 
+def encode_buy_ticket(data):
+    para = ("id", "num", "train_id", "loc1", "loc2", "date", "ticket_kind")
+    for item in para:
+        if not data.has_key(item):
+            #print item
+            return ""
+    return "buy_ticket {id} {num} {train_id} {loc1} {loc2} {date} {ticket_kind}\n".format(**data)        
+
+def decode_buy_ticket(data):
+    result={}
+    if data == "1\n":
+        result["success"] = True
+    else:
+        result["success"] = False
+    return result    
+
 def encode_query_train(data):
     para = ("train_id",)
     for item in para:

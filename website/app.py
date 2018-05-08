@@ -189,6 +189,7 @@ func = {"register":(encode_register, decode_register),
         "modify_profile":(encode_modify_profile, decode_modify_profile),
         "modify_privilege":(encode_modify_privilege, decode_modify_privilege),
         "query_ticket":(encode_query_ticket, decode_query_ticket),
+        "buy_ticket":(encode_buy_ticket, decode_buy_ticket),
         "add_train":(encode_add_train, decode_add_train),
         "sale_train":(encode_sale_train, decode_sale_train),
         "query_train":(encode_query_train, decode_query_train),
@@ -206,14 +207,14 @@ def action_post():
         #return str(data)
         #print data
         if (not (isinstance(data, dict) and data.has_key("type"))):
-            return ""
+            return "not a valid json or type is not defined"
         #print data["type"],func.has_key(data["type"])
         if func.has_key(data["type"]):
             #print data, func[data['type']][0](data)
             #return func[data['type']][0](data)
             command = func[data['type']][0](data)
             if command == "":
-                return ""
+                return "wrong format"
             result = client.send(command)
             result = unicode(result, "utf-8")
             return json.dumps(func[data['type']][1](result))
