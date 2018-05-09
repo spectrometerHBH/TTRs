@@ -70,8 +70,8 @@
 
     <Button
         android:id="@+id/contain_trainid_query_button"
-        android:layout_width="340dp"
-        android:layout_height="46dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
