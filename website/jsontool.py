@@ -217,7 +217,7 @@ def decode_query_train(data):
         keywd = ("train_id", "name", "catalog", "stationnum", "pricenum",)
         station_keywd = ("name", "timearriv", "timestart", "timestopover")
         first_line = trainlist[0].split(" ")
-        print first_line
+        #print first_line
         for i in range(len(keywd)):
             result[keywd[i]] = first_line[i]
         result["stationnum"] = int(result["stationnum"])
@@ -236,7 +236,7 @@ def decode_query_train(data):
             info_dict["ticket"] = []
             for i in range(len(station_keywd), len(info)):
                 if (info[i]):
-                    print info[i][1:]
+                    #print info[i][1:]
                     info_dict["ticket"].append(float(info[i][1:]))
             result["station"].append(info_dict)
     return result
