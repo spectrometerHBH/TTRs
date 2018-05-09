@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/contain_train_detail_manifest_trainid"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -30,8 +30,8 @@
         android:background="@null"
         android:gravity="center"
         android:text="列车ID"
-        android:textSize="20dp"
         android:textColor="@color/black"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/contain_train_detail_manifest_exchange"
         app:layout_constraintEnd_toStartOf="@+id/contain_train_detail_manifest_exchange"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
 
     <TextView
         android:id="@+id/contain_train_detail_manifest_trainname"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="20dp"

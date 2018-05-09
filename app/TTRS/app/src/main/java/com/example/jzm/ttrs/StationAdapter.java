@@ -50,7 +50,10 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
         holder.depart_time.setText(station.getDepartTime());
         holder.stop_time.setText(station.getStopTime());
         holder.fare.setText(String.valueOf(station.getFare()));
-        if (position == mStationList.size() - 1) holder.line_down.setBackgroundColor(Color.parseColor("#00000000"));
+        if (position == mStationList.size() - 1){
+            holder.line_down.setBackgroundColor(Color.parseColor("#00000000"));
+        }else holder.line_down.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+
     }
 
     @Override

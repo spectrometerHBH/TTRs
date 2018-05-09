@@ -85,7 +85,7 @@
             android:id="@+id/line_up"
             android:layout_width="1dp"
             android:layout_height="24dp"
-            android:background="@android:"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/dot"
             app:layout_constraintEnd_toEndOf="@+id/dot"
             app:layout_constraintStart_toStartOf="@+id/dot"

@@ -42,8 +42,7 @@
             android:name=".TimeTable"
             android:label="时刻表"
             android:launchMode="singleTask"
-            android:theme="@style/translucent"
-            android:screenOrientation="portrait" />
+            android:theme="@style/translucent" />
         <activity
             android:name=".TrainDetailManifest"
             android:label="车次详细信息"
