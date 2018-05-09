@@ -186,7 +186,7 @@ String<N> IntToString(int x) {
 #ifndef SIGNAL
 #define SIGNAL
 //about user
-typedef String<20> UserName;
+typedef String<40> UserName;
 typedef String<20> Password;
 typedef String<20> Email;
 typedef String<20> Phone;
@@ -198,6 +198,6 @@ typedef String<10> CatalogList;
 typedef char Catalog;
 typedef String<20> Location;
 typedef String<20> TrainID;
-typedef String<20> TrainName;
+typedef String<40> TrainName;
 typedef String<20> Seat;
 #endif // !SIGNAL

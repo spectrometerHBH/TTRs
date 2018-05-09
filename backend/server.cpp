@@ -5,14 +5,14 @@
 #include <strstream>
 #include "command.h"
 #include <cstring>
-
+#define bufsize 8192
 #include <ctime>
 using boost::asio::ip::tcp;
 int Session(tcp::socket socket) {
   try {
-    char bin[1024];
-    char bout[1024];
-    memset(bout,0,1024);
+    char bin[bufsize];
+    char bout[bufsize];
+    memset(bout,0,bufsize);
     String<20> username;
     String<20> password;
     int a = 0;
@@ -23,11 +23,11 @@ int Session(tcp::socket socket) {
       //size_t n = boost::asio::read_until(socket, bin, '\0');
       
       //ostringstream os(bout);
-      socket.read_some(boost::asio::buffer(bin,1024));
+      socket.read_some(boost::asio::buffer(bin,bufsize));
       std::istringstream is(bin);
       std::ostringstream os(bout);
 
-      char response[1024] = "";
+      char response[bufsize] = "";
       
 
       read_command(is, os);
