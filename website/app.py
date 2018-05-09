@@ -194,6 +194,8 @@ func = {"register":(encode_register, decode_register),
         "add_train":(encode_add_train, decode_add_train),
         "sale_train":(encode_sale_train, decode_sale_train),
         "query_train":(encode_query_train, decode_query_train),
+        "delete_train":(encode_delete_train, decode_delete_train)
+        "query_order":(encode_query_order, decode_query_ticket)
         }
 
 @app.route('/action/post', methods=['POST', 'GET'])

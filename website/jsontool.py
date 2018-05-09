@@ -240,3 +240,26 @@ def decode_query_train(data):
                     info_dict["ticket"].append(float(info[i][1:]))
             result["station"].append(info_dict)
     return result
+
+def encode_delete_train(data):
+    para = ("train_id",)
+    for item in para:
+        if not data.has_key(item):
+            return ""
+    return "delete_train {train_id}\n".format(**data)  
+
+def decode_delete_train(data):
+    result={}
+    if data == "1\n":
+        result["success"] = True
+    else:
+        result["success"] = False
+    return result    
+
+
+def encode_query_order(data):
+    para = ("id", "date", "catalog")
+    for item in para:
+        if not data.has_key(item):
+            return ""
+    return "query_order {id} {data} {catalog}\n".format(**data)  
