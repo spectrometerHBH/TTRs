@@ -177,6 +177,7 @@ def action_query_train():
     command = {"type" : "query_train",
                "train_id" : train_id}
     raw_result = client.send(encode_query_train(command))
+    print "#", raw_result
     raw_result = unicode(raw_result, "utf-8")
     result = decode_query_train(raw_result)
     #print result
