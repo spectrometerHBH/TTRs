@@ -1,0 +1,134 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>NAIVE订票系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/jquery-ui.min.js"></script>
+    <script src="/static/popper.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="/static/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/jquery-ui.css">
+
+    <script>
+    	$(function() {
+    var availableTags = [
+      "吉林",
+      "长春"
+    ];
+    $( "#loc1" ).autocomplete({
+      source: availableTags
+    });
+    $( "#loc2" ).autocomplete({
+      source: availableTags
+    });
+  });
+
+      $(document).ready(function(){
+  $("#submit").click(function(){
+    $.post("/action/query",
+    {
+      loc1: $("#loc1").val(),
+      loc2: $("#loc2").val(),
+      date: $("#date").val(),
+      catalog: $("#catalog").val()
+    },
+    function(data,status){
+      $("#result").html(data);
+      $("[data-toggle='popover']").popover({html : true });
+    });
+  });
+});
+    </script>
+
+  </head>
+
+  <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+
+      <a class="navbar-brand" href="#">NAIVE订票系统</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu" aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="index.html">首页</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="query.html">查询</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">订票</a>
+          </li>
+        </ul>
+
+        <div class="btn-group">
+          {% if user %}
+          <a href="/user/{{ user }}" class="btn btn-secondary">
+            {{ user }}
+          </a>
+          <a href="/action/logout" class="btn btn-primary">
+            Log out
+          </a>
+          {% else %}
+          <a href="/login" class="btn btn-secondary">
+            登录
+          </a>
+          <a href="/signup" class="btn btn-primary">
+            注册
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+     
+
+      
+      <main role="main" class="container">
+      <div class="jumbotron">
+        
+          <div class="form-row">
+            <div class="form-group col-md-6 ui-widget" >
+              <label for="loc1">出发地</label>
+              <input class="form-control" id="loc1" >
+            </div>
+            <div class="form-group col-md-6 ui-widget">
+              <label for="loc2">目的地</label>
+              <input class="form-control" id="loc2">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="date">日期</label>
+              <input class="form-control" type="date" id="date">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="catalog">类型</label>
+              <input class="form-control" id="catalog">
+            </div>
+          </div>
+          <button id="submit" type="submit" class="btn btn-primary">查询</button>
+      </div>
+      <div class = "row" id="result">
+      </div>
+    </main>
+ 
+    
+
+    <footer class="container">
+      <p>&copy;没有版权 1926-</p>
+    </footer>
+  </body>
+</html>

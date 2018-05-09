@@ -59,6 +59,15 @@ def login():
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
+@app.route('/query')
+def query():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+
+    return render_template('query.html',
+                            message = message.get(fromWhere, ""),
+                            user = current_user)
+
 @app.route('/query_train')
 def query_train():
     current_user = session.get('userid','')
@@ -177,12 +186,35 @@ def action_query_train():
     command = {"type" : "query_train",
                "train_id" : train_id}
     raw_result = client.send(encode_query_train(command))
-    print "#", raw_result
+    #print "#", raw_result
     raw_result = unicode(raw_result, "utf-8")
     result = decode_query_train(raw_result)
     #print result
     return render_template('query_train_result.html',
         data = result)
+
+@app.route('/action/query', methods=['POST', 'GET'])
+def action_query():
+    if request.method == 'POST':
+        print request.form
+        para = ("loc1", "loc2", "date", "catalog")
+        command = {}
+        for item in para:
+            value = request.form.get(item, "")
+            if value:
+                command[item] = value
+            else :
+                return ""
+        command["type"] = "query_ticket"
+        #print "#",encode_query_ticket(command)
+        raw_result = client.send(encode_query_ticket(command))
+        print raw_result
+        raw_result = unicode(raw_result, "utf-8")
+        result = decode_query_ticket(raw_result)
+        return render_template('query_result.html',
+        data = result)
+    else:
+        return ""
 
 func = {"register":(encode_register, decode_register),
         "login":(encode_login, decode_login),
