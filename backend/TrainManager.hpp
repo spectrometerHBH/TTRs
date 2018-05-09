@@ -21,7 +21,7 @@ private:
 		long route_pos;                    // position of this train's route in route_file 
 		long ticket_price_pos;             // position of this train's ticket_price in ticket_price_file
 		long ticket_left_pos;              // position of this train's ticket_left in ticket_left_file
-		Seat seat[12];
+		Seat seat[15];
 		int open;
 		int sale;
 		Train() : station_num(0), seat_num(0), open(0), sale(0) {}
@@ -128,7 +128,7 @@ private:
 		int tl_num = train.seat_num * train.station_num;                     // tl_num: ticket_left_num
 		int * tl_array = new int[tl_num];                                    // tl_array: ticket_left_array
 		iofile.open(ticket_left_file.getAddress());
-		iofile.seekg(train.ticket_left_pos + day_no * tl_num, std::ios::beg);
+		iofile.seekg(train.ticket_left_pos + day_no * tl_num * sizeof(int), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (tl_array), sizeof(int) * tl_num);
 		iofile.close();
 
@@ -249,7 +249,6 @@ public:
 			is >> s_array[i].loc >> s_array[i].arrive >> s_array[i].depart >> s_array[i].stop;
 			char ch;
 			for (int j = 0; j < train.seat_num; ++j) {
-				//is >> ch >> tp_array[i + j * train.station_num];
 				is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
 			}
 			BindKey bind_key(s_array[i].loc, train.id);
@@ -432,17 +431,22 @@ public:
 			return 0;
 		}
 
-		int seat_no;
+		int seat_no = -1;
 		for (int i = 0; i < train.seat_num; ++i) {
 			if (train.seat[i] == seat_kind) {
 				seat_no = i;
 				break;
 			}
 		}
+		if (seat_no == -1) {
+			delete[] s_array;
+			return 0;
+		}
 		int day_no = date - start_date;
 		int * tl_array = new int[train.station_num];                                    // tl_array: ticket_left_array
 		iofile.open(ticket_left_file.getAddress());
-		iofile.seekg(train.ticket_left_pos + day_no * train.seat_num * train.station_num + seat_no * train.station_num, std::ios::beg);
+		iofile.seekg(train.ticket_left_pos + (day_no * train.seat_num * train.station_num  
+			+ seat_no * train.station_num) * sizeof(int), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (tl_array), sizeof(int) * train.station_num);
 
 		int ticket_left = 2000;
@@ -461,7 +465,8 @@ public:
 			tl_array[i] -= num;
 		}
 		
-		iofile.seekp(train.ticket_left_pos + day_no * train.seat_num * train.station_num + seat_no * train.station_num, std::ios::beg);
+		iofile.seekp(train.ticket_left_pos + (day_no * train.seat_num * train.station_num 
+			+ seat_no * train.station_num) * sizeof(int), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (tl_array), sizeof(int) * train.station_num);
 		iofile.close();
 
@@ -623,12 +628,14 @@ public:
 		int day_no = date - start_date;
 		int * tl_array = new int[train.station_num];                                    // tl_array: ticket_left_array
 		iofile.open(ticket_left_file.getAddress());
-		iofile.seekg(train.ticket_left_pos + day_no * train.seat_num * train.station_num + seat_no * train.station_num, std::ios::beg);
+		iofile.seekg(train.ticket_left_pos + (day_no * train.seat_num * train.station_num 
+			+ seat_no * train.station_num) * sizeof(int), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (tl_array), sizeof(int) * train.station_num);
 		for (int i = s1_no + 1; i <= s2_no; ++i) {
 			tl_array[i] += num;
 		}
-		iofile.seekp(train.ticket_left_pos + day_no * train.seat_num * train.station_num + seat_no * train.station_num, std::ios::beg);
+		iofile.seekp(train.ticket_left_pos + (day_no * train.seat_num * train.station_num 
+			+ seat_no * train.station_num) * sizeof(int), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (tl_array), sizeof(int) * train.station_num);
 		iofile.close();
 		delete[] tl_array;

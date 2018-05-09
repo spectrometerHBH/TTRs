@@ -54,13 +54,8 @@ public:
 		std::ofstream out;
 		out.open(user_file_name.getAddress());
 		out.seekp(0, std::ios::end);
-		current_id = 2018;
+		current_id = 2017;
 		out.write(reinterpret_cast<char *> (&current_id), sizeof(UserID));
-		User default_admin;
-		default_admin.id = current_id;
-		default_admin.password = "123456";
-		default_admin.privilege = 2;
-		out.write(reinterpret_cast<char *> (&default_admin), sizeof(User));
 		out.close();
 	}
 	
@@ -70,6 +65,9 @@ public:
 		is >> user.name >> user.password >> user.email >> user.phone;
 		++current_id;
 		user.id = current_id;
+		if (current_id == 2018) {
+			user.privilege = 2;
+		}
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
 		iofile.seekp(0, std::ios::beg);
