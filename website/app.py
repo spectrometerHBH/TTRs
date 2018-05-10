@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import client
 import json
+import base64
 from jsontool import *
 app = Flask(__name__)
 
@@ -72,7 +73,6 @@ def query():
 def query_train():
     current_user = session.get('userid','')
     fromWhere = request.args.get("from","")
-
     return render_template('query_train.html',
                             message = message.get(fromWhere, ""),
                             user = current_user)
@@ -213,6 +213,33 @@ def action_query():
         result = decode_query_ticket(raw_result)
         return render_template('query_result.html',
         data = result)
+    else:
+        return ""
+
+@app.route('/action/buy', methods=['POST', 'GET'])
+def action_buy():
+    current_user = session.get('userid','')
+    if not current_user:
+        return render_template("warning.html",
+                            message = "You haven't logged in.",
+                            user = current_user)
+    if request.method == 'POST':
+        para = ("train_id","num","loc1", "loc2", "date", "ticket_kind")
+        command = {}
+        for item in para:
+            value = request.form.get(item, "")
+            if value:
+                command[item] = value
+            else :
+                return ""
+        command["id"] = current_user
+        command["type"] = "buy_ticket"
+        print "#",encode_buy_ticket(command)
+        raw_result = client.send(encode_buy_ticket(command))
+        print raw_result
+        raw_result = unicode(raw_result, "utf-8")
+        result = decode_buy_ticket(raw_result)
+        return str(result)
     else:
         return ""
 
