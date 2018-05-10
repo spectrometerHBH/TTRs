@@ -39,6 +39,7 @@ public class TicketManifest extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_ticket_manifest);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         initializeWidgets();
         Intent intent = getIntent();

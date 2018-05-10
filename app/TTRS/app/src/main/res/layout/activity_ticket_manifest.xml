@@ -31,4 +31,5 @@
     <include layout="@layout/contain_ticket_manifest" />
 
     </android.support.design.widget.CoordinatorLayout>
+
 </android.support.v4.widget.DrawerLayout>
