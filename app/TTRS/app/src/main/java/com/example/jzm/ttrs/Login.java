@@ -111,6 +111,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         }
                         editor.apply();
                         Intent intent = new Intent(Login.this, MainActivity.class);
+                        intent.putExtra("userid", suserid);
+                        intent.putExtra("password", spassword);
                         startActivity(intent);
                         finish();
                     }else{
