@@ -47,6 +47,7 @@ def userinfo(userid="0"):
                             email=data[1],
                             phone=data[2])
 
+
 @app.route('/login')
 def login():
     current_user = session.get('userid','')
@@ -167,6 +168,26 @@ def action_modify_profile():
         else:
             return redirect('/user/'+userid+'?from=modifyfail')
     return "invalid login"
+
+@app.route('/action/query_order')
+def action_query_order():
+    para = ("date", "id", "catalog")
+    command = {}
+    for item in para:
+        value = request.args.get(item, "")
+        if value:
+            command[item] = value
+        else:
+            return ""
+    current_user = session.get('userid','')
+    command["type"] = "query_order"
+    print "$",encode_query_order(command)
+    raw_result = client.send(encode_query_order(command))
+    print "#", raw_result
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_ticket(raw_result)
+    return str(result)
+
 
 @app.route('/action/logout')
 def action_logout():

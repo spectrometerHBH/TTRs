@@ -262,4 +262,4 @@ def encode_query_order(data):
     for item in para:
         if not data.has_key(item):
             return ""
-    return "query_order {id} {data} {catalog}\n".format(**data)  
+    return "query_order {id} {date} {catalog}\n".format(**data)  
