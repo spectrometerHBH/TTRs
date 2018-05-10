@@ -51,6 +51,42 @@ public class Train {
     public String getDepartDate() {
         return departDate;
     }
+
+    public void setDepartTime(String departTime) {
+        this.departTime = departTime;
+    }
+
+    public void setArriveTime(String arriveTime) {
+        this.arriveTime = arriveTime;
+    }
+
+    public void setArriveDate(String arriveDate) {
+        this.arriveDate = arriveDate;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
+    }
+
+    public void setDepartDate(String departDate) {
+        this.departDate = departDate;
+    }
+
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public void setTrainID(String trainID) {
+        this.trainID = trainID;
+    }
+
+    public void setTrainName(String trainName) {
+        this.trainName = trainName;
+    }
 }
 
 

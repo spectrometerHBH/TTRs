@@ -48,6 +48,15 @@
             android:label="车次详细信息"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Calender"
+            android:label="日历"
+            android:launchMode="singleTask"
+            android:theme="@style/translucent" />
+        <activity
+            android:name=".TicketManifest"
+            android:label="车票查询"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

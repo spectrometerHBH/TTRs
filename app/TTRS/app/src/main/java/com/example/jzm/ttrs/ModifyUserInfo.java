@@ -34,7 +34,7 @@ public class ModifyUserInfo extends AppCompatActivity
     private EditText editTextphone;
     private Button buttonModify;
     private String userid;
-    private boolean verified;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,8 @@ public class ModifyUserInfo extends AppCompatActivity
         initializeWidgets();
         Intent intent = getIntent();
         userid = intent.getStringExtra("userid");
+        password = intent.getStringExtra("password");
+        getProfile();
         buttonModify.setOnClickListener(this);
     }
 
@@ -51,19 +53,38 @@ public class ModifyUserInfo extends AppCompatActivity
             @Override
             public void run() {
                 try {
-
                     HttpClient client = new HttpClient();
-                    client.setCommand("{\"type\":\"query_profile\",\"id\":\""+userid+"\"}");
+                    JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
+                    jsonobjcetcreate.addStringPair("type", "query_profile");
+                    jsonobjcetcreate.addStringPair("id", userid);
+                    client.setCommand(jsonobjcetcreate.getResult());
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
-                    if (success.equals("true")) {
-
-                    }
+                    if (success.equals("true")) refreshProfile(jsonObject);
+                    else showResponse("不知道为什么获取不到信息~QAQ~");
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-        }
+        }).start();
+    }
+
+    private void refreshProfile(final JSONObject jsonObject){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    editTextusername.setText(jsonObject.getString("name"));
+                    editOldpassword.setText(password);
+                    editTextpassword.setText(password);
+                    editTextconfirmpassword.setText(password);
+                    editTextemail.setText(jsonObject.getString("email"));
+                    editTextphone.setText(jsonObject.getString("phone"));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void initializeWidgets(){
@@ -76,10 +97,10 @@ public class ModifyUserInfo extends AppCompatActivity
         buttonModify = findViewById(R.id.modify_user_info_Button);
         ImageView usernameClear = findViewById(R.id.modify_user_info_Username_Clear);
         ImageView oldpasswordClear = findViewById(R.id.modify_user_info_OldPassword_Clear);
-        ImageView passwordClear = findViewById(R.id.loginPassword_Clear);
+        ImageView passwordClear = findViewById(R.id.modify_user_info_Password_Clear);
         ImageView confirmpasswordClear = findViewById(R.id.modify_user_info_ConfirmPassword_Clear);
         ImageView emailClear = findViewById(R.id.modify_user_info_Email_Clear);
-        ImageView phoneClear = findViewById(R.id.modify_user_info_admin_Phone_Clear);
+        ImageView phoneClear = findViewById(R.id.modify_user_info_Phone_Clear);
         EditTextClearTools.addClearListener(editTextusername, usernameClear);
         EditTextClearTools.addClearListener(editOldpassword, oldpasswordClear);
         EditTextClearTools.addClearListener(editTextpassword, passwordClear);
@@ -98,7 +119,6 @@ public class ModifyUserInfo extends AppCompatActivity
                 String confirmpassword = editTextconfirmpassword.getText().toString();
                 String email = editTextemail.getText().toString();
                 String phone = editTextphone.getText().toString();
-                verified = false;
                 try {
                     if (!usernameCheck(username)) break;
                     if (!oldpasswordCheck(username)) break;
@@ -107,41 +127,35 @@ public class ModifyUserInfo extends AppCompatActivity
                     if (!emailCheck(email)) break;
                     if (!phoneCheck(phone)) break;
 
-                    verifyPassword(oldpassword);
-                    if (!verified) {
-                        showWarning("密码错误(T_T)");
-                        break;
-                    }
                     if (!password.equals(confirmpassword)) {
                         showWarning("两次密码不一样呀~QAQ~");
                         break;
                     }
+                    verifyPassword(oldpassword);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                sendRequest();
                 break;
             }
             default: break;
         }
     }
 
-    void verify(){
-        verified = true;
-    }
-
-    private void verifyPassword(String password){
+    private void verifyPassword(final String password){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try{
                     HttpClient client = new HttpClient();
-                    client.setCommand("{\"type\":\"login\",\"id\":\""+userid+"\",\"password\":\""+password+"\"}");
+                    JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
+                    jsonobjcetcreate.addStringPair("type", "login");
+                    jsonobjcetcreate.addStringPair("id", userid);
+                    jsonobjcetcreate.addStringPair("password", password);
+                    client.setCommand(jsonobjcetcreate.getResult());
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
-                    if (success == "true"){
-                        verify();
-                        finish();
+                    if (success.equals("true")){
+                        sendRequest();
                     }else{
                         showResponse("用户名密码不符~QAQ~");
                     }
@@ -158,21 +172,26 @@ public class ModifyUserInfo extends AppCompatActivity
             public void run() {
                 try {
                     String username = editTextusername.getText().toString();
-                    String password = editTextpassword.getText().toString();
+                    String newpassword = editTextpassword.getText().toString();
                     String email = editTextemail.getText().toString();
                     String phone = editTextphone.getText().toString();
                     HttpClient client = new HttpClient();
-                    client.setCommand("{\"type\":\"register\",\"name\":\"" + username + "\",\"password\":\"" + password + "\",\"email\":\"" + email + "\",\"phone\":\"" + phone + "\"}");
+                    JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
+                    jsonobjcetcreate.addStringPair("type", "modify_profile");
+                    jsonobjcetcreate.addStringPair("id", userid);
+                    jsonobjcetcreate.addStringPair("name", username);
+                    jsonobjcetcreate.addStringPair("password", newpassword);
+                    jsonobjcetcreate.addStringPair("email", email);
+                    jsonobjcetcreate.addStringPair("phone", phone);
+                    client.setCommand(jsonobjcetcreate.getResult());
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true")){
-                        String userid = jsonObject.getString("id");
-                        Intent intent = new Intent(Register.this, Login.class);
-                        intent.putExtra("id", userid);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        password = newpassword;
+                        showResponse("修改成功了呢O(∩_∩)O");
+                        getProfile();
                     }else{
-                        showWarning("不知道为什么注册失败了~QAQ~");
+                        showWarning("不知道为什么修改失败了~QAQ~");
                     }
                 } catch (Exception e){
                     e.printStackTrace();
@@ -180,6 +199,16 @@ public class ModifyUserInfo extends AppCompatActivity
             }
         }).start();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("userid", userid);
+        intent.putExtra("password", password);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
     private boolean empty(String s, String message){
         if (s.equals("")) {
             showWarning("未输入" + message + "呀~QAQ~");
@@ -216,15 +245,15 @@ public class ModifyUserInfo extends AppCompatActivity
     }
 
     private boolean passwordCheck(String s) throws UnsupportedEncodingException {
-        if (empty(s, "密码")) return false;
-        if (tooLong(s, "密码")) return false;
-        if (checkWhiteSpace(s, "密码")) return false;
+        if (empty(s, "新密码")) return false;
+        if (tooLong(s, "新密码")) return false;
+        if (checkWhiteSpace(s, "新密码")) return false;
         return true;
     }
 
     private boolean confirmpasswordCheck(String s) throws UnsupportedEncodingException {
-        if (empty(s, "重复密码")) return false;
-        if (tooLong(s, "重复密码")) return false;
+        if (empty(s, "重复新密码")) return false;
+        if (tooLong(s, "重复新密码")) return false;
         return true;
     }
 

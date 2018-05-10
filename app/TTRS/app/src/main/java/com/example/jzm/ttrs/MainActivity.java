@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     private List<Train> trainList = new ArrayList<>();
 
     private String userid;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         userid = intent.getStringExtra("userid");
+        password = intent.getStringExtra("password");
 
         initializeTrains();
         RecyclerView recyclerView = findViewById(R.id.front_page_recyclerview);
@@ -68,6 +70,20 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1: {
+                if (resultCode == RESULT_OK) {
+                    userid = data.getStringExtra("userid");
+                    password = data.getStringExtra("password");
+                }
+                break;
+            }
+            default:break;
         }
     }
 
@@ -104,7 +120,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_user) {
             Intent intent = new Intent(MainActivity.this, ModifyUserInfo.class);
             intent.putExtra("userid", userid);
-            startActivity(intent);
+            intent.putExtra("password", password);
+            startActivityForResult(intent, 1);
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {
