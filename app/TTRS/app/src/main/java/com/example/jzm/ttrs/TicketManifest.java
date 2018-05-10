@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -40,7 +41,12 @@ public class TicketManifest extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         initializeWidgets();
         Intent intent = getIntent();
 
@@ -177,7 +183,6 @@ public class TicketManifest extends AppCompatActivity {
             TextView seatType = view.findViewById(R.id.ticket_purchase_seat);
             TextView price = view.findViewById(R.id.ticket_purchase_price);
             TextView amount = view.findViewById(R.id.ticket_purchase_amount);
-            Button button = view.findViewById(R.id.ticket_purchase_button);
             seatType.setText(seat.getName());
             price.setText(seat.getPrice());
             amount.setText(seat.getNum());
@@ -187,7 +192,7 @@ public class TicketManifest extends AppCompatActivity {
         //  子项是否可选中，如果需要设置子项的点击事件，需要返回true
         @Override
         public boolean isChildSelectable(int i, int i1) {
-            return false;
+            return true;
         }
     }
 
