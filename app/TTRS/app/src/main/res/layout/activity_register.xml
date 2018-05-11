@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:text="TTRS用户注册"
         android:textColor="#000"
         android:textSize="25sp"
@@ -25,15 +25,15 @@
 
     <RelativeLayout
         android:id="@+id/registerUsername_Layout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/register_Title"
         android:layout_marginBottom="4dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rectangle_edittext"
         app:layout_constraintBottom_toTopOf="@+id/registerPassword_Layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_Title">
 
@@ -46,7 +46,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:src="@drawable/ic_person_black_24dp"
-            android:tint="@color/icon_default_color"/>
+            android:tint="@color/icon_default_color" />
 
         <View
             android:id="@+id/registerUsername_Cursor"
@@ -87,8 +87,8 @@
 
     <RelativeLayout
         android:id="@+id/registerPassword_Layout"
-        android:layout_width="wrap_content"
-        android:layout_height="54dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/registerUsername_Layout"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
@@ -150,7 +150,7 @@
 
     <RelativeLayout
         android:id="@+id/registerConfirmPassword_Layout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/registerPassword_Layout"
         android:layout_marginBottom="4dp"
@@ -171,7 +171,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:src="@drawable/ic_lock_outline_black_24dp"
-            android:tint="@color/icon_default_color"/>
+            android:tint="@color/icon_default_color" />
 
         <View
             android:id="@+id/registerConfirmPassword_Cursor"
@@ -213,7 +213,7 @@
 
     <RelativeLayout
         android:id="@+id/registerEmail_Layout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
@@ -232,7 +232,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:src="@drawable/ic_email_black_24dp"
-            android:tint="@color/icon_default_color"/>
+            android:tint="@color/icon_default_color" />
 
         <View
             android:id="@+id/registerEmail_Cursor"
@@ -273,7 +273,7 @@
 
     <RelativeLayout
         android:id="@+id/registerPhone_Layout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="4dp"

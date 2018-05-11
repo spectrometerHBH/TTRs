@@ -25,7 +25,6 @@ import java.io.UnsupportedEncodingException;
 public class ModifyUserInfo extends AppCompatActivity
     implements View.OnClickListener{
 
-
     private EditText editTextusername;
     private EditText editOldpassword;
     private EditText editTextpassword;
@@ -40,6 +39,21 @@ public class ModifyUserInfo extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_user_info);
+        Toolbar toolbar = findViewById(R.id.toolbar_modify_user_info);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("userid", userid);
+                intent.putExtra("password", password);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
         initializeWidgets();
         Intent intent = getIntent();
         userid = intent.getStringExtra("userid");
@@ -76,10 +90,10 @@ public class ModifyUserInfo extends AppCompatActivity
                 try {
                     editTextusername.setText(jsonObject.getString("name"));
                     editOldpassword.setText(password);
-                    editTextpassword.setText(password);
-                    editTextconfirmpassword.setText(password);
                     editTextemail.setText(jsonObject.getString("email"));
                     editTextphone.setText(jsonObject.getString("phone"));
+                    editTextpassword.setText("");
+                    editTextconfirmpassword.setText("");
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -126,7 +140,6 @@ public class ModifyUserInfo extends AppCompatActivity
                     if (!confirmpasswordCheck(confirmpassword)) break;
                     if (!emailCheck(email)) break;
                     if (!phoneCheck(phone)) break;
-
                     if (!password.equals(confirmpassword)) {
                         showWarning("两次密码不一样呀~QAQ~");
                         break;
@@ -180,14 +193,18 @@ public class ModifyUserInfo extends AppCompatActivity
                     jsonobjcetcreate.addStringPair("type", "modify_profile");
                     jsonobjcetcreate.addStringPair("id", userid);
                     jsonobjcetcreate.addStringPair("name", username);
-                    jsonobjcetcreate.addStringPair("password", newpassword);
+                    if (newpassword.equals("")) {
+                        jsonobjcetcreate.addStringPair("password", password);
+                    }else {
+                        jsonobjcetcreate.addStringPair("password", newpassword);
+                    }
                     jsonobjcetcreate.addStringPair("email", email);
                     jsonobjcetcreate.addStringPair("phone", phone);
                     client.setCommand(jsonobjcetcreate.getResult());
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true")){
-                        password = newpassword;
+                        if (!newpassword.equals("")) password = newpassword;
                         showResponse("修改成功了呢O(∩_∩)O");
                         getProfile();
                     }else{
@@ -245,14 +262,12 @@ public class ModifyUserInfo extends AppCompatActivity
     }
 
     private boolean passwordCheck(String s) throws UnsupportedEncodingException {
-        if (empty(s, "新密码")) return false;
         if (tooLong(s, "新密码")) return false;
         if (checkWhiteSpace(s, "新密码")) return false;
         return true;
     }
 
     private boolean confirmpasswordCheck(String s) throws UnsupportedEncodingException {
-        if (empty(s, "重复新密码")) return false;
         if (tooLong(s, "重复新密码")) return false;
         return true;
     }

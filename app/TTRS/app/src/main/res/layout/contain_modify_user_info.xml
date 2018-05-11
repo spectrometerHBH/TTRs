@@ -7,37 +7,18 @@
     android:background="@color/logoScreenBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/modify_user_info_Title"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="查看/修改信息"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_Username_Layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <RelativeLayout
         android:id="@+id/modify_user_info_Username_Layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/modify_user_info_Title"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rectangle_edittext"
         app:layout_constraintBottom_toTopOf="@+id/modify_user_info_OldPassword_Layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_Title">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/modify_user_info_Username_Icon"

@@ -35,7 +35,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ModifyUserInfo"
-            android:label="修改信息"
+            android:label="查看/修改信息"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
