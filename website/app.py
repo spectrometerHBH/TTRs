@@ -163,6 +163,7 @@ def action_modify_profile():
             if not request.form.has_key(item):
                 #print item
                 return ""
+        print request.form
         userid = request.form['userid']
         if (request.form['password'] != request.form['password2']):
             return redirect('/user/'+userid+'?from=pwdfail')
