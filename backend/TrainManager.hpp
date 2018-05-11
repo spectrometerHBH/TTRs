@@ -91,9 +91,9 @@ private:
 	struct TicketValue {
 		Time depart;
 		Time arrive;
-		Seat seat[15];
-		double price[15];
-		int num[15] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+		Seat seat[12];
+		double price[12];
+		int num[12] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 		TicketValue(const Time & _depart = Time("xx:xx"), const Time & _arrive = Time("xx:xx")) :
 			depart(_depart), arrive(_arrive) {}
 	};
@@ -221,8 +221,8 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
-				os << "гд" << tp_array[i + j * train.station_num] << ' ';
-				//os << '$' << tp_array[i + j * train.station_num] << ' ';
+				//os << "гд" << tp_array[i + j * train.station_num] << ' ';
+				os << '$' << tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
 		}
@@ -238,8 +238,8 @@ public:
 		Train train;
 		train.id = train_id;
 		is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
-		//if (train_record.count(train.id) == 1) return 0;
-		if ((train_record.find(train.id)).station_num != 0) {
+		//if ((train_record.find(train.id)).station_num != 0) {
+		if (train_record.count(train.id) == 1) {
 			for (int i = 0; i < train.seat_num; ++i) {
 				is >> train.seat[i];
 			}
@@ -249,8 +249,8 @@ public:
 				is >> station.loc >> station.arrive >> station.depart >> station.stop;
 				char ch;
 				for (int j = 0; j < train.seat_num; ++j) {
-					//is >> ch >> ticket_price;
-					is >> ch >> ch >> ch >> ticket_price;
+					is >> ch >> ticket_price;
+					//is >> ch >> ch >> ch >> ticket_price;
 				}
 			}
 			return 0;
@@ -267,8 +267,8 @@ public:
 			is >> s_array[i].loc >> s_array[i].arrive >> s_array[i].depart >> s_array[i].stop;
 			char ch;
 			for (int j = 0; j < train.seat_num; ++j) {
-				//is >> ch >> tp_array[i + j * train.station_num];
-				is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
+				is >> ch >> tp_array[i + j * train.station_num];
+				//is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
 			}
 			BindKey bind_key(s_array[i].loc, train.id);
 			BindValue bind_value(i, train.catalog);

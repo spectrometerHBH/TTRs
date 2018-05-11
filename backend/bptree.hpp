@@ -893,6 +893,9 @@ public:
 	}
 
 	int count(const key_t &key) {
+		if (root == invalid_off) {
+			return 0;
+		}
 		node rn = read_node(root);
 		return _count(rn, key);
 	}

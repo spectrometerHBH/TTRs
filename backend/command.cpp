@@ -10,6 +10,37 @@
 UserManager user_manager;
 TrainManager train_manager;
 
+/*
+void init() {
+	train_manager.init();
+}
+
+void init_switch() {
+	int init_sign;
+	std::fstream iofile;
+	iofile.open("init");
+	if (!iofile) {
+		std::ofstream out;
+		out.open("init");
+		init();
+		init_sign = 1;
+		out.seekp(std::ios::beg);
+		out.write(reinterpret_cast<char *> (&init_sign), sizeof(init_sign));
+		out.close();
+		return;
+	}
+	iofile.seekg(std::ios::beg);
+	iofile.read(reinterpret_cast<char *> (&init_sign), sizeof(init_sign));
+	if (init_sign == 0) {
+		init();
+		init_sign = 1;
+		iofile.seekp(std::ios::beg);
+		iofile.write(reinterpret_cast<char *> (&init_sign), sizeof(init_sign));
+	}
+	iofile.close();
+}
+*/
+
 void read_command(std::istream & is, std::ostream & os) {
 	String<50> command;
 	while (is >> command) {
@@ -152,7 +183,7 @@ void read_command(std::istream & is, std::ostream & os) {
 }
 
 
-int __main() {
+int main() {
 	read_command(std::cin, std::cout);
 	return 0;
 }
