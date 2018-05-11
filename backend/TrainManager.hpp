@@ -22,7 +22,7 @@ private:
 		long route_pos;                    // position of this train's route in route_file 
 		long ticket_price_pos;             // position of this train's ticket_price in ticket_price_file
 		long ticket_left_pos;              // position of this train's ticket_left in ticket_left_file
-		Seat seat[15];
+		Seat seat[12];
 		int open;
 		int sale;
 		Train() : station_num(0), seat_num(0), open(0), sale(0) {}
@@ -91,9 +91,9 @@ private:
 	struct TicketValue {
 		Time depart;
 		Time arrive;
-		Seat seat[15];
-		double price[15];
-		int num[15] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+		Seat seat[12];
+		double price[12];
+		int num[12] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 		TicketValue(const Time & _depart = Time("xx:xx"), const Time & _arrive = Time("xx:xx")) :
 			depart(_depart), arrive(_arrive) {}
 	};
@@ -221,8 +221,8 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
+				os << "я┐е" << tp_array[i + j * train.station_num] << ' ';
 				//os << '$' << tp_array[i + j * train.station_num] << ' ';
-				os << 'гд' << tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
 		}
@@ -238,8 +238,8 @@ public:
 		Train train;
 		train.id = train_id;
 		is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
-		//if (train_record.count(train.id) == 1) return 0;
-		if ((train_record.find(train.id)).station_num != 0) {
+		//if ((train_record.find(train.id)).station_num != 0) {
+		if (train_record.count(train.id) == 1) {
 			for (int i = 0; i < train.seat_num; ++i) {
 				is >> train.seat[i];
 			}
