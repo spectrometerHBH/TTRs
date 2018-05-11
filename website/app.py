@@ -361,7 +361,7 @@ def action_post():
             command = func[data['type']][0](data)
             if command == "":
                 return "wrong format"
-            print "quest", command
+            print "#quest", command
             result = client.send(command)
             result = unicode(result, "utf-8")
             return json.dumps(func[data['type']][1](result))
