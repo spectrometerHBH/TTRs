@@ -22,7 +22,7 @@ private:
 		long route_pos;                    // position of this train's route in route_file 
 		long ticket_price_pos;             // position of this train's ticket_price in ticket_price_file
 		long ticket_left_pos;              // position of this train's ticket_left in ticket_left_file
-		Seat seat[15];
+		Seat seat[12];
 		int open;
 		int sale;
 		Train() : station_num(0), seat_num(0), open(0), sale(0) {}
@@ -221,8 +221,8 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
+				os << "гд" << tp_array[i + j * train.station_num] << ' ';
 				//os << '$' << tp_array[i + j * train.station_num] << ' ';
-				os << 'гд' << tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
 		}
