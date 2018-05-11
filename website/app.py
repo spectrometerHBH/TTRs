@@ -17,7 +17,8 @@ message = { 'login' : "Successfully login",
             'logfail' : "Wrong id or password",
             'modify' : "Successfully modify the profile",
             'modifyfail' : "Fail to modify the profile",
-            'pwdfail' : "Repeat password has to match with the password"}
+            'pwdfail' : "Repeat password has to match with the password",
+            'buy' : "successfully buy the tickets"}
 
 @app.route('/')
 def index():
@@ -76,6 +77,17 @@ def query_train():
     fromWhere = request.args.get("from","")
     return render_template('query_train.html',
                             message = message.get(fromWhere, ""),
+                            user = current_user)
+
+@app.route('/query_order')
+def query_order():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+    return render_template('query_order.html',
+                            message = message.get(fromWhere, ""),
+                            userid = request.args.get("id",""),
+                            date = request.args.get("date",""),
+                            catalog  = request.args.get("catalog",""),
                             user = current_user)
 
 @app.route('/debug')
@@ -181,12 +193,11 @@ def action_query_order():
             return ""
     current_user = session.get('userid','')
     command["type"] = "query_order"
-    print "$",encode_query_order(command)
     raw_result = client.send(encode_query_order(command))
-    print "#", raw_result
     raw_result = unicode(raw_result, "utf-8")
     result = decode_query_ticket(raw_result)
-    return str(result)
+    return render_template('query_order_result.html',
+        data = result)
 
 
 @app.route('/action/logout')
@@ -260,7 +271,34 @@ def action_buy():
         #print "$",raw_result,"$"
         raw_result = unicode(raw_result, "utf-8")
         result = decode_buy_ticket(raw_result)
-        return str(result)
+        return redirect('/query_order?from=buy&id=%s&date=%s&catalog=TZCOGDK'%(current_user, command["date"]))
+    else:
+        return ""
+
+@app.route('/action/refund', methods=['POST', 'GET'])
+def action_refund():
+    current_user = session.get('userid','')
+    if not current_user:
+        return render_template("warning.html",
+                            message = "You haven't logged in.",
+                            user = current_user)
+    if request.method == 'POST':
+        para = ("train_id","num","loc1", "loc2", "date", "ticket_kind")
+        command = {}
+        for item in para:
+            value = request.form.get(item, "")
+            if value:
+                command[item] = value
+            else :
+                return ""
+        command["id"] = current_user
+        command["type"] = "buy_ticket"
+        #rint "#",encode_buy_ticket(command)
+        raw_result = client.send(encode_buy_ticket(command))
+        #print "$",raw_result,"$"
+        raw_result = unicode(raw_result, "utf-8")
+        result = decode_buy_ticket(raw_result)
+        return redirect('/query_order?from=buy&id=%s&date=%s&catalog=TZCOGDK'%(current_user, command["date"]))
     else:
         return ""
 

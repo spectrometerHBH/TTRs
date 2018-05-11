@@ -1,0 +1,93 @@
+<meta charset="utf-8">
+<table class="table table-striped" cellspacing="0" >
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>出发地</th>
+      <th>出发时间</th>
+      <th>目的地</th>
+      <th>到达时间</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in data.ticket %}
+  
+  <tr>
+    <td><strong>{{item.train_id}}</strong></td>
+    <td> {{item.locfrom}} </td>
+    <td> {{item.datefrom}} {{item.timefrom}} </td>
+    <td> {{item.locto}} </td>
+    <td>{{item.dateto}} {{item.timeto}}</td>
+    <td> <button  class="btn btn-secondary" data-toggle="collapse" data-target="#{{item.train_id}}">购票记录</button> </td>
+  </tr>
+  <tr id="{{item.train_id}}" class="collapse">
+    <td colspan="7">
+      <ul class="list-group col-4">
+        {%for ticket in item.ticket.keys() %}
+         <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ticket}}
+          ￥{{item.ticket[ticket].price}}
+           <span class="badge badge-secondary">{{item.ticket[ticket].num}} </span>
+           <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#buyticket" 
+           onclick="$('#train_id').val('{{item.train_id}}');
+                    $('#locfrom').val('{{item.locfrom}}');
+                    $('#locto').val('{{item.locto}}');
+                    $('#ddate').val('{{item.datefrom}}');
+                    $('#tkind').val('{{ticket}}');
+"> 退票 </button>
+          </li>
+        {%endfor%}
+      </ul>
+
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="modal fade" id="buyticket" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">退票</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/action/buy" method="post">
+           <div class="form-group">
+            <label for="train_id">列车号</label>
+            <input class="form-control" id="train_id" name="train_id" readonly="readonly" />
+           </div>
+           <div class="form-row">
+            <div class="form-group col-6">
+             <label for="locfrom">出发地</label>
+             <input class="form-control" id="locfrom" name="loc1" readonly="readonly" />
+            </div>
+            <div class="form-group col-6">
+             <label for="locto">目的地</label>
+             <input class="form-control" id="locto" name="loc2" readonly="readonly" />
+            </div>
+           </div>
+           <div class="form-group">
+            <label for="ddate">发车日期</label>
+            <input class="form-control" id="ddate" name="date" readonly="readonly" />
+           </div>
+           <div class="form-group">
+            <label for="tkind">车票类型</label>
+            <input class="form-control" id="tkind" name="ticket_kind" readonly="readonly" />
+           </div>
+           <div class="form-group">
+            <label for="num">购票数量</label>
+            <input class="form-control" id="num" name="num" value="1"/>
+           </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+     
+    </div>
+  </div>
+</div>
+
