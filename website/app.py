@@ -10,6 +10,11 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 
+def get_station():
+    result = client.send("list_station\n")
+    result = unicode(result, "utf-8")
+    return decode_list_station(result)["station"]
+
 message = { 'login' : "Successfully login",
             'logout' : "Successfully logout",
             'signup' : "Successfully signup",
@@ -69,7 +74,8 @@ def query():
 
     return render_template('query.html',
                             message = message.get(fromWhere, ""),
-                            user = current_user)
+                            user = current_user,
+                            station = get_station())
 
 @app.route('/query_train')
 def query_train():

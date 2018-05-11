@@ -23,8 +23,9 @@
     <script>
     	$(function() {
     var availableTags = [
-      "吉林",
-      "长春"
+      {% for item in station %}
+        "{{item}}",
+      {% endfor %}
     ];
     $( "#loc1" ).autocomplete({
       source: availableTags
