@@ -255,9 +255,9 @@ def action_buy():
                 return ""
         command["id"] = current_user
         command["type"] = "buy_ticket"
-        print "#",encode_buy_ticket(command)
+        #rint "#",encode_buy_ticket(command)
         raw_result = client.send(encode_buy_ticket(command))
-        print raw_result
+        #print "$",raw_result,"$"
         raw_result = unicode(raw_result, "utf-8")
         result = decode_buy_ticket(raw_result)
         return str(result)

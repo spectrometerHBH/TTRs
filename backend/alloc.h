@@ -5,8 +5,8 @@
 #include "exceptions.h"
 //A very simple try
 
-typedef long off_t;
-constexpr off_t invalid_off = 1 << 30;
+//typedef long off_t;
+constexpr off_t invalid_off = 0xdeadbeef;
 
 
 //typedef unsigned long size_t;

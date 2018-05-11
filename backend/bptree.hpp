@@ -51,8 +51,7 @@ private:
 
 	char buffer[node_size];
 	inline void file_reopen() {
-		if (file) fclose(file);
-		file = fopen(filename, "rb+");
+		if (file) fflush(file);
 	}
 	inline void move_to_data(const node &p) {
 		fseek(file, p.pos + sizeof(node), SEEK_SET);
@@ -314,6 +313,7 @@ private:
 		fwrite(&head, sizeof(off_t), 1, file);
 		fwrite(&tail, sizeof(off_t), 1, file);
 		fwrite(&root, sizeof(off_t), 1, file);
+		fflush(file);
 		save_index();
 	}
 	inline void read_info() {
@@ -750,6 +750,7 @@ private:
 		else if (result == 2) {
 			free_node(p);
 			head = tail = root = invalid_off;
+			save_info();
 			return 2;
 		}
 		else {
@@ -862,11 +863,15 @@ public:
 		}
 		else {
 			read_info();
+			//printf("%lld\n", root);
 		}
 	}
 	~bptree() {
 		save_index();
+		save_info();
+		//printf("##%lld\n", root);
 		if (file) fclose(file);
+		//printf("%lld\n", root);
 		delete filename;
 		delete index_file;
 	}
@@ -892,8 +897,10 @@ public:
 		return _count(rn, key);
 	}
 	value_t find(const key_t &key, const value_t & d = value_t()) {
+		//printf("##%lld\n", root);
 		if (root == invalid_off) {
 			//puts("haha");
+
 			return d;
 		}
 		node rn = read_node(root);
@@ -916,7 +923,7 @@ public:
 			root = p.pos;
 			head = tail = q.pos;
 			save_info();
-
+			//printf("~%lld %lld\n", p.pos, root);
 			_insert_b(q, key, v);
 			_insert_t(p, key, q.pos);
 			return;
