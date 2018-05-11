@@ -6,6 +6,7 @@
 #include "exceptions.h"
 #include "bptree.hpp"
 #include "vector.hpp"
+#include "map.hpp"
 #include "pair.hpp"
 #include "String.hpp"
 #include "date.hpp"
@@ -21,7 +22,7 @@ private:
 		long route_pos;                    // position of this train's route in route_file 
 		long ticket_price_pos;             // position of this train's ticket_price in ticket_price_file
 		long ticket_left_pos;              // position of this train's ticket_left in ticket_left_file
-		Seat seat[12];
+		Seat seat[15];
 		int open;
 		int sale;
 		Train() : station_num(0), seat_num(0), open(0), sale(0) {}
@@ -220,7 +221,8 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
-				os <<"я┐е"<< tp_array[i + j * train.station_num] << ' ';
+				os << '$' << tp_array[i + j * train.station_num] << ' ';
+				//os << 'гд' << tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
 		}
@@ -237,6 +239,22 @@ public:
 		train.id = train_id;
 		is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
 		//if (train_record.count(train.id) == 1) return 0;
+		if ((train_record.find(train.id)).station_num != 0) {
+			for (int i = 0; i < train.seat_num; ++i) {
+				is >> train.seat[i];
+			}
+			Station station;
+			double ticket_price;
+			for (int i = 0; i < train.station_num; ++i) {
+				is >> station.loc >> station.arrive >> station.depart >> station.stop;
+				char ch;
+				for (int j = 0; j < train.seat_num; ++j) {
+					is >> ch >> ticket_price;
+					//is >> ch >> ch >> ch >> ticket_price;
+				}
+			}
+			return 0;
+		}
 		for (int i = 0; i < train.seat_num; ++i) {
 			is >> train.seat[i];
 		}
@@ -249,7 +267,8 @@ public:
 			is >> s_array[i].loc >> s_array[i].arrive >> s_array[i].depart >> s_array[i].stop;
 			char ch;
 			for (int j = 0; j < train.seat_num; ++j) {
-				is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
+				is >> ch >> tp_array[i + j * train.station_num];
+				//is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
 			}
 			BindKey bind_key(s_array[i].loc, train.id);
 			BindValue bind_value(i, train.catalog);
@@ -643,6 +662,29 @@ public:
 		return 1;
 	}
 
+	
+	void list_station(std::istream & is = std::cin, std::ostream & os = std::cout) {
+		std::fstream iofile;
+		iofile.open(route_file.getAddress());
+		iofile.seekg(0, std::ios::end);
+		long route_file_end = iofile.tellg();
+		iofile.seekg(0, std::ios::beg);
+		sjtu::map<Location, int> station_map;
+		Station station;
+		for (int i = 0; i < route_file_end; i += sizeof(Station)) {
+			iofile.read(reinterpret_cast<char *> (&station), sizeof(Station));
+			station_map[station.loc] = 1;
+		}
+		os << station_map.size() << '\n';
+		for (auto iter = station_map.begin(); iter != station_map.end(); ++iter) {
+			os << (*iter).first << ' ';
+		}
+		if (!station_map.empty()) {
+			os << '\n';
+		}
+		iofile.close();
+	}
+	
 };
 
 

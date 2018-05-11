@@ -105,7 +105,7 @@ public:
 		User user;
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
 		iofile.close();
-		os << user.name << ' ' << user.email << ' ' << user.phone << '\n';
+		os << user.name << ' ' << user.email << ' ' << user.phone << ' ' << user.privilege << '\n';
 		return 1;
 	}
 
