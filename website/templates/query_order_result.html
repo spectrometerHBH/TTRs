@@ -56,7 +56,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/action/buy" method="post">
+        <form action="/action/refund" method="post">
+           <div class="form-group">
+            <label for="id">用户ID</label>
+            <input class="form-control" id="id" name="id" readonly="readonly" value="{{userid}}" />
+           </div>
            <div class="form-group">
             <label for="train_id">列车号</label>
             <input class="form-control" id="train_id" name="train_id" readonly="readonly" />
@@ -80,7 +84,7 @@
             <input class="form-control" id="tkind" name="ticket_kind" readonly="readonly" />
            </div>
            <div class="form-group">
-            <label for="num">购票数量</label>
+            <label for="num">退票数量</label>
             <input class="form-control" id="num" name="num" value="1"/>
            </div>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

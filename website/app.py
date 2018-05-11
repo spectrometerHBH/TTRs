@@ -31,7 +31,8 @@ message = { 'login' : "Successfully login",
             'modify' : "Successfully modify the profile",
             'modifyfail' : "Fail to modify the profile",
             'pwdfail' : "Repeat password has to match with the password",
-            'buy' : "successfully buy the tickets"}
+            'buy' : "successfully buy the tickets",
+            "refund" : "successfully refund the tickets"}
 
 @app.route('/')
 def index():
@@ -220,6 +221,7 @@ def action_query_order():
     raw_result = unicode(raw_result, "utf-8")
     result = decode_query_ticket(raw_result)
     return render_template('query_order_result.html',
+        userid = request.args["id"],
         data = result)
 
 
@@ -306,7 +308,7 @@ def action_refund():
                             message = "You haven't logged in.",
                             user = current_user)
     if request.method == 'POST':
-        para = ("train_id","num","loc1", "loc2", "date", "ticket_kind")
+        para = ("id","train_id","num","loc1", "loc2", "date", "ticket_kind")
         command = {}
         for item in para:
             value = request.form.get(item, "")
@@ -314,14 +316,13 @@ def action_refund():
                 command[item] = value
             else :
                 return ""
-        command["id"] = current_user
-        command["type"] = "buy_ticket"
+        command["type"] = "refund_ticket"
         #rint "#",encode_buy_ticket(command)
-        raw_result = client.send(encode_buy_ticket(command))
+        raw_result = client.send(encode_refund_ticket(command))
         #print "$",raw_result,"$"
         raw_result = unicode(raw_result, "utf-8")
-        result = decode_buy_ticket(raw_result)
-        return redirect('/query_order?from=buy&id=%s&date=%s&catalog=TZCOGDK'%(current_user, command["date"]))
+        result = decode_refund_ticket(raw_result)
+        return redirect('/query_order?from=refund&id=%s&date=%s&catalog=TZCOGDK'%(request.form["id"], command["date"]))
     else:
         return ""
 
