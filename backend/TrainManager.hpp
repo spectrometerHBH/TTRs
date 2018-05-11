@@ -221,8 +221,8 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
-				//os << "гд" << tp_array[i + j * train.station_num] << ' ';
-				os << '$' << tp_array[i + j * train.station_num] << ' ';
+				os << "гд" << tp_array[i + j * train.station_num] << ' ';
+				//os << '$' << tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
 		}
@@ -249,8 +249,8 @@ public:
 				is >> station.loc >> station.arrive >> station.depart >> station.stop;
 				char ch;
 				for (int j = 0; j < train.seat_num; ++j) {
-					is >> ch >> ticket_price;
-					//is >> ch >> ch >> ch >> ticket_price;
+					//is >> ch >> ticket_price;
+					is >> ch >> ch >> ch >> ticket_price;
 				}
 			}
 			return 0;
@@ -267,8 +267,8 @@ public:
 			is >> s_array[i].loc >> s_array[i].arrive >> s_array[i].depart >> s_array[i].stop;
 			char ch;
 			for (int j = 0; j < train.seat_num; ++j) {
-				is >> ch >> tp_array[i + j * train.station_num];
-				//is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
+				//is >> ch >> tp_array[i + j * train.station_num];
+				is >> ch >> ch >> ch >> tp_array[i + j * train.station_num];
 			}
 			BindKey bind_key(s_array[i].loc, train.id);
 			BindValue bind_value(i, train.catalog);
