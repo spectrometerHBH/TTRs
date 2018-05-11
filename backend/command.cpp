@@ -10,6 +10,36 @@
 UserManager user_manager;
 TrainManager train_manager;
 
+/*
+void init() {
+	train_manager.init();
+}
+
+void init_switch() {
+	int init_sign;
+	std::fstream iofile;
+	iofile.open("init");
+	if (!iofile) {
+		std::ofstream out;
+		out.open("init");
+		init();
+		init_sign = 1;
+		out.seekp(std::ios::beg);
+		out.write(reinterpret_cast<char *> (&init_sign), sizeof(init_sign));
+		out.close();
+		return;
+	}
+	iofile.seekg(std::ios::beg);
+	iofile.read(reinterpret_cast<char *> (&init_sign), sizeof(init_sign));
+	if (init_sign == 0) {
+		init();
+		init_sign = 1;
+		iofile.seekp(std::ios::beg);
+		iofile.write(reinterpret_cast<char *> (&init_sign), sizeof(init_sign));
+	}
+	iofile.close();
+}
+*/
 
 void read_command(std::istream & is, std::ostream & os) {
 	String<50> command;
@@ -74,6 +104,9 @@ void read_command(std::istream & is, std::ostream & os) {
 			UserID user_id;
 			is >> user_id;
 			if (user_manager.check_id(user_id) == false) {
+				Date date;
+				CatalogList catalog_list;
+				is >> date >> catalog_list;
 				os << -1 << '\n';
 			}
 			else {
@@ -87,6 +120,12 @@ void read_command(std::istream & is, std::ostream & os) {
 			UserID user_id;
 			is >> user_id;
 			if (user_manager.check_id(user_id) == false) {
+				int num;
+				TrainID train_id;
+				Location loc1, loc2;
+				Date date;
+				Seat seat_kind;
+				is >> num >> train_id >> loc1 >> loc2 >> date >> seat_kind;
 				os << 0 << '\n';
 			}
 			else {
@@ -135,11 +174,16 @@ void read_command(std::istream & is, std::ostream & os) {
 			os << "BYE\n";
 			break;
 		}
+		// others
+		if (command == "list_station") {
+			train_manager.list_station();
+			continue;
+		}
 	}
 }
 
 
-int __main() {
+int main() {
 	read_command(std::cin, std::cout);
 	return 0;
 }
