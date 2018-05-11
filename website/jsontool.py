@@ -51,6 +51,7 @@ def decode_query_profile(data):
         result["name"]  = info[0]
         result["email"] = info[1]
         result["phone"] = info[2]
+        result["privilege"] = int(info[3])
     return result
 
 def encode_modify_profile(data):
@@ -263,3 +264,19 @@ def encode_query_order(data):
         if not data.has_key(item):
             return ""
     return "query_order {id} {date} {catalog}\n".format(**data)  
+
+
+def encode_list_station(data):
+    return "list_station\n"
+
+def decode_list_station(data):
+    result = {}
+    lines = data.split("\n")
+    if not lines[0]:
+        result["success"] = False
+    else:
+        result["success"] = True
+        result["num"] = int(lines[0])
+        result["station"] = lines[1].split(" ")
+        result["station"].remove("")
+    return result

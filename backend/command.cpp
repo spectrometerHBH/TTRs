@@ -147,7 +147,7 @@ void read_command(std::istream & is, std::ostream & os) {
 		}
 		// others
 		if (command == "list_station") {
-			train_manager.list_station();
+			train_manager.list_station(is, os);
 			continue;
 		}
 	}

@@ -10,7 +10,6 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 
-
 message = { 'login' : "Successfully login",
             'logout' : "Successfully logout",
             'signup' : "Successfully signup",
@@ -46,7 +45,8 @@ def userinfo(userid="0"):
                             id=userid, 
                             name=data[0],
                             email=data[1],
-                            phone=data[2])
+                            phone=data[2],
+                            privilege=int(data[3]))
 
 
 @app.route('/login')
@@ -314,7 +314,8 @@ func = {"register":(encode_register, decode_register),
         "sale_train":(encode_sale_train, decode_sale_train),
         "query_train":(encode_query_train, decode_query_train),
         "delete_train":(encode_delete_train, decode_delete_train),
-        "query_order":(encode_query_order, decode_query_ticket)
+        "query_order":(encode_query_order, decode_query_ticket),
+        "list_station":(encode_list_station, decode_list_station)
         }
 
 @app.route('/action/post', methods=['POST', 'GET'])
