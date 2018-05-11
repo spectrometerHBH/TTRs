@@ -15,6 +15,15 @@ def get_station():
     result = unicode(result, "utf-8")
     return decode_list_station(result)["station"]
 
+def get_privilege(userid):
+    raw_result = client.send("query_profile %s\n"%(userid))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_profile(raw_result)
+    if (result["success"]):
+        return result["privilege"]
+    else:
+        return 0
+
 message = { 'login' : "Successfully login",
             'logout' : "Successfully logout",
             'signup' : "Successfully signup",
@@ -36,6 +45,11 @@ def index():
 @app.route('/user/<userid>')
 def userinfo(userid="0"):
     current_user = session.get('userid','')
+    if current_user != userid and get_privilege(current_user) != 2:
+        return render_template("warning.html",
+                            message = "没有权限查看",
+                            user = current_user
+            )
     fromWhere = request.args.get("from","")
     result = client.query_profile(userid)
     #print result
@@ -199,6 +213,8 @@ def action_query_order():
         else:
             return ""
     current_user = session.get('userid','')
+    if current_user != request.args["id"] and get_privilege(current_user) != 2:
+        return u"权限不足"
     command["type"] = "query_order"
     raw_result = client.send(encode_query_order(command))
     raw_result = unicode(raw_result, "utf-8")
