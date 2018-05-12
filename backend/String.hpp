@@ -115,6 +115,10 @@ public:
 		return this->operator==(other.ch);
 	}
 
+	bool operator!=(const String & other) const {
+		return !(this->operator==(other));
+	}
+
 	bool operator==(const char * other) const {
 		if (other == nullptr) {
 			return 0;
@@ -128,6 +132,10 @@ public:
 				return 0;
 		}
 		return 1;
+	}
+
+	bool operator!=(const char * other) const {
+		return !(this->operator==(other));
 	}
 
 	char & operator[](size_t index) {
@@ -204,3 +212,13 @@ typedef String<20> TrainID;
 typedef String<40> TrainName;
 typedef String<20> Seat;
 #endif // !SIGNAL
+
+int turn_to_minute(const Time & time) {
+	int hour = ((int)(time[0] - '0')) * 10 + (int)(time[1] - '0');
+	int min = ((int)(time[3] - '0')) * 10 + (int)(time[4] - '0');
+	return hour * 60 + min;
+}
+
+int operator-(const Time & t1, const Time & t2) {
+	return turn_to_minute(t1) - turn_to_minute(t2);
+}
