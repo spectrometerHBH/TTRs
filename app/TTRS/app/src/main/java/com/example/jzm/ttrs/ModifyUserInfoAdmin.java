@@ -219,7 +219,7 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
                         jsonobjcetcreate2.addStringPair("type", "modify_privilege");
                         jsonobjcetcreate2.addStringPair("id1", userid);
                         jsonobjcetcreate2.addStringPair("id2", useridNow);
-                        jsonobjcetcreate2.addStringPair("privilege", privilege);
+                        jsonobjcetcreate2.addIntPair("privilege", privilege);
                         client.setCommand(jsonobjcetcreate.getResult());
                         JSONObject jsonObject2 = new JSONObject(client.run());
                         String success2 = jsonObject2.getString("success");
