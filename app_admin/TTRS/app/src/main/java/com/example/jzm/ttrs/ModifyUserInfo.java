@@ -21,7 +21,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+<<<<<<< HEAD
 import android.widget.RadioButton;
+=======
+>>>>>>> 1984db40a34bab95ef9815448e68fab7a392f8a8
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +42,12 @@ public class ModifyUserInfo extends AppCompatActivity
     private EditText editTextconfirmpassword;
     private EditText editTextemail;
     private EditText editTextphone;
+<<<<<<< HEAD
     private RadioButton user;
     private RadioButton admin;
+=======
+    private TextView privilege;
+>>>>>>> 1984db40a34bab95ef9815448e68fab7a392f8a8
     private Button buttonModify;
     private String useridNow;
     private String privilegeNow;
@@ -78,6 +85,7 @@ public class ModifyUserInfo extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
         if (privilegeNow.equals("1")) {
             user.setEnabled(true);
             admin.setEnabled(false);
@@ -114,6 +122,33 @@ public class ModifyUserInfo extends AppCompatActivity
         }).start();
     }
 
+=======
+        getProfile();
+        buttonModify.setOnClickListener(this);
+    }
+
+    private void getProfile(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpClient client = new HttpClient();
+                    JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
+                    jsonobjcetcreate.addStringPair("type", "query_profile");
+                    jsonobjcetcreate.addStringPair("id", useridNow);
+                    client.setCommand(jsonobjcetcreate.getResult());
+                    JSONObject jsonObject = new JSONObject(client.run());
+                    String success = jsonObject.getString("success");
+                    if (success.equals("true")) refreshProfile(jsonObject);
+                    else showResponse("不知道为什么获取不到信息~QAQ~");
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+>>>>>>> 1984db40a34bab95ef9815448e68fab7a392f8a8
     private void refreshProfile(final JSONObject jsonObject){
         runOnUiThread(new Runnable() {
             @Override
@@ -125,6 +160,7 @@ public class ModifyUserInfo extends AppCompatActivity
                     editTextphone.setText(jsonObject.getString("phone"));
                     editTextpassword.setText("");
                     editTextconfirmpassword.setText("");
+<<<<<<< HEAD
 
                 } catch (Exception e){
                     e.printStackTrace();
@@ -133,6 +169,16 @@ public class ModifyUserInfo extends AppCompatActivity
         });
     }
 
+=======
+                    privilege.setText(privilegeNow.equals("1") ? "用户爸爸" : "鹳狸猿（用户版不开放更改权限）");
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+>>>>>>> 1984db40a34bab95ef9815448e68fab7a392f8a8
     private void initializeWidgets(){
         editTextusername = findViewById(R.id.modify_user_info_Username_Edit);
         editOldpassword = findViewById(R.id.modify_user_info_OldPassword_Edit);
@@ -141,8 +187,12 @@ public class ModifyUserInfo extends AppCompatActivity
         editTextemail = findViewById(R.id.modify_user_info_Email_Edit);
         editTextphone = findViewById(R.id.modify_user_info_Phone_Edit);
         buttonModify = findViewById(R.id.modify_user_info_Button);
+<<<<<<< HEAD
         user = findViewById(R.id.radiobutton_user_user);
         admin = findViewById(R.id.radiobutton_admin_user);
+=======
+        privilege = findViewById(R.id.modify_user_info_Privilege_Text);
+>>>>>>> 1984db40a34bab95ef9815448e68fab7a392f8a8
         ImageView usernameClear = findViewById(R.id.modify_user_info_Username_Clear);
         ImageView oldpasswordClear = findViewById(R.id.modify_user_info_OldPassword_Clear);
         ImageView passwordClear = findViewById(R.id.modify_user_info_Password_Clear);
