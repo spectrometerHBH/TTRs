@@ -220,8 +220,8 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
                         jsonobjcetcreate2.addStringPair("id1", userid);
                         jsonobjcetcreate2.addStringPair("id2", useridNow);
                         jsonobjcetcreate2.addIntPair("privilege", privilege);
-                        client.setCommand(jsonobjcetcreate.getResult());
-                        JSONObject jsonObject2 = new JSONObject(client.run());
+                        client2.setCommand(jsonobjcetcreate2.getResult());
+                        JSONObject jsonObject2 = new JSONObject(client2.run());
                         String success2 = jsonObject2.getString("success");
                         if (success2.equals("true")){
                             usernameNow = username;
