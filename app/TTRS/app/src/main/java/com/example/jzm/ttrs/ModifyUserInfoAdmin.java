@@ -93,9 +93,9 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
                     editTextphone.setText(phoneNow);
                     editTextpassword.setText("");
                     editTextconfirmpassword.setText("");
-                    radioButtonUser.setChecked(privilegeNow == "1");
-                    radioButtonAdmin.setChecked(privilegeNow == "2");
-                    if (privilegeNow == "2") {
+                    radioButtonUser.setChecked(privilegeNow.equals("1"));
+                    radioButtonAdmin.setChecked(privilegeNow.equals("2"));
+                    if (privilegeNow.equals("2")) {
 
                         editTextusername.setFocusableInTouchMode(false);
                         editTextusername.setFocusable(false);
