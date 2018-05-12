@@ -7,37 +7,18 @@
     android:background="@color/logoScreenBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/modify_user_info_admin_Title"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="查看/修改信息"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_Username_Layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <RelativeLayout
         android:id="@+id/modify_user_info_admin_Username_Layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/modify_user_info_admin_Title"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rectangle_edittext"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_level_Layout"
+        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_Password_Layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Title">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/modify_user_info_admin_Username_Icon"
@@ -88,67 +69,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/modify_user_info_admin_level_Layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/modify_user_info_admin_Password_Layout"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rectangle_edittext"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_Password_Layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Username_Layout">
-
-        <ImageView
-            android:id="@+id/modify_user_info_admin_level_Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:src="@drawable/ic_fingerprint_black_24dp"
-            android:tint="@color/icon_default_color" />
-
-        <View
-            android:id="@+id/modify_user_info_admin_level_Cursor"
-            android:layout_width="1dip"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/modify_user_info_admin_level_Icon"
-            android:background="@color/colorCursor" />
-
-        <EditText
-            android:id="@+id/modify_user_info_admin_level_Edit"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/modify_user_info_admin_level_Cursor"
-            android:background="@null"
-            android:drawablePadding="5dp"
-            android:ems="19"
-            android:hint="权限"
-            android:singleLine="true"
-            android:textColorHint="@color/colorCursor"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/modify_user_info_admin_level_Clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/ic_highlight_off_white_24dp"
-            android:tint="@color/icon_default_color"
-            android:visibility="invisible" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/modify_user_info_admin_Password_Layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -158,9 +78,8 @@
         android:background="@drawable/rectangle_edittext"
         app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_ConfirmPassword_Layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_level_Layout">
+        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Username_Layout">
 
         <ImageView
             android:id="@+id/modify_user_info_admin_Password_Icon"
@@ -341,7 +260,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rectangle_edittext"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin__Button"
+        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_Privilege_Layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Email_Layout">
@@ -394,15 +313,76 @@
             android:visibility="invisible" />
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/modify_user_info_admin_Privilege_Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rectangle_edittext"
+        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Phone_Layout">
+
+        <ImageView
+            android:id="@+id/modify_user_info_admin_Privilege_Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_fingerprint_black_24dp"
+            android:tint="@color/icon_default_color" />
+
+        <View
+            android:id="@+id/modify_user_info_admin_Privilege_Cursor"
+            android:layout_width="1dip"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/modify_user_info_admin_Privilege_Icon"
+            android:background="@color/colorCursor" />
+
+        <EditText
+            android:id="@+id/modify_user_info_admin_Privilege_Edit"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/modify_user_info_admin_Privilege_Cursor"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:ems="19"
+            android:hint="权限"
+            android:singleLine="true"
+            android:textColorHint="@color/colorCursor"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/modify_user_info_admin_Privilege_Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_highlight_off_white_24dp"
+            android:tint="@color/icon_default_color"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
     <Button
-        android:id="@+id/modify_user_info_admin__Button"
+        android:id="@+id/modify_user_info_admin_Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/round_corner_bg_loginbtn"
         android:gravity="center"
         android:padding="10dp"
@@ -411,5 +391,5 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Phone_Layout" />
+        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Privilege_Layout" />
 </android.support.constraint.ConstraintLayout>
