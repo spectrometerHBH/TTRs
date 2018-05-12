@@ -70,6 +70,22 @@ def decode_modify_profile(data):
         result["success"] = True
     return result
 
+def encode_modify_profile2(data):
+    para = ("id", "name", "email", "phone")
+    for item in para:
+        if not data.has_key(item):
+            return ""
+    command = "modify_profile {id} {name} {email} {phone}\n".format(**data)
+    return command
+
+def decode_modify_profile2(data):
+    result={}
+    if data == "0\n":
+        result["success"] = False
+    else:
+        result["success"] = True
+    return result
+
 def encode_modify_privilege(data):
     para = ("id1", "id2", "privilege")
     for item in para:
