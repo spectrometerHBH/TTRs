@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/logoScreenBackground">
+    android:background="@color/logoScreenBackground"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <RelativeLayout
         android:id="@+id/modify_user_info_Username_Layout"
@@ -419,7 +421,7 @@
             android:drawablePadding="5dp"
             android:ems="19"
             android:hint="权限"
-            android:singleLine="true"
+            android:gravity="center_vertical|left"
             android:textColorHint="@color/colorCursor"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="15sp" />

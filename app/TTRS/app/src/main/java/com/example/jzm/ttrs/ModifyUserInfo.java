@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -37,8 +38,10 @@ public class ModifyUserInfo extends AppCompatActivity
     private EditText editTextconfirmpassword;
     private EditText editTextemail;
     private EditText editTextphone;
+    private TextView privilege;
     private Button buttonModify;
     private String useridNow;
+    private String privilegeNow;
     private String usernameNow;
     private String passwordNow;
     private String emailNow;
@@ -56,19 +59,6 @@ public class ModifyUserInfo extends AppCompatActivity
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                JSONObject result = new JSONObject();
-                try {
-                    result.put("name", usernameNow);
-                    result.put("email", emailNow);
-                    result.put("phone", phoneNow);
-                    result.put("id", useridNow);
-                    result.put("password", passwordNow);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                intent.putExtra("info", result.toString());
-                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -82,6 +72,7 @@ public class ModifyUserInfo extends AppCompatActivity
             emailNow = jsonObject.getString("email");
             passwordNow = jsonObject.getString("password");
             phoneNow = jsonObject.getString("phone");
+            privilegeNow = jsonObject.getString("privilege");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -121,6 +112,7 @@ public class ModifyUserInfo extends AppCompatActivity
                     editTextphone.setText(jsonObject.getString("phone"));
                     editTextpassword.setText("");
                     editTextconfirmpassword.setText("");
+                    privilege.setText(privilegeNow.equals("1") ? "用户爸爸" : "鹳狸猿（用户版不开放更改权限）");
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -136,6 +128,7 @@ public class ModifyUserInfo extends AppCompatActivity
         editTextemail = findViewById(R.id.modify_user_info_Email_Edit);
         editTextphone = findViewById(R.id.modify_user_info_Phone_Edit);
         buttonModify = findViewById(R.id.modify_user_info_Button);
+        privilege = findViewById(R.id.modify_user_info_Privilege_Text);
         ImageView usernameClear = findViewById(R.id.modify_user_info_Username_Clear);
         ImageView oldpasswordClear = findViewById(R.id.modify_user_info_OldPassword_Clear);
         ImageView passwordClear = findViewById(R.id.modify_user_info_Password_Clear);
@@ -235,6 +228,20 @@ public class ModifyUserInfo extends AppCompatActivity
                         usernameNow = username;
                         emailNow = email;
                         phoneNow = phone;
+                        Intent intent = new Intent("usertrans");
+                        JSONObject result = new JSONObject();
+                        try {
+                            result.put("name", usernameNow);
+                            result.put("email", emailNow);
+                            result.put("phone", phoneNow);
+                            result.put("id", useridNow);
+                            result.put("password", passwordNow);
+                            result.put("privilege", privilegeNow);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        intent.putExtra("info", result.toString());
+                        sendBroadcast(intent);
                         showResponse("修改成功了呢O(∩_∩)O");
                         getProfile();
 

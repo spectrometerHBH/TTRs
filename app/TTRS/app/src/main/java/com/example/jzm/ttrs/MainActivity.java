@@ -1,6 +1,9 @@
 package com.example.jzm.ttrs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,8 +33,19 @@ public class MainActivity extends AppCompatActivity
     private List<Train> trainList = new ArrayList<>();
     private JSONObject userInfo;
     private NavigationView navigationView;
-    private String userid;
-    private String password;
+    private IntentFilter intentFilter;
+    public class MyBroadCastReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent){
+            try {
+                userInfo = new JSONObject(intent.getStringExtra("info"));
+                refreshNav();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private MyBroadCastReceiver myBroadCastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +87,14 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ModifyUserInfo.class);
                 intent.putExtra("info", userInfo.toString());
-                startActivityForResult(intent, 1);
+                startActivity(intent);
             }
         });
+
+        intentFilter = new IntentFilter("usertrans");
+        myBroadCastReceiver = new MyBroadCastReceiver();
+        registerReceiver(myBroadCastReceiver, intentFilter);
+
     }
 
     private void refreshNav() throws JSONException {
@@ -83,9 +102,15 @@ public class MainActivity extends AppCompatActivity
         TextView name = headerLayout.findViewById(R.id.nav_user_name);
         TextView email = headerLayout.findViewById(R.id.nav_email);
         TextView phone = headerLayout.findViewById(R.id.nav_phone);
+        TextView privilege = headerLayout.findViewById(R.id.nav_privilege);
         name.setText(userInfo.getString("name"));
         email.setText(userInfo.getString("email"));
         phone.setText(userInfo.getString("phone"));
+        if (userInfo.getString("privilege").equals("1")){
+            privilege.setText("用户爸爸");
+        }else{
+            privilege.setText("鹳狸猿");
+        }
     }
 
     private void initializeTrains(){
@@ -103,24 +128,6 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 1: {
-                if (resultCode == RESULT_OK) {
-                    try {
-                        userInfo = new JSONObject(data.getStringExtra("info"));
-                        refreshNav();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            }
-            default:break;
         }
     }
 
@@ -153,6 +160,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "你已经在首页了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_train) {
             Intent intent = new Intent(MainActivity.this, TrainQuery.class);
+            intent.putExtra("info", userInfo.toString());
             startActivity(intent);
         } else if (id == R.id.nav_settings) {
 
