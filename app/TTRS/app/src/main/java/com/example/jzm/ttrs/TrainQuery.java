@@ -119,9 +119,6 @@ public class TrainQuery extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_train) {
             Toast.makeText(TrainQuery.this, "你已经在车次查询页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_user) {
-            Intent intent = new Intent(TrainQuery.this, ModifyUserInfo.class);
-            startActivity(intent);
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {

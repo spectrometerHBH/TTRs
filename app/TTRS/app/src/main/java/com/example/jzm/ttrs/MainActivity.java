@@ -12,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +56,18 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         TrainAdapter adapter = new TrainAdapter(trainList);
         recyclerView.setAdapter(adapter);
+
+        View headerLayout = navigationView.getHeaderView(0);
+        CircleImageView logo = headerLayout.findViewById(R.id.nav_logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ModifyUserInfo.class);
+                intent.putExtra("userid", userid);
+                intent.putExtra("password", password);
+                startActivityForResult(intent, 1);
+            }
+        });
     }
 
     private void initializeTrains(){
@@ -117,11 +132,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_train) {
             Intent intent = new Intent(MainActivity.this, TrainQuery.class);
             startActivity(intent);
-        } else if (id == R.id.nav_user) {
-            Intent intent = new Intent(MainActivity.this, ModifyUserInfo.class);
-            intent.putExtra("userid", userid);
-            intent.putExtra("password", password);
-            startActivityForResult(intent, 1);
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {

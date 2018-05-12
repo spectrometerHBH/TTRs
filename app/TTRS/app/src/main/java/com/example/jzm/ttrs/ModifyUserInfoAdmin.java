@@ -73,8 +73,6 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
         } else if (id == R.id.nav_train) {
             Intent intent = new Intent(ModifyUserInfoAdmin.this, TrainQuery.class);
             startActivity(intent);
-        } else if (id == R.id.nav_user) {
-            Toast.makeText(ModifyUserInfoAdmin.this, "你已经在修改信息页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {

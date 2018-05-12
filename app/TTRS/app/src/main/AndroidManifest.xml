@@ -27,6 +27,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Register"
+            android:label="用户注册"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TrainQuery"
@@ -36,9 +37,8 @@
         <activity
             android:name=".ModifyUserInfo"
             android:label="查看/修改信息"
-            android:windowSoftInputMode = "adjustResize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TimeTable"
             android:label="时刻表"
