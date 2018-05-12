@@ -39,6 +39,7 @@ public class ContentFragment_train_query extends Fragment {
     private List<CheckBox> checkBoxes = new ArrayList<>();
     private CheckBox transferCheckBox;
     private Button queryButton;
+    private String userId;
 
     @Nullable
     @Override
@@ -172,6 +173,10 @@ public class ContentFragment_train_query extends Fragment {
                     if (!num.equals("0")) {
                         Intent intent = new Intent(getActivity(), TicketManifest.class);
                         intent.putExtra("data", jsonObject.toString());
+                        if (getArguments() != null) {
+                            userId = getArguments().getString("id");
+                        }
+                        intent.putExtra("id", userId);
                         startActivity(intent);
                     }else{
                         showResponse("没有这样的车票呀( ⊙ o ⊙ )！");

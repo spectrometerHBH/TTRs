@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,8 @@ public class ContentFragment_train_detail extends Fragment {
                     EditText editText = view.findViewById(R.id.trainid_Edit);
                     String trainId = editText.getText().toString();
                     client.setCommand("{\"type\":\"query_train\",\"train_id\":\""+trainId+"\"}");
-                    JSONObject jsonObject = new JSONObject(client.run());
+                    String response = client.run();
+                    JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
                     if (success.equals("true")){
                         Intent intent = new Intent(getActivity(), TrainDetailManifest.class);

@@ -27,11 +27,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TicketManifest extends AppCompatActivity {
+public class TicketManifest extends AppCompatActivity implements ViewDialogFragment.Callback{
     private ExpandableListView expandableListView;
     private Map<String, List<Seats>> childdata = new HashMap<>();
     private List<Train> parentdata = new ArrayList<>();
     private Map<Integer, String> seatTypes = new HashMap<>();
+    private String userId;
+    private String nowDate;
+    private String nowTrainId;
+    private String nowLoc1;
+    private String nowLoc2;
+    private String nowTime1;
+    private String nowTime2;
+    private String nowTicketKind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +57,7 @@ public class TicketManifest extends AppCompatActivity {
         });
         initializeWidgets();
         Intent intent = getIntent();
-
+        userId = intent.getStringExtra("id");
         try {
             JSONObject jsonObject = new JSONObject(intent.getStringExtra("data"));
             JSONArray tickets = jsonObject.getJSONArray("ticket");
@@ -87,6 +95,41 @@ public class TicketManifest extends AppCompatActivity {
 
         MyExpandableListViewAdapter adapter = new MyExpandableListViewAdapter();
         expandableListView.setAdapter(adapter);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int parentPos, int childPos, long l) {
+                Train train = parentdata.get(parentPos);
+                Seats seatType = childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
+                nowDate = train.getDepartDate();
+                nowLoc1 = train.getDeparture();
+                nowLoc2 = train.getDestination();
+                nowTime1 = train.getDepartTime();
+                nowTime2 = train.getArriveTime();
+                nowTrainId = train.getTrainID();
+                nowTicketKind = seatType.getName();
+                showViewDiaLogFragment();
+                return true;
+            }
+        });
+    }
+
+    public void showViewDiaLogFragment(){
+        Bundle bundle = new Bundle();
+        bundle.putString("time1", nowTime1);
+        bundle.putString("time2", nowTime2);
+        bundle.putString("loc1", nowLoc1);
+        bundle.putString("loc2", nowLoc2);
+        bundle.putString("trainId", nowTrainId);
+        bundle.putString("seatType", nowTicketKind);
+        ViewDialogFragment viewDialogFragment = new ViewDialogFragment();
+        viewDialogFragment.show(getFragmentManager());
+        viewDialogFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onClick(String ticketnum){
+        Toast.makeText(TicketManifest.this, userId + " " + nowDate + " " + nowLoc1 + " " + nowLoc2 + " " + nowTicketKind + " " + ticketnum,
+                        Toast.LENGTH_LONG).show();
     }
 
     private void initializeWidgets(){

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +76,11 @@ public class TrainQuery extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         Intent intent = getIntent();
         try {
             userInfo = new JSONObject(intent.getStringExtra("info"));
@@ -107,11 +115,20 @@ public class TrainQuery extends AppCompatActivity
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                Fragment fragment;
-                if (position == 0){
-                    fragment = new ContentFragment_train_query();
-                }else{
-                    fragment = new ContentFragment_train_detail();
+                Fragment fragment = null;
+                String userId;
+                try {
+                    userId = userInfo.getString("id");
+                    if (position == 0){
+                        fragment = new ContentFragment_train_query();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", userId);
+                        fragment.setArguments(bundle);
+                    }else{
+                        fragment = new ContentFragment_train_detail();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 return fragment;
             }
