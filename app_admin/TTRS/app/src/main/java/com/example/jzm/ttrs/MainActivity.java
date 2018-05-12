@@ -1,7 +1,11 @@
 package com.example.jzm.ttrs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -12,15 +16,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<Train> trainList = new ArrayList<>();
+    private JSONObject userInfo;
+    private NavigationView navigationView;
+    private IntentFilter intentFilter;
+    public class MyBroadCastReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent){
+            try {
+                userInfo = new JSONObject(intent.getStringExtra("info"));
+                refreshNav();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private MyBroadCastReceiver myBroadCastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +61,18 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         Toast.makeText(MainActivity.this, "登录成功~♪（＾∀＾●）", Toast.LENGTH_SHORT).show();
+
+        Intent intent = getIntent();
+        try {
+            userInfo = new JSONObject(intent.getStringExtra("info"));
+            refreshNav();
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
 
         initializeTrains();
         RecyclerView recyclerView = findViewById(R.id.front_page_recyclerview);
@@ -46,6 +80,38 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         TrainAdapter adapter = new TrainAdapter(trainList);
         recyclerView.setAdapter(adapter);
+
+        View headerLayout = navigationView.getHeaderView(0);
+        CircleImageView logo = headerLayout.findViewById(R.id.nav_logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ModifyUserInfo.class);
+                intent.putExtra("info", userInfo.toString());
+                startActivity(intent);
+            }
+        });
+
+        intentFilter = new IntentFilter("usertrans");
+        myBroadCastReceiver = new MyBroadCastReceiver();
+        registerReceiver(myBroadCastReceiver, intentFilter);
+
+    }
+
+    private void refreshNav() throws JSONException {
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView name = headerLayout.findViewById(R.id.nav_user_name);
+        TextView email = headerLayout.findViewById(R.id.nav_email);
+        TextView phone = headerLayout.findViewById(R.id.nav_phone);
+        TextView privilege = headerLayout.findViewById(R.id.nav_privilege);
+        name.setText(userInfo.getString("name"));
+        email.setText(userInfo.getString("email"));
+        phone.setText(userInfo.getString("phone"));
+        if (userInfo.getString("privilege").equals("1")){
+            privilege.setText("用户爸爸");
+        }else{
+            privilege.setText("鹳狸猿");
+        }
     }
 
     private void initializeTrains(){
@@ -95,11 +161,13 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "你已经在首页了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_train) {
             Intent intent = new Intent(MainActivity.this, TrainQuery.class);
+            intent.putExtra("info", userInfo.toString());
             startActivity(intent);
-        } else if (id == R.id.nav_user) {
-            Intent intent = new Intent(MainActivity.this, ModifyUserInfo.class);
+        } else if(id == R.id.nav_user_management){
+            Intent intent = new Intent(MainActivity.this, UserQuery.class);
+            intent.putExtra("info", userInfo.toString());
             startActivity(intent);
-        } else if (id == R.id.nav_settings) {
+        }else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {
 

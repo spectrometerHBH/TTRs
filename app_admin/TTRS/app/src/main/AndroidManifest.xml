@@ -27,6 +27,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Register"
+            android:label="用户注册"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TrainQuery"
@@ -35,16 +36,36 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ModifyUserInfo"
-            android:label="修改信息"
+            android:label="查看/修改信息"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TimeTable"
-            android:theme="@style/translucent"
             android:label="时刻表"
-            android:launchMode="singleTask">
-
-        </activity>
+            android:launchMode="singleTask"
+            android:theme="@style/translucent" />
+        <activity
+            android:name=".TrainDetailManifest"
+            android:label="车次详细信息"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Calender"
+            android:label="日历"
+            android:launchMode="singleTask"
+            android:theme="@style/translucent" />
+        <activity
+            android:name=".TicketManifest"
+            android:label="车票查询"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".UserQuery"
+            android:label="用户查询"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ModifyUserInfoAdmin"
+            android:label="查看/修改信息"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

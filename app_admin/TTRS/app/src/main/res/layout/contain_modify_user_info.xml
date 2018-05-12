@@ -5,37 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/logoScreenBackground"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <TextView
-        android:id="@+id/modify_user_info__Title"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="修改信息"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:typeface="monospace"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <RelativeLayout
         android:id="@+id/modify_user_info_Username_Layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/modify_user_info__Title"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/rectangle_edittext"
         app:layout_constraintBottom_toTopOf="@+id/modify_user_info_OldPassword_Layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info__Title">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/modify_user_info_Username_Icon"
@@ -340,7 +324,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rectangle_edittext"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info__Button"
+        app:layout_constraintBottom_toTopOf="@+id/radiogroup_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modify_user_info_Email_Layout">
@@ -393,10 +377,11 @@
             android:visibility="invisible" />
     </RelativeLayout>
 
+
     <Button
-        android:id="@+id/modify_user_info__Button"
-        android:layout_width="340dp"
-        android:layout_height="51dp"
+        android:id="@+id/modify_user_info_Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
@@ -409,6 +394,40 @@
         android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_Phone_Layout" />
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup_user" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_Phone_Layout">
+
+        <RadioButton
+            android:id="@+id/radiobutton_user_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:buttonTint="@color/colorLoginButton"
+
+            android:text="用户爸爸" />
+
+        <RadioButton
+            android:id="@+id/radiobutton_admin_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="鹳狸猿" />
+
+    </RadioGroup>
 </android.support.constraint.ConstraintLayout>

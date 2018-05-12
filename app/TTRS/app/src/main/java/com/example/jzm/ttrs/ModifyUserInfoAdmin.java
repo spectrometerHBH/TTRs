@@ -114,6 +114,8 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
 
                         radioButtonUser.setEnabled(false);
                         radioButtonAdmin.setEnabled(true);
+                        radioButtonAdmin.setClickable(false);
+                        radioButtonAdmin.performClick();
 
 
                         ImageView usernameClear = findViewById(R.id.modify_user_info_admin_Username_Clear);

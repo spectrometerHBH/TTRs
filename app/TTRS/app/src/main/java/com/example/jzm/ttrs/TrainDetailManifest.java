@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,8 @@ import java.util.Map;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
-public class TrainDetailManifest extends AppCompatActivity implements View.OnClickListener{
+public class TrainDetailManifest extends AppCompatActivity
+        implements View.OnClickListener{
     private JSONObject jsonObject;
     private String train_id;
     private String train_name;
@@ -35,8 +38,9 @@ public class TrainDetailManifest extends AppCompatActivity implements View.OnCli
     private Map<String, Integer> map = new HashMap<>();
     private TextView textViewTrainID;
     private TextView textViewTrainName;
-    private List<CheckBox> checkBoxes = new ArrayList<>();
+    private List<RadioButton> radioButtons = new ArrayList<>();
     private List<String> ticket_types = new ArrayList<>();
+    private RadioGroup radioGroup1,radioGroup2,radioGroup3,radioGroup4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,58 +73,16 @@ public class TrainDetailManifest extends AppCompatActivity implements View.OnCli
         textViewTrainID.setText(train_id);
         textViewTrainName.setText(train_name);
         for (int i = 0; i < 11; i++) {
-            CheckBox checkBox = checkBoxes.get(i);
-            checkBox.setEnabled(false);
-            checkBox.getPaint().setAntiAlias(true);
-            checkBox.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            RadioButton radioButton = radioButtons.get(i);
+            radioButton.setEnabled(false);
+            radioButton.setClickable(false);
         }
         for (int i = 0; i < ticket.length(); i++){
             try {
                 String seat = (String) ticket.get(i);
-                CheckBox checkBox = checkBoxes.get(map.get(seat));
-                checkBox.setEnabled(true);
-                checkBox.getPaint().setFlags(0);
-                checkBox.getPaint().setAntiAlias(true);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-
-        for (int i = 0; i < ticket.length(); i++){
-            try {
-                String seat = (String) ticket.get(i);
-                final CheckBox checkBox = checkBoxes.get(map.get(seat));
-                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked){
-                            for (int i = 0; i < ticket.length(); i++){
-                                try {
-                                    String seat = (String) ticket.get(i);
-                                    if (seat.equals(checkBox.getText())) continue;
-                                    CheckBox checkBox = checkBoxes.get(map.get(seat));
-                                    checkBox.setEnabled(false);
-                                    checkBox.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                                    checkBox.getPaint().setAntiAlias(true);
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            }
-                        }else{
-                            for (int i = 0; i < ticket.length(); i++){
-                                try {
-                                    String seat = (String) ticket.get(i);
-                                    CheckBox checkBox = checkBoxes.get(map.get(seat));
-                                    checkBox.setEnabled(true);
-                                    checkBox.getPaint().setFlags(0);
-                                    checkBox.getPaint().setAntiAlias(true);
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                });
+                RadioButton radioButton = radioButtons.get(map.get(seat));
+                radioButton.setEnabled(true);
+                radioButton.setClickable(true);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -128,36 +90,95 @@ public class TrainDetailManifest extends AppCompatActivity implements View.OnCli
 
         Button button = findViewById(R.id.contain_train_detail_manifest_button);
         button.setOnClickListener(this);
+        radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                for (int i = 0; i < 3; ++i) {
+                    if (radioButtons.get(i).isChecked()) {
+                        radioGroup2.clearCheck();
+                        radioGroup3.clearCheck();
+                        radioGroup4.clearCheck();
+                        break;
+                    }
+                }
+            }
+        });
+        radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                for (int i = 3; i < 6; ++i) {
+                    if (radioButtons.get(i).isChecked()) {
+                        radioGroup1.clearCheck();
+                        radioGroup3.clearCheck();
+                        radioGroup4.clearCheck();
+                        break;
+                    }
+                }
+            }
+        });
+        radioGroup3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                for (int i = 6; i < 9; ++i) {
+                    if (radioButtons.get(i).isChecked()) {
+                        radioGroup1.clearCheck();
+                        radioGroup2.clearCheck();
+                        radioGroup4.clearCheck();
+                        break;
+                    }
+                }
+            }
+        });
+        radioGroup4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                for (int i = 9; i < 11; ++i) {
+                    if (radioButtons.get(i).isChecked()) {
+                        radioGroup1.clearCheck();
+                        radioGroup2.clearCheck();
+                        radioGroup3.clearCheck();
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     private void initializeWidgets(){
         textViewTrainID = findViewById(R.id.contain_train_detail_manifest_trainid);
         textViewTrainName = findViewById(R.id.contain_train_detail_manifest_trainname);
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_gaojiruanwo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_yingwo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_ruanwo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_dongwo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_shangwuzuo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_tedengzuo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_yidengzuo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_erdengzuo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_ruanzuo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_yingzuo));
-        checkBoxes.add((CheckBox)findViewById(R.id.contain_train_detail_manifest_wuzuo));
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_shangwuzuo));
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_yingzuo));
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_yingwo));
+
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_yidengzuo));
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_ruanzuo));
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_ruanwo));
+
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_erdengzuo));
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_wuzuo));
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_dongwo));
+
+        radioButtons.add((RadioButton)findViewById(R.id.contain_train_detail_manifest_tedengzuo));
+        radioButtons.add((RadioButton) findViewById(R.id.contain_train_detail_manifest_gaojiruanwo));
+        radioGroup1 = findViewById(R.id.radiogroup1);
+        radioGroup2 = findViewById(R.id.radiogroup2);
+        radioGroup3 = findViewById(R.id.radiogroup3);
+        radioGroup4 = findViewById(R.id.radiogroup4);
     }
 
     private void initializeMap(){
-        map.put("高级软卧",0);
-        map.put("硬卧",1);
-        map.put("软卧",2);
-        map.put("动卧",3);
-        map.put("商务座",4);
-        map.put("特等座",5);
-        map.put("一等座",6);
-        map.put("二等座",7);
-        map.put("软座",8);
-        map.put("硬座",9);
-        map.put("无座",10);
+        map.put("商务座", 0);
+        map.put("硬座", 1);
+        map.put("硬卧", 2);
+        map.put("一等座", 3);
+        map.put("软座", 4);
+        map.put("软卧", 5);
+        map.put("二等座", 6);
+        map.put("无座", 7);
+        map.put("动卧", 8);
+        map.put("特等座", 7);
+        map.put("高级软卧", 10);
     }
 
     public void onClick(View view) {
@@ -165,15 +186,15 @@ public class TrainDetailManifest extends AppCompatActivity implements View.OnCli
             case R.id.contain_train_detail_manifest_button: {
                 int now_ticket = 0;
                 for (; now_ticket < 11; now_ticket++) {
-                    if (checkBoxes.get(now_ticket).isEnabled() && checkBoxes.get(now_ticket).isChecked()) break;
+                    if (radioButtons.get(now_ticket).isEnabled() && radioButtons.get(now_ticket).isChecked()) break;
                 }
                 if (now_ticket == 11) {
                     Toast.makeText(TrainDetailManifest.this, "还没选择席别呀", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(TrainDetailManifest.this, TimeTable.class);
                     intent.putExtra("station", station.toString());
-                    intent.putExtra("ticket_type", ticket_types.indexOf(checkBoxes.get(now_ticket).getText().toString()));
-                    //Toast.makeText(TrainDetailManifest.this, String.valueOf(ticket_types.indexOf(checkBoxes.get(now_ticket).getText().toString())), Toast.LENGTH_LONG).show();
+                    intent.putExtra("ticket_type", ticket_types.indexOf(radioButtons.get(now_ticket).getText().toString()));
+                    //Toast.makeText(TrainDetailManifest.this, String.valueOf(ticket_types.indexOf(radioButtons.get(now_ticket).getText().toString())), Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
             }

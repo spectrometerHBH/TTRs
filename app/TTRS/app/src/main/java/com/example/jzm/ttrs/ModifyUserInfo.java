@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,8 @@ public class ModifyUserInfo extends AppCompatActivity
     private EditText editTextconfirmpassword;
     private EditText editTextemail;
     private EditText editTextphone;
-    private TextView privilege;
+    private RadioButton user;
+    private RadioButton admin;
     private Button buttonModify;
     private String useridNow;
     private String privilegeNow;
@@ -76,6 +78,17 @@ public class ModifyUserInfo extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if (privilegeNow.equals("1")) {
+            user.setEnabled(true);
+            admin.setEnabled(false);
+            user.setClickable(false);
+            user.performClick();
+        } else {
+            user.setEnabled(false);
+            admin.setEnabled(true);
+            admin.setClickable(false);
+            admin.performClick();
+        }
         getProfile();
         buttonModify.setOnClickListener(this);
     }
@@ -112,7 +125,7 @@ public class ModifyUserInfo extends AppCompatActivity
                     editTextphone.setText(jsonObject.getString("phone"));
                     editTextpassword.setText("");
                     editTextconfirmpassword.setText("");
-                    privilege.setText(privilegeNow.equals("1") ? "用户爸爸" : "鹳狸猿（用户版不开放更改权限）");
+
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -128,7 +141,8 @@ public class ModifyUserInfo extends AppCompatActivity
         editTextemail = findViewById(R.id.modify_user_info_Email_Edit);
         editTextphone = findViewById(R.id.modify_user_info_Phone_Edit);
         buttonModify = findViewById(R.id.modify_user_info_Button);
-        privilege = findViewById(R.id.modify_user_info_Privilege_Text);
+        user = findViewById(R.id.radiobutton_user_user);
+        admin = findViewById(R.id.radiobutton_admin_user);
         ImageView usernameClear = findViewById(R.id.modify_user_info_Username_Clear);
         ImageView oldpasswordClear = findViewById(R.id.modify_user_info_OldPassword_Clear);
         ImageView passwordClear = findViewById(R.id.modify_user_info_Password_Clear);
