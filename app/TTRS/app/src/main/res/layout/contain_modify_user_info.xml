@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/logoScreenBackground"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:background="@color/logoScreenBackground">
 
     <RelativeLayout
         android:id="@+id/modify_user_info_Username_Layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/rectangle_edittext"
         app:layout_constraintBottom_toTopOf="@+id/modify_user_info_OldPassword_Layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

@@ -94,6 +94,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void run() {
                 try{
+                    /*
                     HttpClient client = new HttpClient();
                     String suserid = userId.getText().toString();
                     String spassword = password.getText().toString();
@@ -117,7 +118,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         finish();
                     }else{
                         showResponse("用户名密码不符~QAQ~");
-                    }
+                    }*/
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    intent.putExtra("userid", "2022");
+                    intent.putExtra("password", "fuck");
+                    startActivity(intent);
+                    finish();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
