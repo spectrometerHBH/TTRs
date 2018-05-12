@@ -107,6 +107,14 @@ private:
 	String<20> ticket_price_file;
 	String<20> ticket_left_file;
 
+	struct HalfRoute {
+		Train train;
+		int station_no;
+		Station * station_list = nullptr;
+		HalfRoute(const Train & _trian, int _no, Station * _list = nullptr) :
+			train(_trian), station_no(_no), station_list(_list) {}
+	};
+	
 	// for a specific train, query ticket.
 	void query_ticket(const Train & train, const Date & date, int s1_no, int s2_no, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		
@@ -153,6 +161,72 @@ private:
 		delete[] tl_array;
 	}
 
+	bool in_catalog_list(char catalog, CatalogList & catalog_list) {
+		bool flag = false;
+		int i = 0;
+		while (catalog_list[i] != '\0') {
+			if (catalog == catalog_list[i]) {
+				return true;
+			}
+			++i;
+		}
+		return false;
+	}
+
+	int make_transfer(const HalfRoute & first_train, const HalfRoute & second_train, int & hub1, int & hub2) {
+		sjtu::map<Location, int> hub_map;
+		for (int i = first_train.station_no + 1; i < first_train.train.station_num; ++i) {
+			hub_map[first_train.station_list[i].loc] = i;
+		}
+		int flag = 0;
+		for (int i = 0; i < second_train.station_no; ++i) {
+			if (hub_map.count(second_train.station_list[i].loc) == 1) {
+				hub1 = hub_map[second_train.station_list[i].loc];
+				hub2 = i;
+				Time arrive_hub = first_train.station_list[hub1].arrive,
+					depart_hub = second_train.station_list[hub2].depart;
+				if (arrive_hub != "xx:xx" && depart_hub != "xx:xx" && arrive_hub < depart_hub) {
+					flag = 1;
+					break;
+				}
+			}
+		}
+		return flag;
+	}
+
+	void show_ticket(const Train & train, int s1_no, int s2_no, Station * station_list, const Date & date, std::istream & is = std::cin, std::ostream & os = std::cout) {
+		os << train.id << ' '
+			<< station_list[s1_no].loc << ' ' << date << ' ' << station_list[s1_no].depart << ' '
+			<< station_list[s2_no].loc << ' ' << date << ' ' << station_list[s2_no].arrive << ' ';
+		int ticket_num = train.seat_num * train.station_num;
+		double * tp_array = new double[ticket_num];
+		std::fstream iofile;
+		iofile.open(ticket_price_file.getAddress());
+		iofile.seekg(train.ticket_price_pos, std::ios::beg);
+		iofile.read(reinterpret_cast<char *> (tp_array), sizeof(double) * ticket_num);
+		iofile.close();
+		int day_no = date - start_date;
+		int * tl_array = new int[ticket_num];
+		iofile.open(ticket_left_file.getAddress());
+		iofile.seekg(train.ticket_left_pos + day_no * ticket_num * sizeof(int), std::ios::beg);
+		iofile.read(reinterpret_cast<char *> (tl_array), sizeof(int) * ticket_num);
+		iofile.close();
+		for (int i = 0; i < train.seat_num; ++i) {
+			double ticket_price = 0;
+			int ticket_left = 2000;
+			for (int j = s1_no + 1; j <= s2_no; ++j) {
+				ticket_price += tp_array[j + i * train.station_num];
+				if (tl_array[j + i * train.station_num] < ticket_left) {
+					ticket_left = tl_array[j + i * train.station_num];
+				}
+			}
+			os << train.seat[i] << ' ' << ticket_left << ' ' << ticket_price << ' ';
+		}
+		os << '\n';
+		delete[] tp_array;
+		delete[] tl_array;
+	}
+
 public:
 	TrainManager() : train_record("train_record", "index_train_record"), 
 		station_record("station_record", "index_station_record"),
@@ -194,7 +268,7 @@ public:
 
 		Train train = train_record.find(train_id);
 		if (train.station_num == 0) return 0;
-		//if (train.open == 0) return 0;
+		if (train.open == 0) return 0;
 		os << train.id << ' ' << train.name << ' ' << train.catalog 
 			<< ' ' << train.station_num << ' ' << train.seat_num << ' ';
 		for (int i = 0; i < train.seat_num; ++i) {
@@ -221,7 +295,7 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
-				os << "я┐е" << tp_array[i + j * train.station_num] << ' ';
+				os << "гд" << tp_array[i + j * train.station_num] << ' ';
 				//os << '$' << tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
@@ -315,7 +389,8 @@ public:
 	
 	int delete_train(TrainID & train_id, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		Train train = train_record.find(train_id);
-		if (train.station_num = 0) return 0;
+		if (train.station_num == 0) return 0;
+		if (train.open == 1) return 0;
 		if (train.sale == 1) return 0;
 	
 		std::fstream iofile;
@@ -341,7 +416,24 @@ public:
 		TrainID train_id;
 		is >> train_id;
 		int flag = delete_train(train_id);
-		if (flag == 0) return 0;
+		if (flag == 0) {
+			Train train;
+			is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
+			for (int i = 0; i < train.seat_num; ++i) {
+				is >> train.seat[i];
+			}
+			Station station;
+			double ticket_price;
+			for (int i = 0; i < train.station_num; ++i) {
+				is >> station.loc >> station.arrive >> station.depart >> station.stop;
+				char ch;
+				for (int j = 0; j < train.seat_num; ++j) {
+					//is >> ch >> ticket_price;
+					is >> ch >> ch >> ch >> ticket_price;
+				}
+			}
+			return 0;
+		}
 		return add_train(train_id);
 	}
 
@@ -350,6 +442,9 @@ public:
 		Date date;
 		CatalogList catalog_list;
 		is >> loc1 >> loc2 >> date >> catalog_list;
+		if (date < start_date || date > end_date || loc1 == loc2) {
+			return -1;
+		}
 		
 		BindKey bind_key1(loc1), bind_key2(loc2);
 		sjtu::vector<sjtu::pair<BindKey, BindValue> > p_array1, p_array2;       // p_array: array of train_id that pass the station
@@ -378,16 +473,7 @@ public:
 			}
 			int s1_no = (*iter1).second.station_no, s2_no = (*iter2).second.station_no;
 			char catalog = (*iter1).second.catalog;
-			bool in_catalog_list = false;
-			int i = 0;
-			while (catalog_list[i] != '\0') {
-				if (catalog == catalog_list[i]) {
-					in_catalog_list = true;
-					break;
-				}
-				++i;
-			}
-			if (in_catalog_list == true && s1_no < s2_no) {
+			if (in_catalog_list(catalog, catalog_list) && s1_no < s2_no) {
 				Train train = train_record.find(id1);
 				if (train.station_num != 0 && train.open == 1) {
 					Choice choice(train, s1_no, s2_no);
@@ -407,7 +493,99 @@ public:
 		return 1;
 	}
 
-	int query_transfer(std::istream & is = std::cin, std::ostream & os = std::cout) {}
+	int query_transfer(std::istream & is = std::cin, std::ostream & os = std::cout) {
+		Location loc1, loc2;
+		Date date;
+		CatalogList catalog_list;
+		is >> loc1 >> loc2 >> date >> catalog_list;
+		if (date < start_date || date > end_date || loc1 == loc2) {
+			return -1;
+		}
+
+		BindKey bind_key1(loc1), bind_key2(loc2);
+		sjtu::vector<sjtu::pair<BindKey, BindValue> > p_array1, p_array2;       // p_array: array of train_id that pass the station
+		auto same_loc = [](const BindKey & bk1, const BindKey & bk2)->bool { return bk1.loc < bk2.loc; };
+		station_record.search(p_array1, bind_key1, same_loc);
+		station_record.search(p_array2, bind_key2, same_loc);
+	
+		sjtu::vector<HalfRoute> ft_array, st_array;         // ft_array: first_train_array   st_array: second_train_array  
+		std::fstream iofile;
+		iofile.open(route_file.getAddress());
+		for (int i = 0; i < p_array1.size(); ++i) {
+			TrainID train_id = p_array1[i].first.train_id;
+			int s_no = p_array1[i].second.station_no;
+			char catalog = p_array1[i].second.catalog;
+			if (in_catalog_list(catalog, catalog_list) == false) {
+				continue;
+			}
+			Train train = train_record.find(train_id);
+			if (train.station_num == 0 || train.open == 0) {
+				continue;
+			}
+			HalfRoute first_train(train, s_no);
+			first_train.station_list = new Station[train.station_num];
+			iofile.seekg(train.route_pos, std::ios::beg);
+			iofile.read(reinterpret_cast<char *> (first_train.station_list), sizeof(Station) * train.station_num);
+			ft_array.push_back(first_train);
+		}
+		for (int i = 0; i < p_array2.size(); ++i) {
+			TrainID train_id = p_array2[i].first.train_id;
+			int s_no = p_array2[i].second.station_no;
+			char catalog = p_array2[i].second.catalog;
+			if (in_catalog_list(catalog, catalog_list) == false) {
+				continue;
+			}
+			Train train = train_record.find(train_id);
+			if (train.station_num == 0 || train.open == 0) {
+				continue;
+			}
+			HalfRoute second_train(train, s_no);
+			second_train.station_list = new Station[train.station_num];
+			iofile.seekg(train.route_pos, std::ios::beg);
+			iofile.read(reinterpret_cast<char *> (second_train.station_list), sizeof(Station) * train.station_num);
+			st_array.push_back(second_train);
+		}
+		iofile.close();
+
+		int ft_no = -1, st_no = -1;
+		int ft_hub = -1, st_hub = -1;
+		int min_time_cost = 100000000;
+		for (int i = 0; i < ft_array.size(); ++i) {
+			for (int j = 0; j < st_array.size(); ++j) {
+				Time depart = ft_array[i].station_list[ft_array[i].station_no].depart,
+					arrive = st_array[j].station_list[st_array[j].station_no].arrive;
+				if (ft_array[i].train.id == st_array[j].train.id || depart == "xx:xx" || arrive == "xx:xx" || depart >= arrive) {
+					continue;
+				}
+				int hub1, hub2;
+				int time_cost = arrive - depart;
+				if (time_cost < min_time_cost) {
+					if (make_transfer(ft_array[i], st_array[j], hub1, hub2)) {				
+						min_time_cost = time_cost;
+						ft_no = i;
+						st_no = j;
+						ft_hub = hub1;
+						st_hub = hub2;
+					}
+				}
+			}
+		}
+
+		if (min_time_cost != 100000000) {
+			show_ticket(ft_array[ft_no].train, ft_array[ft_no].station_no, ft_hub, ft_array[ft_no].station_list, date, is, os);
+			show_ticket(st_array[st_no].train, st_hub, st_array[st_no].station_no, st_array[st_no].station_list, date, is, os);
+			
+		}
+
+		for (int i = 0; i < ft_array.size(); ++i) {
+			delete[] ft_array[i].station_list;
+		}
+		for (int i = 0; i < st_array.size(); ++i) {
+			delete[] st_array[i].station_list;
+		}
+		if (min_time_cost == 100000000) return -1;
+		else return 1;
+	}
 
 	int buy_ticket(const UserID & user_id, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		int num;
@@ -417,7 +595,7 @@ public:
 		Seat seat_kind;
 		is >> num >> train_id >> loc1 >> loc2 >> date >> seat_kind;
 
-		if (date < start_date || date > end_date) {
+		if (date < start_date || date > end_date || loc1 == loc2) {
 			return 0;
 		}
 		Train train = train_record.find(train_id);

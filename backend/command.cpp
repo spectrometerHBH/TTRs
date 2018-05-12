@@ -11,7 +11,6 @@ UserManager user_manager;
 TrainManager train_manager;
 
 
-
 void read_command(std::istream & is, std::ostream & os) {
 	String<50> command;
 	while (is >> command) {
@@ -55,6 +54,13 @@ void read_command(std::istream & is, std::ostream & os) {
 		// about ticket
 		if (command == "query_ticket") {
 			int flag = train_manager.query_ticket(is, os);
+			if (flag == -1) {
+				os << -1 << '\n';
+			}
+			continue;
+		}
+		if (command == "query_transfer") {
+			int flag = train_manager.query_transfer(is, os);
 			if (flag == -1) {
 				os << -1 << '\n';
 			}
