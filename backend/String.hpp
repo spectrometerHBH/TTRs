@@ -213,12 +213,12 @@ typedef String<40> TrainName;
 typedef String<20> Seat;
 #endif // !SIGNAL
 
-int turn_to_minute(const Time & time) {
+inline int turn_to_minute(const Time & time) {
 	int hour = ((int)(time[0] - '0')) * 10 + (int)(time[1] - '0');
 	int min = ((int)(time[3] - '0')) * 10 + (int)(time[4] - '0');
 	return hour * 60 + min;
 }
 
-int operator-(const Time & t1, const Time & t2) {
+inline int operator-(const Time & t1, const Time & t2) {
 	return turn_to_minute(t1) - turn_to_minute(t2);
 }

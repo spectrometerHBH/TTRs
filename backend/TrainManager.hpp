@@ -314,6 +314,7 @@ public:
 		is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
 		//if ((train_record.find(train.id)).station_num != 0) {
 		if (train_record.count(train.id) == 1) {
+			//std::cout << train_id << ' ' << train.id << std::endl;
 			for (int i = 0; i < train.seat_num; ++i) {
 				is >> train.seat[i];
 			}
