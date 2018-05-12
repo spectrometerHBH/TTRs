@@ -13,7 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +28,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<Train> trainList = new ArrayList<>();
-
+    private JSONObject userInfo;
+    private NavigationView navigationView;
     private String userid;
     private String password;
 
@@ -41,14 +46,18 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         Toast.makeText(MainActivity.this, "登录成功~♪（＾∀＾●）", Toast.LENGTH_SHORT).show();
 
         Intent intent = getIntent();
-        userid = intent.getStringExtra("userid");
-        password = intent.getStringExtra("password");
+        try {
+            userInfo = new JSONObject(intent.getStringExtra("info"));
+            refreshNav();
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
 
         initializeTrains();
         RecyclerView recyclerView = findViewById(R.id.front_page_recyclerview);
@@ -63,11 +72,20 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ModifyUserInfo.class);
-                intent.putExtra("userid", userid);
-                intent.putExtra("password", password);
+                intent.putExtra("info", userInfo.toString());
                 startActivityForResult(intent, 1);
             }
         });
+    }
+
+    private void refreshNav() throws JSONException {
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView name = headerLayout.findViewById(R.id.nav_user_name);
+        TextView email = headerLayout.findViewById(R.id.nav_email);
+        TextView phone = headerLayout.findViewById(R.id.nav_phone);
+        name.setText(userInfo.getString("name"));
+        email.setText(userInfo.getString("email"));
+        phone.setText(userInfo.getString("phone"));
     }
 
     private void initializeTrains(){
@@ -93,8 +111,12 @@ public class MainActivity extends AppCompatActivity
         switch (requestCode) {
             case 1: {
                 if (resultCode == RESULT_OK) {
-                    userid = data.getStringExtra("userid");
-                    password = data.getStringExtra("password");
+                    try {
+                        userInfo = new JSONObject(data.getStringExtra("info"));
+                        refreshNav();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             }

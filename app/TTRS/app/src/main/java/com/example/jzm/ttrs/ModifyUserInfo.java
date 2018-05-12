@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -37,8 +38,11 @@ public class ModifyUserInfo extends AppCompatActivity
     private EditText editTextemail;
     private EditText editTextphone;
     private Button buttonModify;
-    private String userid;
-    private String password;
+    private String useridNow;
+    private String usernameNow;
+    private String passwordNow;
+    private String emailNow;
+    private String phoneNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +57,17 @@ public class ModifyUserInfo extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.putExtra("userid", userid);
-                intent.putExtra("password", password);
+                JSONObject result = new JSONObject();
+                try {
+                    result.put("name", usernameNow);
+                    result.put("email", emailNow);
+                    result.put("phone", phoneNow);
+                    result.put("id", useridNow);
+                    result.put("password", passwordNow);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                intent.putExtra("info", result.toString());
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -62,8 +75,16 @@ public class ModifyUserInfo extends AppCompatActivity
 
         initializeWidgets();
         Intent intent = getIntent();
-        userid = intent.getStringExtra("userid");
-        password = intent.getStringExtra("password");
+        try {
+            JSONObject jsonObject = new JSONObject(intent.getStringExtra("info"));
+            useridNow = jsonObject.getString("id");
+            usernameNow = jsonObject.getString("name");
+            emailNow = jsonObject.getString("email");
+            passwordNow = jsonObject.getString("password");
+            phoneNow = jsonObject.getString("phone");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         getProfile();
         buttonModify.setOnClickListener(this);
     }
@@ -76,7 +97,7 @@ public class ModifyUserInfo extends AppCompatActivity
                     HttpClient client = new HttpClient();
                     JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
                     jsonobjcetcreate.addStringPair("type", "query_profile");
-                    jsonobjcetcreate.addStringPair("id", userid);
+                    jsonobjcetcreate.addStringPair("id", useridNow);
                     client.setCommand(jsonobjcetcreate.getResult());
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
@@ -95,7 +116,7 @@ public class ModifyUserInfo extends AppCompatActivity
             public void run() {
                 try {
                     editTextusername.setText(jsonObject.getString("name"));
-                    editOldpassword.setText(password);
+                    editOldpassword.setText(passwordNow);
                     editTextemail.setText(jsonObject.getString("email"));
                     editTextphone.setText(jsonObject.getString("phone"));
                     editTextpassword.setText("");
@@ -168,7 +189,7 @@ public class ModifyUserInfo extends AppCompatActivity
                     HttpClient client = new HttpClient();
                     JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
                     jsonobjcetcreate.addStringPair("type", "login");
-                    jsonobjcetcreate.addStringPair("id", userid);
+                    jsonobjcetcreate.addStringPair("id", useridNow);
                     jsonobjcetcreate.addStringPair("password", password);
                     client.setCommand(jsonobjcetcreate.getResult());
                     JSONObject jsonObject = new JSONObject(client.run());
@@ -197,10 +218,10 @@ public class ModifyUserInfo extends AppCompatActivity
                     HttpClient client = new HttpClient();
                     JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
                     jsonobjcetcreate.addStringPair("type", "modify_profile");
-                    jsonobjcetcreate.addStringPair("id", userid);
+                    jsonobjcetcreate.addStringPair("id", useridNow);
                     jsonobjcetcreate.addStringPair("name", username);
                     if (newpassword.equals("")) {
-                        jsonobjcetcreate.addStringPair("password", password);
+                        jsonobjcetcreate.addStringPair("password", passwordNow);
                     }else {
                         jsonobjcetcreate.addStringPair("password", newpassword);
                     }
@@ -210,9 +231,13 @@ public class ModifyUserInfo extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true")){
-                        if (!newpassword.equals("")) password = newpassword;
+                        if (!newpassword.equals("")) passwordNow = newpassword;
+                        usernameNow = username;
+                        emailNow = email;
+                        phoneNow = phone;
                         showResponse("修改成功了呢O(∩_∩)O");
                         getProfile();
+
                     }else{
                         showWarning("不知道为什么修改失败了~QAQ~");
                     }
@@ -225,10 +250,6 @@ public class ModifyUserInfo extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("userid", userid);
-        intent.putExtra("password", password);
-        setResult(RESULT_OK, intent);
         finish();
     }
 
