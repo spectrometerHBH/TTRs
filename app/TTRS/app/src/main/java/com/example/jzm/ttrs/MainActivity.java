@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -162,7 +163,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, TrainQuery.class);
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
-        } else if (id == R.id.nav_settings) {
+        } else if(id == R.id.nav_user_management){
+            Intent intent = new Intent(MainActivity.this, UserQuery.class);
+            intent.putExtra("info", userInfo.toString());
+            startActivity(intent);
+        }else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {
 

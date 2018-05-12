@@ -257,10 +257,10 @@
         android:id="@+id/modify_user_info_admin_Phone_Layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rectangle_edittext"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_Privilege_Layout"
+        app:layout_constraintBottom_toTopOf="@+id/radiogroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Email_Layout">
@@ -314,66 +314,6 @@
     </RelativeLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/modify_user_info_admin_Privilege_Layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rectangle_edittext"
-        app:layout_constraintBottom_toTopOf="@+id/modify_user_info_admin_Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Phone_Layout">
-
-        <ImageView
-            android:id="@+id/modify_user_info_admin_Privilege_Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:src="@drawable/ic_fingerprint_black_24dp"
-            android:tint="@color/icon_default_color" />
-
-        <View
-            android:id="@+id/modify_user_info_admin_Privilege_Cursor"
-            android:layout_width="1dip"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/modify_user_info_admin_Privilege_Icon"
-            android:background="@color/colorCursor" />
-
-        <EditText
-            android:id="@+id/modify_user_info_admin_Privilege_Edit"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/modify_user_info_admin_Privilege_Cursor"
-            android:background="@null"
-            android:drawablePadding="5dp"
-            android:ems="19"
-            android:hint="权限"
-            android:singleLine="true"
-            android:textColorHint="@color/colorCursor"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/modify_user_info_admin_Privilege_Clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/ic_highlight_off_white_24dp"
-            android:tint="@color/icon_default_color"
-            android:visibility="invisible" />
-    </RelativeLayout>
-
     <Button
         android:id="@+id/modify_user_info_admin_Button"
         android:layout_width="0dp"
@@ -391,5 +331,39 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Privilege_Layout" />
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modify_user_info_admin_Phone_Layout">
+
+        <RadioButton
+            android:id="@+id/radiobutton_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:buttonTint="@color/colorLoginButton"
+
+            android:text="用户爸爸" />
+
+        <RadioButton
+            android:id="@+id/radiobutton_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="鹳狸猿" />
+
+    </RadioGroup>
+
 </android.support.constraint.ConstraintLayout>
