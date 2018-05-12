@@ -21,7 +21,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -29,30 +30,31 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-public class ModifyUserInfo extends AppCompatActivity
-    implements View.OnClickListener{
+public class ModifyUserInfoAdmin extends AppCompatActivity
+        implements View.OnClickListener {
 
     private EditText editTextusername;
-    private EditText editOldpassword;
     private EditText editTextpassword;
     private EditText editTextconfirmpassword;
     private EditText editTextemail;
     private EditText editTextphone;
-    private TextView privilege;
+    private RadioButton radioButtonUser;
+    private RadioButton radioButtonAdmin;
     private Button buttonModify;
+    private String userid;
     private String useridNow;
     private String privilegeNow;
     private String usernameNow;
-    private String passwordNow;
     private String emailNow;
     private String phoneNow;
+    private JSONObject myInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_user_info);
+        setContentView(R.layout.activity_modify_user_info_admin);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_modify_user_info);
+        Toolbar toolbar = findViewById(R.id.toolbar_modify_user_info_admin);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,53 +68,67 @@ public class ModifyUserInfo extends AppCompatActivity
         initializeWidgets();
         Intent intent = getIntent();
         try {
-            JSONObject jsonObject = new JSONObject(intent.getStringExtra("info"));
-            useridNow = jsonObject.getString("id");
+            JSONObject jsonObject = new JSONObject(intent.getStringExtra("userInfo"));
+            useridNow = intent.getStringExtra("userID");
             usernameNow = jsonObject.getString("name");
             emailNow = jsonObject.getString("email");
-            passwordNow = jsonObject.getString("password");
             phoneNow = jsonObject.getString("phone");
             privilegeNow = jsonObject.getString("privilege");
+            myInfo = new JSONObject(intent.getStringExtra("myInfo"));
+            userid = myInfo.getString("id");
+            refreshProfile();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getProfile();
         buttonModify.setOnClickListener(this);
     }
 
-    private void getProfile(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    HttpClient client = new HttpClient();
-                    JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
-                    jsonobjcetcreate.addStringPair("type", "query_profile");
-                    jsonobjcetcreate.addStringPair("id", useridNow);
-                    client.setCommand(jsonobjcetcreate.getResult());
-                    JSONObject jsonObject = new JSONObject(client.run());
-                    String success = jsonObject.getString("success");
-                    if (success.equals("true")) refreshProfile(jsonObject);
-                    else showResponse("不知道为什么获取不到信息~QAQ~");
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    private void refreshProfile(final JSONObject jsonObject){
+    private void refreshProfile(){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    editTextusername.setText(jsonObject.getString("name"));
-                    editOldpassword.setText(passwordNow);
-                    editTextemail.setText(jsonObject.getString("email"));
-                    editTextphone.setText(jsonObject.getString("phone"));
+                    editTextusername.setText(usernameNow);
+                    editTextemail.setText(emailNow);
+                    editTextphone.setText(phoneNow);
                     editTextpassword.setText("");
                     editTextconfirmpassword.setText("");
-                    privilege.setText(privilegeNow.equals("1") ? "用户爸爸" : "鹳狸猿（用户版不开放更改权限）");
+                    radioButtonUser.setChecked(privilegeNow.equals("1"));
+                    radioButtonAdmin.setChecked(privilegeNow.equals("2"));
+                    if (privilegeNow.equals("2")) {
+
+                        editTextusername.setFocusableInTouchMode(false);
+                        editTextusername.setFocusable(false);
+
+                        editTextemail.setFocusableInTouchMode(false);
+                        editTextemail.setFocusable(false);
+
+                        editTextphone.setFocusableInTouchMode(false);
+                        editTextphone.setFocusable(false);
+
+                        editTextpassword.setFocusableInTouchMode(false);
+                        editTextpassword.setFocusable(false);
+
+                        editTextconfirmpassword.setFocusableInTouchMode(false);
+                        editTextconfirmpassword.setFocusable(false);
+
+                        radioButtonUser.setEnabled(false);
+                        radioButtonAdmin.setEnabled(true);
+
+
+                        ImageView usernameClear = findViewById(R.id.modify_user_info_admin_Username_Clear);
+                        ImageView emailClear = findViewById(R.id.modify_user_info_admin_Email_Clear);
+                        ImageView phoneClear = findViewById(R.id.modify_user_info_admin_Phone_Clear);
+                        usernameClear.setClickable(false);
+                        usernameClear.setVisibility(View.INVISIBLE);
+                        emailClear.setClickable(false);
+                        emailClear.setVisibility(View.INVISIBLE);
+                        phoneClear.setClickable(false);
+                        phoneClear.setVisibility(View.INVISIBLE);
+                        buttonModify.setClickable(false);
+                        buttonModify.setVisibility(View.INVISIBLE);
+
+                    }
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -121,22 +137,20 @@ public class ModifyUserInfo extends AppCompatActivity
     }
 
     private void initializeWidgets(){
-        editTextusername = findViewById(R.id.modify_user_info_Username_Edit);
-        editOldpassword = findViewById(R.id.modify_user_info_OldPassword_Edit);
-        editTextpassword = findViewById(R.id.modify_user_info_Password_Edit);
-        editTextconfirmpassword = findViewById(R.id.modify_user_info_ConfirmPassword_Edit);
-        editTextemail = findViewById(R.id.modify_user_info_Email_Edit);
-        editTextphone = findViewById(R.id.modify_user_info_Phone_Edit);
-        buttonModify = findViewById(R.id.modify_user_info_Button);
-        privilege = findViewById(R.id.modify_user_info_Privilege_Text);
-        ImageView usernameClear = findViewById(R.id.modify_user_info_Username_Clear);
-        ImageView oldpasswordClear = findViewById(R.id.modify_user_info_OldPassword_Clear);
-        ImageView passwordClear = findViewById(R.id.modify_user_info_Password_Clear);
-        ImageView confirmpasswordClear = findViewById(R.id.modify_user_info_ConfirmPassword_Clear);
-        ImageView emailClear = findViewById(R.id.modify_user_info_Email_Clear);
-        ImageView phoneClear = findViewById(R.id.modify_user_info_Phone_Clear);
+        editTextusername = findViewById(R.id.modify_user_info_admin_Username_Edit);
+        editTextpassword = findViewById(R.id.modify_user_info_admin_Password_Edit);
+        editTextconfirmpassword = findViewById(R.id.modify_user_info_admin_ConfirmPassword_Edit);
+        editTextemail = findViewById(R.id.modify_user_info_admin_Email_Edit);
+        editTextphone = findViewById(R.id.modify_user_info_admin_Phone_Edit);
+        buttonModify = findViewById(R.id.modify_user_info_admin_Button);
+        radioButtonUser = findViewById(R.id.radiobutton_user);
+        radioButtonAdmin = findViewById(R.id.radiobutton_admin);
+        ImageView usernameClear = findViewById(R.id.modify_user_info_admin_Username_Clear);
+        ImageView passwordClear = findViewById(R.id.modify_user_info_admin_Password_Clear);
+        ImageView confirmpasswordClear = findViewById(R.id.modify_user_info_admin_ConfirmPassword_Clear);
+        ImageView emailClear = findViewById(R.id.modify_user_info_admin_Email_Clear);
+        ImageView phoneClear = findViewById(R.id.modify_user_info_admin_Phone_Clear);
         EditTextClearTools.addClearListener(editTextusername, usernameClear);
-        EditTextClearTools.addClearListener(editOldpassword, oldpasswordClear);
         EditTextClearTools.addClearListener(editTextpassword, passwordClear);
         EditTextClearTools.addClearListener(editTextconfirmpassword, confirmpasswordClear);
         EditTextClearTools.addClearListener(editTextemail, emailClear);
@@ -146,16 +160,14 @@ public class ModifyUserInfo extends AppCompatActivity
     @Override
     public void onClick(View view){
         switch (view.getId()) {
-            case R.id.modify_user_info_Button:{
+            case R.id.modify_user_info_admin_Button:{
                 String username = editTextusername.getText().toString();
-                String oldpassword = editOldpassword.getText().toString();
                 String password = editTextpassword.getText().toString();
                 String confirmpassword = editTextconfirmpassword.getText().toString();
                 String email = editTextemail.getText().toString();
                 String phone = editTextphone.getText().toString();
                 try {
                     if (!usernameCheck(username)) break;
-                    if (!oldpasswordCheck(username)) break;
                     if (!passwordCheck(password)) break;
                     if (!confirmpasswordCheck(confirmpassword)) break;
                     if (!emailCheck(email)) break;
@@ -164,7 +176,7 @@ public class ModifyUserInfo extends AppCompatActivity
                         showWarning("两次密码不一样呀~QAQ~");
                         break;
                     }
-                    verifyPassword(oldpassword);
+                    sendRequest();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -172,31 +184,6 @@ public class ModifyUserInfo extends AppCompatActivity
             }
             default: break;
         }
-    }
-
-    private void verifyPassword(final String password){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    HttpClient client = new HttpClient();
-                    JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
-                    jsonobjcetcreate.addStringPair("type", "login");
-                    jsonobjcetcreate.addStringPair("id", useridNow);
-                    jsonobjcetcreate.addStringPair("password", password);
-                    client.setCommand(jsonobjcetcreate.getResult());
-                    JSONObject jsonObject = new JSONObject(client.run());
-                    String success = jsonObject.getString("success");
-                    if (success.equals("true")){
-                        sendRequest();
-                    }else{
-                        showResponse("用户名密码不符~QAQ~");
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 
     private void sendRequest(){
@@ -210,12 +197,14 @@ public class ModifyUserInfo extends AppCompatActivity
                     String phone = editTextphone.getText().toString();
                     HttpClient client = new HttpClient();
                     JSONObjectStringCreate jsonobjcetcreate = new JSONObjectStringCreate();
-                    jsonobjcetcreate.addStringPair("type", "modify_profile");
+                    if (newpassword.equals("")) {
+                        jsonobjcetcreate.addStringPair("type", "modify_profile2");
+                    } else {
+                        jsonobjcetcreate.addStringPair("type", "modify_profile");
+                    }
                     jsonobjcetcreate.addStringPair("id", useridNow);
                     jsonobjcetcreate.addStringPair("name", username);
-                    if (newpassword.equals("")) {
-                        jsonobjcetcreate.addStringPair("password", passwordNow);
-                    }else {
+                    if (!newpassword.equals("")) {
                         jsonobjcetcreate.addStringPair("password", newpassword);
                     }
                     jsonobjcetcreate.addStringPair("email", email);
@@ -224,31 +213,28 @@ public class ModifyUserInfo extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true")){
-                        if (!newpassword.equals("")) passwordNow = newpassword;
-                        usernameNow = username;
-                        emailNow = email;
-                        phoneNow = phone;
-                        Intent intent = new Intent("usertrans");
-                        JSONObject result = new JSONObject();
-                        try {
-                            result.put("name", usernameNow);
-                            result.put("email", emailNow);
-                            result.put("phone", phoneNow);
-                            result.put("id", useridNow);
-                            result.put("password", passwordNow);
-                            result.put("privilege", privilegeNow);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        String privilege = radioButtonUser.isChecked() ? "1" : "2";
+                        HttpClient client2 = new HttpClient();
+                        JSONObjectStringCreate jsonobjcetcreate2 = new JSONObjectStringCreate();
+                        jsonobjcetcreate2.addStringPair("type", "modify_privilege");
+                        jsonobjcetcreate2.addStringPair("id1", userid);
+                        jsonobjcetcreate2.addStringPair("id2", useridNow);
+                        jsonobjcetcreate2.addIntPair("privilege", privilege);
+                        client2.setCommand(jsonobjcetcreate2.getResult());
+                        JSONObject jsonObject2 = new JSONObject(client2.run());
+                        String success2 = jsonObject2.getString("success");
+                        if (success2.equals("true")){
+                            usernameNow = username;
+                            emailNow = email;
+                            phoneNow = phone;
+                            privilegeNow = privilege;
+                            refreshProfile();
+                            showResponse("修改成功了呢O(∩_∩)O");
                         }
-                        intent.putExtra("info", result.toString());
-                        sendBroadcast(intent);
-                        showResponse("修改成功了呢O(∩_∩)O");
-                        getProfile();
-
                     }else{
                         showWarning("不知道为什么修改失败了~QAQ~");
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -288,13 +274,6 @@ public class ModifyUserInfo extends AppCompatActivity
         return true;
     }
 
-    private boolean oldpasswordCheck(String s) throws UnsupportedEncodingException{
-        if (empty(s, "旧密码")) return false;
-        if (tooLong(s, "旧密码")) return false;
-        if (checkWhiteSpace(s, "旧密码")) return false;
-        return true;
-    }
-
     private boolean passwordCheck(String s) throws UnsupportedEncodingException {
         if (tooLong(s, "新密码")) return false;
         if (checkWhiteSpace(s, "新密码")) return false;
@@ -324,7 +303,7 @@ public class ModifyUserInfo extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -333,7 +312,7 @@ public class ModifyUserInfo extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }

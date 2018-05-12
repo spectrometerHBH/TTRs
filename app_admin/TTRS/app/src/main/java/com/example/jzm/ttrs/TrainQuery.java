@@ -1,6 +1,9 @@
 package com.example.jzm.ttrs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -18,13 +21,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.haibin.calendarview.CalendarView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class TrainQuery extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener{
+
+    private NavigationView navigationView;
+    private JSONObject userInfo;
+    private IntentFilter intentFilter;
+    public class MyBroadCastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent){
+            try {
+                userInfo = new JSONObject(intent.getStringExtra("info"));
+                refreshNav();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private MyBroadCastReceiver myBroadCastReceiver;
 
     List<String> titles = new ArrayList<>();
     TabLayout tabLayout;
@@ -43,12 +70,35 @@ public class TrainQuery extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Intent intent = getIntent();
+        try {
+            userInfo = new JSONObject(intent.getStringExtra("info"));
+            refreshNav();
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
 
         titles.add("车次筛选");
         titles.add("车次详细");
         initializeViewPager();
+
+        View headerLayout = navigationView.getHeaderView(0);
+        CircleImageView logo = headerLayout.findViewById(R.id.nav_logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TrainQuery.this, ModifyUserInfo.class);
+                intent.putExtra("info", userInfo.toString());
+                startActivity(intent);
+            }
+        });
+
+        intentFilter = new IntentFilter("usertrans");
+        myBroadCastReceiver = new MyBroadCastReceiver();
+        registerReceiver(myBroadCastReceiver, intentFilter);
     }
 
     private void initializeViewPager(){
@@ -75,6 +125,22 @@ public class TrainQuery extends AppCompatActivity
             }
         });
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void refreshNav() throws JSONException {
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView name = headerLayout.findViewById(R.id.nav_user_name);
+        TextView email = headerLayout.findViewById(R.id.nav_email);
+        TextView phone = headerLayout.findViewById(R.id.nav_phone);
+        TextView privilege = headerLayout.findViewById(R.id.nav_privilege);
+        name.setText(userInfo.getString("name"));
+        email.setText(userInfo.getString("email"));
+        phone.setText(userInfo.getString("phone"));
+        if (userInfo.getString("privilege").equals("1")){
+            privilege.setText("用户爸爸");
+        }else{
+            privilege.setText("鹳狸猿");
+        }
     }
 
     @Override
@@ -114,12 +180,10 @@ public class TrainQuery extends AppCompatActivity
 
         if (id == R.id.nav_homepage) {
             Intent intent = new Intent(TrainQuery.this, MainActivity.class);
+            intent.putExtra("info", userInfo.toString());
             startActivity(intent);
         } else if (id == R.id.nav_train) {
             Toast.makeText(TrainQuery.this, "你已经在车次查询页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_user) {
-            Intent intent = new Intent(TrainQuery.this, ModifyUserInfo.class);
-            startActivity(intent);
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {
@@ -130,4 +194,6 @@ public class TrainQuery extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

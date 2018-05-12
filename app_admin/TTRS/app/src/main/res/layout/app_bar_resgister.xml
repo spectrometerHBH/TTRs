@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ModifyUserInfo">
+    tools:context=".Register">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_default"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_modify_user_info"
+            android:id="@+id/toolbar_register"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -23,7 +23,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/contain_modify_user_info"/>
+        <include layout="@layout/content_register"/>
     </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -111,6 +111,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         }
                         editor.apply();
                         Intent intent = new Intent(Login.this, MainActivity.class);
+                        JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
+                        jsonObjectStringCreate.addStringPair("type", "query_profile");
+                        jsonObjectStringCreate.addStringPair("id", suserid);
+                        client.setCommand(jsonObjectStringCreate.getResult());
+                        JSONObject result = new JSONObject(client.run());
+                        result.put("id", suserid);
+                        result.put("password", spassword);
+                        intent.putExtra("info", result.toString());
                         startActivity(intent);
                         finish();
                     }else{

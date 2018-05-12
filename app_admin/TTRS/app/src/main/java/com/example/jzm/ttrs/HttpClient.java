@@ -18,7 +18,7 @@ public class HttpClient {
 
     public String run() {
         try {
-            OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).build();
+            OkHttpClient client = new OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS).readTimeout(200, TimeUnit.SECONDS).build();
             RequestBody requestBody = new FormBody.Builder().add("input", command).build();
             Request request = new Request.Builder().url("http://120.79.236.3:5000/action/post").post(requestBody).build();
             Response response = client.newCall(request).execute();

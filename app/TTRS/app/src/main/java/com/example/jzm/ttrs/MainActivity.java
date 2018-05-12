@@ -163,11 +163,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, TrainQuery.class);
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
-        } else if(id == R.id.nav_user_management){
-            Intent intent = new Intent(MainActivity.this, UserQuery.class);
-            intent.putExtra("info", userInfo.toString());
-            startActivity(intent);
-        }else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {
 
