@@ -268,7 +268,7 @@ public:
 
 		Train train = train_record.find(train_id);
 		if (train.station_num == 0) return 0;
-		//if (train.open == 0) return 0;
+		if (train.open == 0) return 0;
 		os << train.id << ' ' << train.name << ' ' << train.catalog 
 			<< ' ' << train.station_num << ' ' << train.seat_num << ' ';
 		for (int i = 0; i < train.seat_num; ++i) {
@@ -295,7 +295,7 @@ public:
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
 				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
 			for (int j = 0; j < train.seat_num; ++j) {
-				os << "я┐е" << tp_array[i + j * train.station_num] << ' ';
+				os << "гд" << tp_array[i + j * train.station_num] << ' ';
 				//os << '$' << tp_array[i + j * train.station_num] << ' ';
 			}
 			os << '\n';
@@ -389,7 +389,8 @@ public:
 	
 	int delete_train(TrainID & train_id, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		Train train = train_record.find(train_id);
-		if (train.station_num = 0) return 0;
+		if (train.station_num == 0) return 0;
+		if (train.open == 1) return 0;
 		if (train.sale == 1) return 0;
 	
 		std::fstream iofile;
@@ -415,7 +416,24 @@ public:
 		TrainID train_id;
 		is >> train_id;
 		int flag = delete_train(train_id);
-		if (flag == 0) return 0;
+		if (flag == 0) {
+			Train train;
+			is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
+			for (int i = 0; i < train.seat_num; ++i) {
+				is >> train.seat[i];
+			}
+			Station station;
+			double ticket_price;
+			for (int i = 0; i < train.station_num; ++i) {
+				is >> station.loc >> station.arrive >> station.depart >> station.stop;
+				char ch;
+				for (int j = 0; j < train.seat_num; ++j) {
+					//is >> ch >> ticket_price;
+					is >> ch >> ch >> ch >> ticket_price;
+				}
+			}
+			return 0;
+		}
 		return add_train(train_id);
 	}
 

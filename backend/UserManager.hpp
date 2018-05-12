@@ -119,9 +119,12 @@ public:
 		if (user.id > current_id || user.id < 2018) {
 			return 0;
 		}
-		is >> user.name >> user.password >> user.email >> user.phone;
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
+		iofile.seekg(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
+		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
+		is >> user.name >> user.password >> user.email >> user.phone;
+		
 		iofile.seekp(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
 		iofile.close();
