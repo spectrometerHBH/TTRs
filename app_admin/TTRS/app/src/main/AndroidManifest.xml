@@ -58,14 +58,7 @@
             android:name=".TicketManifest"
             android:label="车票查询"
             android:launchMode="singleTask" />
-        <activity
-            android:name=".UserQuery"
-            android:label="用户查询"
-            android:launchMode="singleTask"/>
-        <activity
-            android:name=".ModifyUserInfoAdmin"
-            android:label="查看/修改信息"
-            android:launchMode="singleTask"/>
+        <activity android:name=".OrderQuery"></activity>
     </application>
 
 </manifest>
