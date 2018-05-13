@@ -27,12 +27,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
         init();
         buttonLogin.setOnClickListener(this);
         buttonRegister.setOnClickListener(this);

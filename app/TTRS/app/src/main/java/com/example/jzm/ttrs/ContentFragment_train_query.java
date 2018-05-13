@@ -40,6 +40,8 @@ public class ContentFragment_train_query extends Fragment {
     private CheckBox transferCheckBox;
     private Button queryButton;
     private String userId;
+    private String userCatalog;
+    private String queryType;
 
     @Nullable
     @Override
@@ -97,22 +99,28 @@ public class ContentFragment_train_query extends Fragment {
                 if (Integer.valueOf(month) < 10) month = "0" + month;
                 if (Integer.valueOf(day) < 10) day = "0" + day;
                 String time = year + "-" + month + "-" + day;
-                String catalog = "";
+                userCatalog = "";
                 for (int i = 1; i < 8; i++) {
                     CheckBox checkBox = checkBoxes.get(i);
                     if (checkBox.isChecked())
-                        catalog = catalog + checkBox.getText().toString().substring(0, 1);
+                        userCatalog = userCatalog + checkBox.getText().toString().substring(0, 1);
+                }
+                if (userCatalog.equals("")){
+                    Toast.makeText(getActivity(), "还没选要看的类型啊~QAQ~", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
                 if (transferCheckBox.isChecked()) {
+                    queryType = "query_transfer";
                     jsonObjectStringCreate.addStringPair("type", "query_transfer");
                 }else{
+                    queryType = "query_ticket";
                     jsonObjectStringCreate.addStringPair("type", "query_ticket");
                 }
                 jsonObjectStringCreate.addStringPair("loc1", loc1);
                 jsonObjectStringCreate.addStringPair("loc2", loc2);
                 jsonObjectStringCreate.addStringPair("date", time);
-                jsonObjectStringCreate.addStringPair("catalog", catalog);
+                jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
                 sendRequest(command);
             }
@@ -177,6 +185,8 @@ public class ContentFragment_train_query extends Fragment {
                             userId = getArguments().getString("id");
                         }
                         intent.putExtra("id", userId);
+                        intent.putExtra("catalog", userCatalog);
+                        intent.putExtra("type", queryType);
                         startActivity(intent);
                     }else{
                         showResponse("没有这样的车票呀( ⊙ o ⊙ )！");

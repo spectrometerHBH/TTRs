@@ -40,6 +40,9 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
     private String nowTime1;
     private String nowTime2;
     private String nowTicketKind;
+    private String nowCatalog;
+    private String nowType;
+    private MyExpandableListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,42 +61,17 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         initializeWidgets();
         Intent intent = getIntent();
         userId = intent.getStringExtra("id");
+        nowCatalog = intent.getStringExtra("catalog");
+        nowType = intent.getStringExtra("type");
+
         try {
             JSONObject jsonObject = new JSONObject(intent.getStringExtra("data"));
-            JSONArray tickets = jsonObject.getJSONArray("ticket");
-            List<Seats> seats = new ArrayList<>();
-            for (int i = 0; i < tickets.length(); i++){
-                JSONObject ticket = tickets.getJSONObject(i);
-                String trainID = ticket.getString("train_id");
-                String departure = ticket.getString("locfrom");
-                String departDate = ticket.getString("datefrom");
-                String departTime = ticket.getString("timefrom");
-                String destination = ticket.getString("locto");
-                String arriveDate = ticket.getString("dateto");
-                String arriveTime = ticket.getString("timeto");
-                JSONObject jsonSeats = ticket.getJSONObject("ticket");
-                seats.clear();
-                for (int j = 0; j < 11; j++) {
-                    try {
-                        String name = seatTypes.get(j);
-                        JSONObject info = jsonSeats.getJSONObject(name);
-                        String num = info.getString("num");
-                        String price = info.getString("price");
-                        Seats seat = new Seats(name, num, price);
-                        seats.add(seat);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Train train = new Train(trainID, "", "", departure, destination, departTime, arriveTime, departDate, arriveDate);
-                parentdata.add(train);
-                childdata.put(trainID, seats);
-            }
+            refreshData(jsonObject);
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        MyExpandableListViewAdapter adapter = new MyExpandableListViewAdapter();
+        adapter = new MyExpandableListViewAdapter();
         expandableListView.setAdapter(adapter);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -126,10 +104,111 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         viewDialogFragment.setArguments(bundle);
     }
 
+    public void refreshData(JSONObject jsonObject) throws JSONException {
+        parentdata.clear();
+        childdata.clear();
+        JSONArray tickets = jsonObject.getJSONArray("ticket");
+        for (int i = 0; i < tickets.length(); i++){
+            JSONObject ticket = tickets.getJSONObject(i);
+            String trainID = ticket.getString("train_id");
+            String departure = ticket.getString("locfrom");
+            String departDate = ticket.getString("datefrom");
+            String departTime = ticket.getString("timefrom");
+            String destination = ticket.getString("locto");
+            String arriveDate = ticket.getString("dateto");
+            String arriveTime = ticket.getString("timeto");
+            JSONObject jsonSeats = ticket.getJSONObject("ticket");
+            List<Seats> seats = new ArrayList<>();
+            for (int j = 0; j < 11; j++) {
+                try {
+                    String name = seatTypes.get(j);
+                    JSONObject info = jsonSeats.getJSONObject(name);
+                    String num = info.getString("num");
+                    String price = info.getString("price");
+                    Seats seat = new Seats(name, num, price);
+                    seats.add(seat);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            Train train = new Train(trainID, "", "", departure, destination, departTime, arriveTime, departDate, arriveDate);
+            parentdata.add(train);
+            childdata.put(trainID, seats);
+        }
+    }
+
     @Override
     public void onClick(String ticketnum){
-        Toast.makeText(TicketManifest.this, userId + " " + nowDate + " " + nowLoc1 + " " + nowLoc2 + " " + nowTicketKind + " " + ticketnum,
-                        Toast.LENGTH_LONG).show();
+        JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
+        jsonObjectStringCreate.addStringPair("type", "buy_ticket");
+        jsonObjectStringCreate.addStringPair("id", userId);
+        jsonObjectStringCreate.addIntPair("num", ticketnum);
+        jsonObjectStringCreate.addStringPair("train_id", nowTrainId);
+        jsonObjectStringCreate.addStringPair("loc1", nowLoc1);
+        jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
+        jsonObjectStringCreate.addStringPair("date", nowDate);
+        jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
+        sendRequestForBuy(jsonObjectStringCreate.getResult());
+    }
+
+    private void sendRequestForBuy(final String command){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpClient client = new HttpClient();
+                client.setCommand(command);
+                try {
+                    JSONObject jsonObject = new JSONObject(client.run());
+                    String success = jsonObject.getString("success");
+                    if (success.equals("true"))
+                        showResponse("购票成功(๑•̀ㅂ•́)و");
+                    else
+                        showResponse("购票失败~QAQ~");
+                    sendRequestForRefresh();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void refresh() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+                for (int i = 0; i < parentdata.size(); i++){
+                    boolean isExpanded = expandableListView.isGroupExpanded(i);
+                    expandableListView.collapseGroup(i);
+                    expandableListView.expandGroup(i);
+                    if (!isExpanded) expandableListView.collapseGroup(i);
+                }
+            }
+        });
+    }
+
+    private void sendRequestForRefresh(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpClient client = new HttpClient();
+                JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
+                jsonObjectStringCreate.addStringPair("type", nowType);
+                jsonObjectStringCreate.addStringPair("loc1", nowLoc1);
+                jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
+                jsonObjectStringCreate.addStringPair("date", nowDate);
+                jsonObjectStringCreate.addStringPair("catalog", nowCatalog);
+                client.setCommand(jsonObjectStringCreate.getResult());
+                try {
+                    String response = client.run();
+                    JSONObject jsonObject = new JSONObject(response);
+                    refreshData(jsonObject);
+                    refresh();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private void initializeWidgets(){
@@ -237,6 +316,15 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         public boolean isChildSelectable(int i, int i1) {
             return true;
         }
+    }
+
+    private void showResponse(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

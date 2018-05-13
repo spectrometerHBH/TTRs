@@ -177,7 +177,7 @@ public class TrainDetailManifest extends AppCompatActivity
         map.put("二等座", 6);
         map.put("无座", 7);
         map.put("动卧", 8);
-        map.put("特等座", 7);
+        map.put("特等座", 9);
         map.put("高级软卧", 10);
     }
 
