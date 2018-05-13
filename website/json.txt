@@ -71,8 +71,9 @@ query_ticket *loc1* *loc2* *date* *catalog*
 INPUT:
 {"type":"query_ticket",
 "loc1":"Hangzhou",
-"loc2":"Suzhou"
-"data":"2018-09-09"
+"loc2":"Suzhou",
+"date":"2018-09-09",
+"catalog":"CD"
 }
 
 OUTPUT:
@@ -120,7 +121,7 @@ query_order *id* *date* *catalog*
 INPUT:
 {"type":"query_order"
 "id":"1234",
-"data":"2018-09-09",
+"date":"2018-09-09",
 "catalog":"C"}
 
 OUTPUT:
@@ -159,13 +160,13 @@ INPUT:
 "timearriv":"xx:xx",
 "timestart":"08:12"
 "timestopover":"00:00",
-"ticket":[0.0,0.0],
+"ticket":[0.0,0.0]
 },
 {"name":"Suzhou",
 "timearriv":"12:00",
 "timestart":"xx:xx"
 "timestopover":"00:00",
-"ticket":[756.00,432.00],
+"ticket":[756.00,432.00]
 }
 ]
 }

@@ -40,6 +40,7 @@ def index():
     fromWhere = request.args.get("from","")
 
     return render_template('index.html',
+                            admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
@@ -48,6 +49,7 @@ def userinfo(userid="0"):
     current_user = session.get('userid','')
     if current_user != userid and get_privilege(current_user) != 2:
         return render_template("warning.html",
+                            admin = get_privilege(current_user),
                             message = "没有权限查看",
                             user = current_user
             )
@@ -60,6 +62,7 @@ def userinfo(userid="0"):
     data = result[:-1].split(" ")
     #print data
     return render_template('userinfo.html',
+                            admin = get_privilege(current_user),
                             user = current_user,
                             message = message.get(fromWhere, ""),
                             id=userid, 
@@ -75,10 +78,12 @@ def login():
     fromWhere = request.args.get("from","")
     if current_user:
         return render_template("warning.html",
+                            admin = get_privilege(current_user),
                             message = "You have logged in.",
                             user = current_user
             )
     return render_template('login.html',
+                            admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
@@ -88,6 +93,7 @@ def query():
     fromWhere = request.args.get("from","")
 
     return render_template('query.html',
+                            admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user,
                             station = get_station())
@@ -97,6 +103,7 @@ def query_train():
     current_user = session.get('userid','')
     fromWhere = request.args.get("from","")
     return render_template('query_train.html',
+                            admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
@@ -105,10 +112,20 @@ def query_order():
     current_user = session.get('userid','')
     fromWhere = request.args.get("from","")
     return render_template('query_order.html',
+                            admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             userid = request.args.get("id",""),
                             date = request.args.get("date",""),
                             catalog  = request.args.get("catalog",""),
+                            user = current_user)
+
+@app.route('/add_train')
+def add_train():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+    return render_template('add_train.html',
+                            admin = get_privilege(current_user),
+                            message = message.get(fromWhere, ""),
                             user = current_user)
 
 @app.route('/debug')
@@ -121,9 +138,11 @@ def signup():
     fromWhere = request.args.get("from","")
     if current_user:
         return render_template("warning.html",
+                            admin = get_privilege(current_user),
                             message = "You have logged in.",
                             user = current_user)
     return render_template('signup.html',
+                            admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
@@ -229,6 +248,7 @@ def action_query_order():
 def action_logout():
     if (not session.has_key('userid')):
         return render_template("warning.html",
+                            admin = get_privilege(current_user),
                             message = "You have not logged in yet.",
                             user = current_user)
     userid = session['userid']
@@ -278,6 +298,7 @@ def action_buy():
     current_user = session.get('userid','')
     if not current_user:
         return render_template("warning.html",
+                            admin = get_privilege(current_user),
                             message = "You haven't logged in.",
                             user = current_user)
     if request.method == 'POST':
@@ -305,6 +326,7 @@ def action_refund():
     current_user = session.get('userid','')
     if not current_user:
         return render_template("warning.html",
+                            admin = get_privilege(current_user),
                             message = "You haven't logged in.",
                             user = current_user)
     if request.method == 'POST':
@@ -323,6 +345,65 @@ def action_refund():
         raw_result = unicode(raw_result, "utf-8")
         result = decode_refund_ticket(raw_result)
         return redirect('/query_order?from=refund&id=%s&date=%s&catalog=TZCOGDK'%(request.form["id"], command["date"]))
+    else:
+        return ""
+
+@app.route('/action/add_train', methods=['POST', 'GET'])
+def action_add_train():
+    if request.method == 'POST':
+        print str(request.form)
+        train_id = request.form.get("train_id", "")
+        if not train_id:
+            return u"缺少列车ID"
+        name = request.form.get("name", "")
+        if not name:
+            return u"缺少车次名"
+        catalog = request.form.get("catalog","")
+        if not catalog:
+            return u"缺少车次类型"
+        station = request.form.get("station", "")
+        if not station:
+            return u"缺少车站信息"
+        ticket = request.form.get("ticket", "")
+        tickets = json.loads(ticket)
+        stations = json.loads(station)
+        station_num  = len(stations)
+        if station_num < 2:
+            return u"站数不够……"
+        
+        price_num = len(tickets)
+        if price_num < 1:
+            return u"票数不够……"
+
+        command = {
+            "type" : "add_train",
+            "train_id" : train_id,
+            "name" : name,
+            "catalog" : catalog,
+            "stationnum" : station_num,
+            "pricenum" : price_num,
+            "ticket" : tickets,
+            "station" : []
+        }
+
+        for item in stations:
+            command["station"].append({
+                "name" : item["name"],
+                "timearriv" : item["timearriv"],
+                "timestart" : item["timestart"],
+                "timestopover" : item["timestopover"],
+                "ticket" : [item[x] for x in tickets]
+            })
+
+        print encode_add_train(command)
+        raw_result = client.send(encode_add_train(command))
+        #print "$",raw_result,"$"
+        raw_result = unicode(raw_result, "utf-8")
+        result = decode_add_train(raw_result)
+        if (result.get("success",False)):
+            return u"Success"
+        else:
+            return u"Failed"
     else:
         return ""
 
