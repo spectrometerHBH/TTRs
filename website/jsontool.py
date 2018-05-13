@@ -75,7 +75,7 @@ def encode_modify_profile2(data):
     for item in para:
         if not data.has_key(item):
             return ""
-    command = "modify_profile {id} {name} {email} {phone}\n".format(**data)
+    command = "modify_profile2 {id} {name} {email} {phone}\n".format(**data)
     return command
 
 def decode_modify_profile2(data):
