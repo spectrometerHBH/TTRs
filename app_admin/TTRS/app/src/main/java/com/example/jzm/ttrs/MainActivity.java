@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.UserManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     private JSONObject userInfo;
     private NavigationView navigationView;
     private IntentFilter intentFilter;
+
     public class MyBroadCastReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent){
@@ -50,6 +54,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
@@ -74,13 +82,6 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        initializeTrains();
-        RecyclerView recyclerView = findViewById(R.id.front_page_recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        TrainAdapter adapter = new TrainAdapter(trainList);
-        recyclerView.setAdapter(adapter);
-
         View headerLayout = navigationView.getHeaderView(0);
         CircleImageView logo = headerLayout.findViewById(R.id.nav_logo);
         logo.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity
         intentFilter = new IntentFilter("usertrans");
         myBroadCastReceiver = new MyBroadCastReceiver();
         registerReceiver(myBroadCastReceiver, intentFilter);
-
     }
 
     private void refreshNav() throws JSONException {
@@ -163,11 +163,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, TrainQuery.class);
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
-        } else if(id == R.id.nav_user_management){
-            Intent intent = new Intent(MainActivity.this, UserQuery.class);
-            intent.putExtra("info", userInfo.toString());
-            startActivity(intent);
-        }else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_info) {
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <View
-        android:id="@+id/contain_ticket_query_h_cursor1"
+        android:id="@+id/contain_order_query_h_cursor1"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/contain_ticket_query_textview1"
+        android:id="@+id/contain_order_query_textview1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -27,7 +27,7 @@
         android:text="出发日期"
         android:textColor="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_h_cursor1" />
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_h_cursor1" />
 
     <ImageView
         android:id="@+id/calendar_icon"
@@ -38,10 +38,10 @@
         android:layout_marginTop="12dp"
         android:src="@drawable/ic_date_range_black_36dp"
         android:tint="@color/icon_default_color"
-        app:layout_constraintEnd_toEndOf="@+id/contain_ticket_query_textview1"
+        app:layout_constraintEnd_toEndOf="@+id/contain_order_query_textview1"
         app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@+id/contain_ticket_query_textview1"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_textview1" />
+        app:layout_constraintStart_toStartOf="@+id/contain_order_query_textview1"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_textview1" />
 
     <Button
         android:id="@+id/calendar_enter"
@@ -49,13 +49,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/contain_ticket_query_h_cursor2"
-        app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_button_v_cursor"
+        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
+        app:layout_constraintEnd_toStartOf="@+id/contain_order_query_button_v_cursor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_h_cursor1" />
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_h_cursor1" />
 
     <View
-        android:id="@+id/contain_ticket_query_h_cursor2"
+        android:id="@+id/contain_order_query_h_cursor2"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"
@@ -65,10 +65,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_K" />
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_K" />
 
     <Button
-        android:id="@+id/contain_ticket_query_button"
+        android:id="@+id/contain_order_query_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -84,10 +84,10 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_h_cursor2" />
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_h_cursor2" />
 
     <View
-        android:id="@+id/contain_ticket_query_button_v_cursor"
+        android:id="@+id/contain_order_query_button_v_cursor"
         android:layout_width="1dip"
         android:layout_height="0dp"
         android:layout_centerVertical="true"
@@ -96,39 +96,39 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorCursor"
-        app:layout_constraintBottom_toTopOf="@+id/contain_ticket_query_h_cursor2"
+        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.313"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_h_cursor1"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_h_cursor1"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/contain_ticket_query_textview2"
+        android:id="@+id/contain_order_query_textview2"
         android:layout_width="65dp"
         android:layout_height="24dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
         android:text="车次类别"
         android:textColor="@color/gray"
-        app:layout_constraintStart_toEndOf="@+id/contain_ticket_query_button_v_cursor"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_h_cursor1" />
+        app:layout_constraintStart_toEndOf="@+id/contain_order_query_button_v_cursor"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_h_cursor1" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_all"
+        android:id="@+id/contain_order_query_checkBox_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="全选"
-        app:layout_constraintBottom_toBottomOf="@+id/contain_ticket_query_textview2"
+        app:layout_constraintBottom_toBottomOf="@+id/contain_order_query_textview2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/contain_ticket_query_textview2"
-        app:layout_constraintTop_toTopOf="@+id/contain_ticket_query_textview2" />
+        app:layout_constraintStart_toEndOf="@+id/contain_order_query_textview2"
+        app:layout_constraintTop_toTopOf="@+id/contain_order_query_textview2" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_C"
+        android:id="@+id/contain_order_query_checkBox_C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -136,58 +136,58 @@
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="C(城际)"
-        app:layout_constraintEnd_toEndOf="@+id/contain_ticket_query_checkBox_T"
-        app:layout_constraintStart_toStartOf="@+id/contain_ticket_query_checkBox_T"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_T" />
+        app:layout_constraintEnd_toEndOf="@+id/contain_order_query_checkBox_T"
+        app:layout_constraintStart_toStartOf="@+id/contain_order_query_checkBox_T"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_T" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_D"
+        android:id="@+id/contain_order_query_checkBox_D"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="D(动车)"
-        app:layout_constraintEnd_toEndOf="@+id/contain_ticket_query_checkBox_O"
-        app:layout_constraintStart_toStartOf="@+id/contain_ticket_query_checkBox_O"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_O" />
+        app:layout_constraintEnd_toEndOf="@+id/contain_order_query_checkBox_O"
+        app:layout_constraintStart_toStartOf="@+id/contain_order_query_checkBox_O"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_O" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_G"
+        android:id="@+id/contain_order_query_checkBox_G"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="G(高铁)"
-        app:layout_constraintBottom_toTopOf="@+id/contain_ticket_query_checkBox_K"
-        app:layout_constraintEnd_toEndOf="@+id/contain_ticket_query_checkBox_C"
-        app:layout_constraintStart_toStartOf="@+id/contain_ticket_query_checkBox_C"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_C" />
+        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_checkBox_K"
+        app:layout_constraintEnd_toEndOf="@+id/contain_order_query_checkBox_C"
+        app:layout_constraintStart_toStartOf="@+id/contain_order_query_checkBox_C"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_C" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_O"
+        android:id="@+id/contain_order_query_checkBox_O"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="O(普通)"
-        app:layout_constraintEnd_toEndOf="@+id/contain_ticket_query_checkBox_Z"
-        app:layout_constraintStart_toStartOf="@+id/contain_ticket_query_checkBox_Z"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_Z" />
+        app:layout_constraintEnd_toEndOf="@+id/contain_order_query_checkBox_Z"
+        app:layout_constraintStart_toStartOf="@+id/contain_order_query_checkBox_Z"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_Z" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_K"
+        android:id="@+id/contain_order_query_checkBox_K"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="K(快车)"
-        app:layout_constraintEnd_toEndOf="@+id/contain_ticket_query_checkBox_G"
-        app:layout_constraintStart_toStartOf="@+id/contain_ticket_query_checkBox_G"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_G" />
+        app:layout_constraintEnd_toEndOf="@+id/contain_order_query_checkBox_G"
+        app:layout_constraintStart_toStartOf="@+id/contain_order_query_checkBox_G"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_G" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_T"
+        android:id="@+id/contain_order_query_checkBox_T"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -196,13 +196,13 @@
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="T(特快)"
-        app:layout_constraintBottom_toTopOf="@+id/contain_ticket_query_checkBox_C"
-        app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_checkBox_Z"
-        app:layout_constraintStart_toEndOf="@+id/contain_ticket_query_button_v_cursor"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_all" />
+        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_checkBox_C"
+        app:layout_constraintEnd_toStartOf="@+id/contain_order_query_checkBox_Z"
+        app:layout_constraintStart_toEndOf="@+id/contain_order_query_button_v_cursor"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_all" />
 
     <CheckBox
-        android:id="@+id/contain_ticket_query_checkBox_Z"
+        android:id="@+id/contain_order_query_checkBox_Z"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -211,11 +211,11 @@
         android:buttonTint="@color/colorLoginButton"
         android:text="Z(直达)"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/contain_ticket_query_checkBox_T"
-        app:layout_constraintTop_toBottomOf="@+id/contain_ticket_query_checkBox_all" />
+        app:layout_constraintStart_toEndOf="@+id/contain_order_query_checkBox_T"
+        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_all" />
 
     <TextView
-        android:id="@+id/contain_ticket_query_month"
+        android:id="@+id/contain_order_query_month"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -228,7 +228,7 @@
         app:layout_constraintTop_toBottomOf="@+id/calendar_icon" />
 
     <TextView
-        android:id="@+id/contain_ticket_query_day"
+        android:id="@+id/contain_order_query_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="44dp"
@@ -236,8 +236,8 @@
         android:text="4日"
         android:textColor="@color/black"
         android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/contain_ticket_query_h_cursor2"
-        app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_button_v_cursor" />
+        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
+        app:layout_constraintEnd_toStartOf="@+id/contain_order_query_button_v_cursor" />
 
     <ImageView
         android:id="@+id/ticket_date_line"
@@ -249,8 +249,8 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_line"
         android:tint="@color/colorCursor"
-        app:layout_constraintBottom_toTopOf="@+id/contain_ticket_query_h_cursor2"
-        app:layout_constraintEnd_toStartOf="@+id/contain_ticket_query_button_v_cursor"
+        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
+        app:layout_constraintEnd_toStartOf="@+id/contain_order_query_button_v_cursor"
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/calendar_enter"
