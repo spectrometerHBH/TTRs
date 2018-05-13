@@ -12,9 +12,10 @@
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="108dp"
         android:background="@color/colorCursor"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,20 +40,9 @@
         android:src="@drawable/ic_date_range_black_36dp"
         android:tint="@color/icon_default_color"
         app:layout_constraintEnd_toEndOf="@+id/contain_order_query_textview1"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="@+id/contain_order_query_textview1"
         app:layout_constraintTop_toBottomOf="@+id/contain_order_query_textview1" />
-
-    <Button
-        android:id="@+id/calendar_enter"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:backgroundTint="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
-        app:layout_constraintEnd_toStartOf="@+id/contain_order_query_button_v_cursor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contain_order_query_h_cursor1" />
 
     <View
         android:id="@+id/contain_order_query_h_cursor2"
@@ -63,7 +53,6 @@
         android:layout_marginTop="8dp"
         android:background="@color/colorCursor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contain_order_query_checkBox_K" />
 
@@ -75,7 +64,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/round_corner_bg_loginbtn"
         android:gravity="center"
         android:padding="10dp"
@@ -83,6 +72,7 @@
         android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contain_order_query_h_cursor2" />
 
@@ -107,7 +97,7 @@
         android:id="@+id/contain_order_query_textview2"
         android:layout_width="65dp"
         android:layout_height="24dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="8dp"
         android:text="车次类别"
         android:textColor="@color/gray"
@@ -131,8 +121,6 @@
         android:id="@+id/contain_order_query_checkBox_C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="C(城际)"
@@ -218,10 +206,10 @@
         android:id="@+id/contain_order_query_month"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
         android:gravity="center"
-        android:text="6月"
+        android:text="3"
         android:textColor="@color/black"
         android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -231,29 +219,54 @@
         android:id="@+id/contain_order_query_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:layout_marginEnd="16dp"
-        android:text="4日"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="4dp"
+        android:text="121"
         android:textColor="@color/black"
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
         app:layout_constraintEnd_toStartOf="@+id/contain_order_query_button_v_cursor" />
 
+    <Button
+        android:id="@+id/calendar_enter_order_query"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="198dp"
+        android:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
+        app:layout_constraintEnd_toStartOf="@+id/contain_order_query_button_v_cursor"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/contain_order_query_h_cursor1" />
+
     <ImageView
-        android:id="@+id/ticket_date_line"
+        android:id="@+id/train_date_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_line"
         android:tint="@color/colorCursor"
         app:layout_constraintBottom_toTopOf="@+id/contain_order_query_h_cursor2"
         app:layout_constraintEnd_toStartOf="@+id/contain_order_query_button_v_cursor"
-        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/calendar_enter"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/contain_order_query_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="1111"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/calendar_icon"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="@+id/calendar_icon"
+        app:layout_constraintTop_toBottomOf="@+id/calendar_icon" />
 
 </android.support.constraint.ConstraintLayout>

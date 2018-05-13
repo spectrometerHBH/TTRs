@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +35,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private List<Train> trainList = new ArrayList<>();
     private JSONObject userInfo;
     private NavigationView navigationView;
     private IntentFilter intentFilter;
+    private TextView monthTextview;
+    private TextView dayTextview;
+    private TextView yearTextview;
+    private Button calenderButton;
+    private Button queryButton;
 
     public class MyBroadCastReceiver extends BroadcastReceiver{
         @Override
@@ -62,16 +67,15 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer =  findViewById(R.id.activity_main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        initializeWidgets();
         Toast.makeText(MainActivity.this, "登录成功~♪（＾∀＾●）", Toast.LENGTH_SHORT).show();
 
         Intent intent = getIntent();
@@ -98,6 +102,14 @@ public class MainActivity extends AppCompatActivity
         registerReceiver(myBroadCastReceiver, intentFilter);
     }
 
+    private void initializeWidgets(){
+        yearTextview = findViewById(R.id.contain_order_query_year);
+        monthTextview = findViewById(R.id.contain_order_query_month);
+        dayTextview = findViewById(R.id.contain_order_query_day);
+        calenderButton = findViewById(R.id.calendar_enter_order_query);
+        queryButton = findViewById(R.id.contain_order_query_button);
+    }
+
     private void refreshNav() throws JSONException {
         View headerLayout = navigationView.getHeaderView(0);
         TextView name = headerLayout.findViewById(R.id.nav_user_name);
@@ -111,14 +123,6 @@ public class MainActivity extends AppCompatActivity
             privilege.setText("用户爸爸");
         }else{
             privilege.setText("鹳狸猿");
-        }
-    }
-
-    private void initializeTrains(){
-        for (int i = 0; i < 50; i++) {
-            Train testTrain = new Train("c101", "fuck", "C", "北京", "夏威夷", "08:00", "08:01",
-                    "2018-03-28", "2018-03-28");
-            trainList.add(testTrain);
         }
     }
 
