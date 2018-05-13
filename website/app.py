@@ -111,6 +111,14 @@ def query_order():
                             catalog  = request.args.get("catalog",""),
                             user = current_user)
 
+@app.route('/add_train')
+def add_train():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+    return render_template('add_train.html',
+                            message = message.get(fromWhere, ""),
+                            user = current_user)
+
 @app.route('/debug')
 def debug():
     return render_template('debugger.html')
@@ -318,6 +326,39 @@ def action_refund():
                 return ""
         command["type"] = "refund_ticket"
         #rint "#",encode_buy_ticket(command)
+        raw_result = client.send(encode_refund_ticket(command))
+        #print "$",raw_result,"$"
+        raw_result = unicode(raw_result, "utf-8")
+        result = decode_refund_ticket(raw_result)
+        return redirect('/query_order?from=refund&id=%s&date=%s&catalog=TZCOGDK'%(request.form["id"], command["date"]))
+    else:
+        return ""
+
+@app.route('/action/add_train', methods=['POST', 'GET'])
+def action_add_train():
+    if request.method == 'POST':
+        train_id = request.form.get("train_id", "")
+        if not train_id:
+            return u"缺少列车ID"
+        name = request.form.get("name", "")
+        if not name:
+            return u"缺少车次名"
+        catalog = request.form.get("catalog","")
+        if not catalog:
+            return u"缺少车次类型"
+        station = request.form.get("station", "")
+        if not station:
+            return u"缺少车站信息"
+        stations = json.loads(station)
+        station_num  = len(stations)
+        if station_num < 2:
+            return u"站数不够……"
+        print str(stations)
+        command = {
+            "type" : "add_train",
+            "train_id" : train_id,
+            "name" : name,
+        }
         raw_result = client.send(encode_refund_ticket(command))
         #print "$",raw_result,"$"
         raw_result = unicode(raw_result, "utf-8")

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}添加车次{% endblock %}
+{% block head_extra %}
+<link type="text/css" rel="stylesheet" href="/static/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="/static/jsgrid-theme.min.css" /> 
+<script type="text/javascript" src="/static/jsgrid.min.js"></script>
+{% endblock %}
+{% block body %}
+      <main role="main" class="container">
+        <div>
+          <div class="alert alert-warning" id="result" hidden></div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="train_id">车次ID</label>
+              <input type="text" class="form-control" id="train_id" >
+            </div>
+            <div class="form-group col-md-4">
+              <label for="name">车次名</label>
+              <input type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="catalog">车次类型</label>
+              <select class="custom-select" id="catalog">
+                <option value="T" selected>T</option>
+                <option value="Z" selected>Z</option>
+                <option value="C" selected>C</option>
+                <option value="O" selected>O</option>
+                <option value="G" selected>G</option>
+                <option value="D" selected>D</option>
+                <option value="K" selected>K</option>
+              </select>
+            </div>
+          </div>
+        <div class="form-group">
+          <label for="seat_choose">
+              车票类型
+          </label>
+        <div id="seat_choose" class="row btn-group btn-group-toggle" data-toggle="buttons" >
+
+            <label class="btn btn-secondary" >
+              <input class="checkbox" type="checkbox" id="特等座" > 特等座
+            </label>
+
+            <label class="btn btn-secondary" >
+              <input class="checkbox" type="checkbox" id="商务座" > 商务座
+            </label>
+
+            <label class="btn btn-secondary" >
+              <input class="checkbox" type="checkbox" id="一等座" > 一等座
+            </label>
+
+            <label class="btn btn-secondary" >
+              <input class="checkbox" type="checkbox" id="二等座" > 二等座
+            </label>
+
+            <label class="btn btn-secondary" >
+              <input class="checkbox" type="checkbox" id="高级软卧" > 高级软卧
+            </label>
+
+            <label class="btn btn-secondary">
+              <input class="checkbox" type="checkbox"  id="软卧" > 软卧
+            </label>
+
+            <label class="btn btn-secondary">
+              <input class="checkbox" type="checkbox" id="动卧"  > 动卧
+            </label>
+
+            <label class="btn btn-secondary">
+              <input class="checkbox" type="checkbox"  id="硬卧" > 硬卧
+            </label>
+
+            <label class="btn btn-secondary">
+              <input class="checkbox" type="checkbox" id="软座"> 软座
+            </label>
+
+            <label class="btn btn-secondary">
+              <input class="checkbox" type="checkbox" id="硬座"  > 硬座
+            </label>
+
+            <label class="choose btn btn-secondary">
+              <input class="checkbox" type="checkbox"  autocomplete="off" id="无座"> 无座
+            </label>
+        </div>
+      </div>
+        <div class="row">
+          <div id="grid"></div>
+        </div>
+        <div class="row">
+          <button id="submit" class="btn btn-primary" onclick="doPost()">Submit</div>
+        </div>
+      </div>
+
+    </main>
+ <script>
+     $(document).ready(function(){
+      $("#submit").click(function(){
+        });
+      $(".checkbox").change(function(){
+        $("#grid").jsGrid("fieldOption", this.id, "visible", $(this).prop("checked"));
+      });
+    });
+     
+    $("#grid").jsGrid({
+        width: "100%",
+        height: "600px",
+ 
+        inserting: true,
+        editing: true,
+        shrinkToFit:false,
+        forceFit:true,
+
+        fields: [
+            { name: "站点", type: "text",  validate: "required",width: 70},
+            { name: "到达", type: "text"},
+            { name: "出发", type: "text"},
+            { name: "停留", type: "text"},
+            { name: "特等座", type: "number", visible:false},
+            { name: "商务座", type: "number", visible:false},
+            { name: "一等座", type: "number", visible:false},
+            { name: "二等座", type: "number", visible:false},
+            { name: "高级软卧", type: "number", visible:false},
+            { name: "软卧", type: "number", visible:false},
+            { name: "动卧", type: "number", visible:false},
+            { name: "硬卧", type: "number", visible:false},
+            { name: "软座", type: "number", visible:false},
+            { name: "硬座", type: "number", visible:false},
+            { name: "无座", type: "number", visible:false},
+            { type: "control" }
+        ]
+    });
+
+    function doPost()
+      {
+        var items = $("#grid").jsGrid("option", "data");
+        //alert(JSON.stringify(items));
+        $.post("/action/add_train", {
+          "train_id": $("#train_id").val(),
+          "name": $("#name").val(),
+          "catalog": $("#catalog").val(),
+          "station":JSON.stringify(items)},
+          function(data) {
+            $("#result").show();
+            $("#result").html(data);
+          });
+      }
+</script>
+
+{% endblock %}
