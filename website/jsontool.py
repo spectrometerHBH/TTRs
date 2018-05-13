@@ -51,6 +51,7 @@ def decode_query_profile(data):
         result["name"]  = info[0]
         result["email"] = info[1]
         result["phone"] = info[2]
+        result["privilege"] = int(info[3])
     return result
 
 def encode_modify_profile(data):
@@ -62,6 +63,22 @@ def encode_modify_profile(data):
     return command
 
 def decode_modify_profile(data):
+    result={}
+    if data == "0\n":
+        result["success"] = False
+    else:
+        result["success"] = True
+    return result
+
+def encode_modify_profile2(data):
+    para = ("id", "name", "email", "phone")
+    for item in para:
+        if not data.has_key(item):
+            return ""
+    command = "modify_profile {id} {name} {email} {phone}\n".format(**data)
+    return command
+
+def decode_modify_profile2(data):
     result={}
     if data == "0\n":
         result["success"] = False
@@ -262,4 +279,20 @@ def encode_query_order(data):
     for item in para:
         if not data.has_key(item):
             return ""
-    return "query_order {id} {data} {catalog}\n".format(**data)  
+    return "query_order {id} {date} {catalog}\n".format(**data)  
+
+
+def encode_list_station(data):
+    return "list_station\n"
+
+def decode_list_station(data):
+    result = {}
+    lines = data.split("\n")
+    if not lines[0]:
+        result["success"] = False
+    else:
+        result["success"] = True
+        result["num"] = int(lines[0])
+        result["station"] = lines[1].split(" ")
+        result["station"].remove("")
+    return result

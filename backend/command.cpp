@@ -59,6 +59,13 @@ void read_command(std::istream & is, std::ostream & os) {
 			}
 			continue;
 		}
+		if (command == "query_transfer") {
+			int flag = train_manager.query_transfer(is, os);
+			if (flag == -1) {
+				os << -1 << '\n';
+			}
+			continue;
+		}
 		if (command == "buy_ticket") {
 			UserID user_id;
 			is >> user_id;
@@ -74,6 +81,9 @@ void read_command(std::istream & is, std::ostream & os) {
 			UserID user_id;
 			is >> user_id;
 			if (user_manager.check_id(user_id) == false) {
+				Date date;
+				CatalogList catalog_list;
+				is >> date >> catalog_list;
 				os << -1 << '\n';
 			}
 			else {
@@ -87,6 +97,12 @@ void read_command(std::istream & is, std::ostream & os) {
 			UserID user_id;
 			is >> user_id;
 			if (user_manager.check_id(user_id) == false) {
+				int num;
+				TrainID train_id;
+				Location loc1, loc2;
+				Date date;
+				Seat seat_kind;
+				is >> num >> train_id >> loc1 >> loc2 >> date >> seat_kind;
 				os << 0 << '\n';
 			}
 			else {
@@ -134,6 +150,11 @@ void read_command(std::istream & is, std::ostream & os) {
 		if (command == "exit") {
 			os << "BYE\n";
 			break;
+		}
+		// others
+		if (command == "list_station") {
+			train_manager.list_station(is, os);
+			continue;
 		}
 	}
 }

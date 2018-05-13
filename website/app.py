@@ -10,6 +10,19 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 
+def get_station():
+    result = client.send("list_station\n")
+    result = unicode(result, "utf-8")
+    return decode_list_station(result)["station"]
+
+def get_privilege(userid):
+    raw_result = client.send("query_profile %s\n"%(userid))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_profile(raw_result)
+    if (result["success"]):
+        return result["privilege"]
+    else:
+        return 0
 
 message = { 'login' : "Successfully login",
             'logout' : "Successfully logout",
@@ -17,7 +30,9 @@ message = { 'login' : "Successfully login",
             'logfail' : "Wrong id or password",
             'modify' : "Successfully modify the profile",
             'modifyfail' : "Fail to modify the profile",
-            'pwdfail' : "Repeat password has to match with the password"}
+            'pwdfail' : "Repeat password has to match with the password",
+            'buy' : "successfully buy the tickets",
+            "refund" : "successfully refund the tickets"}
 
 @app.route('/')
 def index():
@@ -31,6 +46,11 @@ def index():
 @app.route('/user/<userid>')
 def userinfo(userid="0"):
     current_user = session.get('userid','')
+    if current_user != userid and get_privilege(current_user) != 2:
+        return render_template("warning.html",
+                            message = "没有权限查看",
+                            user = current_user
+            )
     fromWhere = request.args.get("from","")
     result = client.query_profile(userid)
     #print result
@@ -45,7 +65,9 @@ def userinfo(userid="0"):
                             id=userid, 
                             name=data[0],
                             email=data[1],
-                            phone=data[2])
+                            phone=data[2],
+                            privilege=int(data[3]))
+
 
 @app.route('/login')
 def login():
@@ -67,7 +89,8 @@ def query():
 
     return render_template('query.html',
                             message = message.get(fromWhere, ""),
-                            user = current_user)
+                            user = current_user,
+                            station = get_station())
 
 @app.route('/query_train')
 def query_train():
@@ -75,6 +98,17 @@ def query_train():
     fromWhere = request.args.get("from","")
     return render_template('query_train.html',
                             message = message.get(fromWhere, ""),
+                            user = current_user)
+
+@app.route('/query_order')
+def query_order():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+    return render_template('query_order.html',
+                            message = message.get(fromWhere, ""),
+                            userid = request.args.get("id",""),
+                            date = request.args.get("date",""),
+                            catalog  = request.args.get("catalog",""),
                             user = current_user)
 
 @app.route('/debug')
@@ -144,6 +178,7 @@ def action_modify_profile():
             if not request.form.has_key(item):
                 #print item
                 return ""
+        print request.form
         userid = request.form['userid']
         if (request.form['password'] != request.form['password2']):
             return redirect('/user/'+userid+'?from=pwdfail')
@@ -167,6 +202,28 @@ def action_modify_profile():
         else:
             return redirect('/user/'+userid+'?from=modifyfail')
     return "invalid login"
+
+@app.route('/action/query_order')
+def action_query_order():
+    para = ("date", "id", "catalog")
+    command = {}
+    for item in para:
+        value = request.args.get(item, "")
+        if value:
+            command[item] = value
+        else:
+            return ""
+    current_user = session.get('userid','')
+    if current_user != request.args["id"] and get_privilege(current_user) != 2:
+        return u"权限不足"
+    command["type"] = "query_order"
+    raw_result = client.send(encode_query_order(command))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_ticket(raw_result)
+    return render_template('query_order_result.html',
+        userid = request.args["id"],
+        data = result)
+
 
 @app.route('/action/logout')
 def action_logout():
@@ -234,12 +291,38 @@ def action_buy():
                 return ""
         command["id"] = current_user
         command["type"] = "buy_ticket"
-        print "#",encode_buy_ticket(command)
+        #rint "#",encode_buy_ticket(command)
         raw_result = client.send(encode_buy_ticket(command))
-        print raw_result
+        #print "$",raw_result,"$"
         raw_result = unicode(raw_result, "utf-8")
         result = decode_buy_ticket(raw_result)
-        return str(result)
+        return redirect('/query_order?from=buy&id=%s&date=%s&catalog=TZCOGDK'%(current_user, command["date"]))
+    else:
+        return ""
+
+@app.route('/action/refund', methods=['POST', 'GET'])
+def action_refund():
+    current_user = session.get('userid','')
+    if not current_user:
+        return render_template("warning.html",
+                            message = "You haven't logged in.",
+                            user = current_user)
+    if request.method == 'POST':
+        para = ("id","train_id","num","loc1", "loc2", "date", "ticket_kind")
+        command = {}
+        for item in para:
+            value = request.form.get(item, "")
+            if value:
+                command[item] = value
+            else :
+                return ""
+        command["type"] = "refund_ticket"
+        #rint "#",encode_buy_ticket(command)
+        raw_result = client.send(encode_refund_ticket(command))
+        #print "$",raw_result,"$"
+        raw_result = unicode(raw_result, "utf-8")
+        result = decode_refund_ticket(raw_result)
+        return redirect('/query_order?from=refund&id=%s&date=%s&catalog=TZCOGDK'%(request.form["id"], command["date"]))
     else:
         return ""
 
@@ -247,6 +330,7 @@ func = {"register":(encode_register, decode_register),
         "login":(encode_login, decode_login),
         "query_profile":(encode_query_profile, decode_query_profile),
         "modify_profile":(encode_modify_profile, decode_modify_profile),
+        "modify_profile2":(encode_modify_profile2, decode_modify_profile2),
         "modify_privilege":(encode_modify_privilege, decode_modify_privilege),
         "query_ticket":(encode_query_ticket, decode_query_ticket),
         "buy_ticket":(encode_buy_ticket, decode_buy_ticket),
@@ -255,7 +339,8 @@ func = {"register":(encode_register, decode_register),
         "sale_train":(encode_sale_train, decode_sale_train),
         "query_train":(encode_query_train, decode_query_train),
         "delete_train":(encode_delete_train, decode_delete_train),
-        "query_order":(encode_query_order, decode_query_ticket)
+        "query_order":(encode_query_order, decode_query_ticket),
+        "list_station":(encode_list_station, decode_list_station)
         }
 
 @app.route('/action/post', methods=['POST', 'GET'])
@@ -278,7 +363,7 @@ def action_post():
             command = func[data['type']][0](data)
             if command == "":
                 return "wrong format"
-            print "quest", command
+            print "#quest", command
             result = client.send(command)
             result = unicode(result, "utf-8")
             return json.dumps(func[data['type']][1](result))
