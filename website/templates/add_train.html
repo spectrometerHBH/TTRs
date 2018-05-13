@@ -8,7 +8,7 @@
 {% block body %}
       <main role="main" class="container">
         <div>
-          <div class="alert alert-warning" id="result" hidden></div>
+          <div class="alert alert-warning" id="result"></div>
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="train_id">车次ID</label>
@@ -93,6 +93,7 @@
     </main>
  <script>
      $(document).ready(function(){
+      $("#result").hide();
       $("#submit").click(function(){
         });
       $(".checkbox").change(function(){
@@ -110,21 +111,21 @@
         forceFit:true,
 
         fields: [
-            { name: "站点", type: "text",  validate: "required",width: 70},
-            { name: "到达", type: "text"},
-            { name: "出发", type: "text"},
-            { name: "停留", type: "text"},
-            { name: "特等座", type: "number", visible:false},
-            { name: "商务座", type: "number", visible:false},
-            { name: "一等座", type: "number", visible:false},
-            { name: "二等座", type: "number", visible:false},
-            { name: "高级软卧", type: "number", visible:false},
-            { name: "软卧", type: "number", visible:false},
-            { name: "动卧", type: "number", visible:false},
-            { name: "硬卧", type: "number", visible:false},
-            { name: "软座", type: "number", visible:false},
-            { name: "硬座", type: "number", visible:false},
-            { name: "无座", type: "number", visible:false},
+            { name:"name", title: "站点", type: "text",  validate: "required",width: 70},
+            { name:"timearriv", title: "到达", type: "text"},
+            { name:"timestart", title: "出发", type: "text"},
+            { name:"timestopover", title: "停留", type: "text"},
+            { name: "特等座", type: "text", visible:false},
+            { name: "商务座", type: "text", visible:false},
+            { name: "一等座", type: "text", visible:false},
+            { name: "二等座", type: "text", visible:false},
+            { name: "高级软卧", type: "text", visible:false},
+            { name: "软卧", type: "text", visible:false},
+            { name: "动卧", type: "text", visible:false},
+            { name: "硬卧", type: "text", visible:false},
+            { name: "软座", type: "text", visible:false},
+            { name: "硬座", type: "text", visible:false},
+            { name: "无座", type: "text", visible:false},
             { type: "control" }
         ]
     });
@@ -133,11 +134,18 @@
       {
         var items = $("#grid").jsGrid("option", "data");
         //alert(JSON.stringify(items));
+        var ticket = new Array();
+        $(".checkbox").each(function(){
+          if ($(this).prop("checked")){
+            ticket.push(this.id);
+          }
+        });
         $.post("/action/add_train", {
           "train_id": $("#train_id").val(),
           "name": $("#name").val(),
           "catalog": $("#catalog").val(),
-          "station":JSON.stringify(items)},
+          "station":JSON.stringify(items),
+          "ticket":JSON.stringify(ticket)},
           function(data) {
             $("#result").show();
             $("#result").html(data);
