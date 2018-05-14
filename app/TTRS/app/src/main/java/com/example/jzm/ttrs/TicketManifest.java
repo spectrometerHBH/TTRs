@@ -99,6 +99,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         bundle.putString("loc2", nowLoc2);
         bundle.putString("trainId", nowTrainId);
         bundle.putString("seatType", nowTicketKind);
+        bundle.putString("operateType", "dingpiao");
         ViewDialogFragment viewDialogFragment = new ViewDialogFragment();
         viewDialogFragment.show(getFragmentManager());
         viewDialogFragment.setArguments(bundle);
@@ -274,7 +275,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         public View getGroupView(int parentPos, boolean b, View view, ViewGroup viewGroup) {
             if (view == null){
                 LayoutInflater inflater = (LayoutInflater) TicketManifest.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.train_main, null);
+                view = inflater.inflate(R.layout.train_ticket_query, null);
             }
             view.setTag(R.layout.train_ticket_query, parentPos);
             view.setTag(R.layout.ticket_purchase, -1);
