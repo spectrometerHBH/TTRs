@@ -45,12 +45,18 @@ public class ViewDialogFragment extends DialogFragment {
             TextView loc2 = view.findViewById(R.id.destination_dialog);
             TextView trainId = view.findViewById(R.id.train_id_dialog);
             TextView seatType = view.findViewById(R.id.xibie_dialog);
+            TextView title = view.findViewById(R.id.dialog_title);
             time1.setText(bundle.getString("time1"));
             time2.setText(bundle.getString("time2"));
             loc1.setText(bundle.getString("loc1"));
             loc2.setText(bundle.getString("loc2"));
             trainId.setText(bundle.getString("trainId"));
             seatType.setText(bundle.getString("seatType"));
+            if (bundle.getString("operateType").equals("dingpiao")){
+                title.setText("购票");
+            }else{
+                title.setText("退票");
+            }
         }
         return builder.create();
     }

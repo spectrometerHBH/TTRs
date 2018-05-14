@@ -10,14 +10,13 @@
         android:id="@+id/contain_train_query_textview3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="120dp"
         android:text="起始站"
         android:textColor="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/contain_train_query_departure"
         app:layout_constraintEnd_toEndOf="@+id/contain_train_query_departure"
+        app:layout_constraintHorizontal_bias="0.412"
         app:layout_constraintStart_toStartOf="@+id/contain_train_query_departure"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,14 +42,16 @@
         android:id="@+id/contain_train_query_textview4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="终点站"
         android:textColor="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/contain_train_query_destination"
+        app:layout_constraintBottom_toBottomOf="@+id/contain_train_query_textview3"
         app:layout_constraintEnd_toEndOf="@+id/contain_train_query_destination"
-        app:layout_constraintStart_toStartOf="@+id/contain_train_query_destination" />
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toStartOf="@+id/contain_train_query_destination"
+        app:layout_constraintTop_toTopOf="@+id/contain_train_query_textview3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/contain_train_query_exchange"
@@ -58,13 +59,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="128dp"
         android:backgroundTint="@android:color/transparent"
         android:src="@drawable/ic_swap_horiz_black_36dp"
         android:tint="@color/swapButton"
         app:layout_constraintEnd_toStartOf="@+id/contain_train_query_destination"
         app:layout_constraintStart_toEndOf="@+id/contain_train_query_departure"
-        app:layout_constraintTop_toTopOf="@+id/contain_train_query_textview3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/contain_train_query_destination"
@@ -98,12 +99,14 @@
 
     <TextView
         android:id="@+id/contain_train_query_textview1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="出发日期"
         android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/contain_train_query_button_v_cursor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contain_train_query_h_cursor1" />
 
@@ -254,13 +257,11 @@
         android:id="@+id/contain_train_query_checkBox_T"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:buttonTint="@color/colorLoginButton"
         android:text="T(特快)"
-        app:layout_constraintBottom_toTopOf="@+id/contain_train_query_checkBox_C"
         app:layout_constraintEnd_toStartOf="@+id/contain_train_query_checkBox_Z"
         app:layout_constraintStart_toEndOf="@+id/contain_train_query_button_v_cursor"
         app:layout_constraintTop_toBottomOf="@+id/contain_train_query_checkBox_all" />
@@ -282,14 +283,14 @@
         android:id="@+id/contain_train_query_month"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="3"
         android:textColor="@color/black"
         android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_query_year" />
 
     <TextView
         android:id="@+id/contain_train_query_day"
@@ -297,7 +298,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="32dp"
-        android:text="121"
+        android:text="12"
         android:textColor="@color/black"
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/contain_train_query_h_cursor2"
@@ -337,7 +338,6 @@
         android:tint="@color/colorCursor"
         app:layout_constraintBottom_toTopOf="@+id/contain_train_query_h_cursor2"
         app:layout_constraintEnd_toStartOf="@+id/contain_train_query_button_v_cursor"
-        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/calendar_enter"
         app:layout_constraintVertical_bias="0.878" />
