@@ -40,6 +40,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ModifyUserInfoAdmin"
+            android:label="查看/修改信息"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserQuery"
+            android:label="查询用户"
+            android:launchMode="singleTask" />
+        <activity
             android:name=".TimeTable"
             android:label="时刻表"
             android:launchMode="singleTask"
@@ -58,7 +67,12 @@
             android:name=".TicketManifest"
             android:label="车票查询"
             android:launchMode="singleTask" />
-        <activity android:name=".OrderQuery"></activity>
+        <activity
+            android:name=".OrderQuery"
+            android:launchMode="singleTask" />
+        <activity android:name=".SelectStation"
+            android:label="车站选择"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>
