@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}查询用户{% endblock %}
+{% block head_extra %}
+    <script>
+    $(document).ready(function(){
+      $("#submit").click(function(){
+        $.ajax({url:"/action/query_user?id=" + $("#id").val(),success:function(result){
+        $("#result").html(result);
+        }});
+      });
+    });
+    </script>
+{% endblock %}
+{% block body %}
+      
+      <main role="main" class="container">
+      <div class="container" >
+        <div  class="form-inline">
+        	<div class="form-group col-10">
+    			<label for="id" class="col-4">用户ID</label>
+   				<input type="text" class="form-control col-8" id="id">
+  			 </div>
+          <button id="submit" class="btn btn-primary">查询</button>
+        </div>
+      <hr/>
+      
+      <div id="result" class = "row">
+      </div>
+    </div>
+    </main>
+{% endblock %}

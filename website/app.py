@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import client
 import json
 import base64
+import re
 from jsontool import *
 app = Flask(__name__)
 
@@ -10,12 +11,17 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 
+date_re = re.compile("\d\d:\d\d$")
+
+
 def get_station():
     result = client.send("list_station\n")
     result = unicode(result, "utf-8")
     return decode_list_station(result)["station"]
 
 def get_privilege(userid):
+    if not userid:
+        return 0
     raw_result = client.send("query_profile %s\n"%(userid))
     raw_result = unicode(raw_result, "utf-8")
     result = decode_query_profile(raw_result)
@@ -24,15 +30,14 @@ def get_privilege(userid):
     else:
         return 0
 
-message = { 'login' : "Successfully login",
-            'logout' : "Successfully logout",
-            'signup' : "Successfully signup",
-            'logfail' : "Wrong id or password",
-            'modify' : "Successfully modify the profile",
-            'modifyfail' : "Fail to modify the profile",
-            'pwdfail' : "Repeat password has to match with the password",
-            'buy' : "successfully buy the tickets",
-            "refund" : "successfully refund the tickets"}
+message = { 'login' : "成功登录",
+            'logout' : "成功退出",
+            'signup' : "注册成功",
+            'logfail' : "ID或密码错误",
+            'modify' : "信息修改成功",
+            'modifyfail' : "信息修改失败",
+            'buy' : "购票成功",
+            "refund" : "退票成功"}
 
 @app.route('/')
 def index():
@@ -79,7 +84,7 @@ def login():
     if current_user:
         return render_template("warning.html",
                             admin = get_privilege(current_user),
-                            message = "You have logged in.",
+                            message = "您已登录",
                             user = current_user
             )
     return render_template('login.html',
@@ -103,6 +108,22 @@ def query_train():
     current_user = session.get('userid','')
     fromWhere = request.args.get("from","")
     return render_template('query_train.html',
+                            admin = get_privilege(current_user),
+                            message = message.get(fromWhere, ""),
+                            user = current_user)
+
+@app.route('/query_user')
+def query_user():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+    admin = get_privilege(current_user)
+    if (admin != 2):
+        return render_template("warning.html",
+                            admin = get_privilege(current_user),
+                            message = "权限不足",
+                            user = current_user
+            )        
+    return render_template('query_user.html',
                             admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
@@ -139,7 +160,7 @@ def signup():
     if current_user:
         return render_template("warning.html",
                             admin = get_privilege(current_user),
-                            message = "You have logged in.",
+                            message = "您已登录",
                             user = current_user)
     return render_template('signup.html',
                             admin = get_privilege(current_user),
@@ -216,10 +237,10 @@ def action_modify_profile():
                 request.form['email'],
                 request.form['phone']
                 )
-        if result == "1\n":
-            return redirect('/user/'+userid+'?from=modify')
-        else:
+        if result == "0\n":
             return redirect('/user/'+userid+'?from=modifyfail')
+        
+        return redirect('/user/'+userid+'?from=modify')
     return "invalid login"
 
 @app.route('/action/query_order')
@@ -249,7 +270,7 @@ def action_logout():
     if (not session.has_key('userid')):
         return render_template("warning.html",
                             admin = get_privilege(current_user),
-                            message = "You have not logged in yet.",
+                            message = "尚未登录",
                             user = current_user)
     userid = session['userid']
     session.pop('userid', None)
@@ -270,6 +291,27 @@ def action_query_train():
     return render_template('query_train_result.html',
         data = result)
 
+@app.route('/action/query_user')
+def action_query_user():
+    current_user = session.get('userid','')
+    if get_privilege(current_user) != 2:
+        return u"权限不足"
+    userid = request.args.get("id","")
+    if not userid:
+        return ""
+    command = {"type" : "query_profile",
+               "id" : userid}
+    raw_result = client.send(encode_query_profile(command))
+    #print encode_query_profile(command)
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_profile(raw_result)
+    print result
+    if not result["success"]:
+        return u"未找到该用户"
+    return render_template('query_user_result.html',
+        id = userid,
+        **result)
+
 @app.route('/action/query', methods=['POST', 'GET'])
 def action_query():
     if request.method == 'POST':
@@ -285,7 +327,7 @@ def action_query():
         command["type"] = "query_ticket"
         #print "#",encode_query_ticket(command)
         raw_result = client.send(encode_query_ticket(command))
-        print raw_result
+        #print raw_result
         raw_result = unicode(raw_result, "utf-8")
         result = decode_query_ticket(raw_result)
         return render_template('query_result.html',
@@ -299,7 +341,7 @@ def action_buy():
     if not current_user:
         return render_template("warning.html",
                             admin = get_privilege(current_user),
-                            message = "You haven't logged in.",
+                            message = "尚未登录",
                             user = current_user)
     if request.method == 'POST':
         para = ("train_id","num","loc1", "loc2", "date", "ticket_kind")
@@ -327,7 +369,7 @@ def action_refund():
     if not current_user:
         return render_template("warning.html",
                             admin = get_privilege(current_user),
-                            message = "You haven't logged in.",
+                            message = "尚未登录",
                             user = current_user)
     if request.method == 'POST':
         para = ("id","train_id","num","loc1", "loc2", "date", "ticket_kind")
@@ -387,12 +429,27 @@ def action_add_train():
         }
 
         for item in stations:
+            if (not date_re.match(item["timearriv"])) :
+                return u"时间格式错误"
+            if (not date_re.match(item["timestart"])) :
+                return u"时间格式错误"
+            if (not date_re.match(item["timestopover"])) :
+                return u"时间格式错误"
+            item["ticket_num"] = []
+            for t in tickets:
+                try:
+                    item["ticket_num"].append(float(item[t]))
+                except ValueError:
+                    return u"票价格式错误"
+
+
+        for item in stations:
             command["station"].append({
                 "name" : item["name"],
                 "timearriv" : item["timearriv"],
                 "timestart" : item["timestart"],
                 "timestopover" : item["timestopover"],
-                "ticket" : [item[x] for x in tickets]
+                "ticket" : item["ticket_num"]
             })
 
         print encode_add_train(command)

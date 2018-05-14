@@ -33,9 +33,17 @@
           <li class="nav-item">
             <a class="nav-link" href="/query_train">查询车次</a>
           </li>
-          {% if privilege == 2 %}
-          <li class="nav-item">
-            <a class="nav-link" href="/add_train">增加车次</a>
+
+          {% if admin == 2 %}
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                管理
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/add_train">增加车次</a>
+                <a class="dropdown-item" href="/#">管理车次</a>
+                <a class="dropdown-item" href="/query_user">管理用户</a>
+              </div>
           </li>
           {% endif %}
         </ul>
