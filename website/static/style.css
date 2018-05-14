@@ -19,3 +19,7 @@ body {
 .table thead tr th{
         vertical-align: middle;
     }
+
+.row {
+  margin : 10px;
+}

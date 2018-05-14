@@ -67,6 +67,7 @@ void file_alloc::load(const char * filename)
 		//throw non_existent_file();
 	off_t s[2];
 	int read_cnt;
+	fread(&file_end, sizeof(off_t), 1, fp);
 	while (!feof(fp)) {
 		read_cnt = fread(s, sizeof(off_t), 2, fp);
 		if (read_cnt == 0) break;
@@ -81,6 +82,7 @@ void file_alloc::dump(const char * filename)
 	FILE *fp = fopen(filename, "wb");
 	node *p = head;
 	off_t s[2];
+	fwrite(&file_end, sizeof(off_t), 1, fp);
 	for (; p; p = p->next) {
 //printf("write\n");
 		s[0] = p->start; s[1] = p->end;

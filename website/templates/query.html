@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}查询车票{% endblock %}
+{% block head_extra %}
+    <script>
+    	$(function() {
+    var availableTags = [
+      {% for item in station %}
+        "{{item}}",
+      {% endfor %}
+    ];
+    $( "#loc1" ).autocomplete({
+      source: availableTags
+    });
+    $( "#loc2" ).autocomplete({
+      source: availableTags
+    });
+  });
+
+      $(document).ready(function(){
+  $("#submit").click(function(){
+    $.post("/action/query",
+    {
+      loc1: $("#loc1").val(),
+      loc2: $("#loc2").val(),
+      date: $("#date").val(),
+      catalog: $("#catalog").val()
+    },
+    function(data,status){
+      $("#result").html(data);
+      $("[data-toggle='popover']").popover({html : true });
+    });
+  });
+});
+    </script>
+{% endblock %}
+{% block body %}
+      <main role="main" class="container">
+      <div class="jumbotron">
+        
+          <div class="form-row">
+            <div class="form-group col-md-6 ui-widget" >
+              <label for="loc1">出发地</label>
+              <input class="form-control" id="loc1" >
+            </div>
+            <div class="form-group col-md-6 ui-widget">
+              <label for="loc2">目的地</label>
+              <input class="form-control" id="loc2">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="date">日期</label>
+              <input class="form-control" type="date" id="date">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="catalog">类型</label>
+              <input class="form-control" id="catalog">
+            </div>
+          </div>
+          <button id="submit" type="submit" class="btn btn-primary">查询</button>
+      </div>
+      <div class = "row" id="result">
+      </div>
+    </main>
+{% endblock %}

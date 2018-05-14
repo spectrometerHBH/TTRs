@@ -1,25 +1,23 @@
-
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE HTML >
+<html lang="zh_cn">
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
+    <title>{% block title %}{% endblock %} - 列车订票系统</title>
 
-    <title>NAIVE订票系统</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/jquery-ui.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/jquery.validate.min.js"></script>
+    <script src="/static/additional-methods.js"></script>
     <link href="/static/style.css" rel="stylesheet">
-  </head>
-
-  <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-
+    <link rel="stylesheet" href="/static/jquery-ui.css">
+    {% block head_extra %}
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <a class="navbar-brand" href="/">NAIVE订票系统</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu" aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -33,8 +31,13 @@
             <a class="nav-link" href="/query">查询</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/query_train">车次</a>
+            <a class="nav-link" href="/query_train">查询车次</a>
           </li>
+          {% if privilege == 2 %}
+          <li class="nav-item">
+            <a class="nav-link" href="/add_train">增加车次</a>
+          </li>
+          {% endif %}
         </ul>
 
         <div class="btn-group">
@@ -42,6 +45,9 @@
           <a href="/user/{{ user }}" class="btn btn-secondary">
             {{ user }}
           </a>
+          <a href="/query_order?id={{ user }}&catalog=TZCOGDK" class="btn btn-info">
+            购票记录
+          </a>          
           <a href="/action/logout" class="btn btn-primary">
             Log out
           </a>
@@ -56,28 +62,8 @@
         </div>
       </div>
     </nav>
-
-     
-
-      
-    <main role="main" class="container">
-      <div class="alert alert-warning" role="alert">
-        <h4 class="alert-heading">Warning!</h4>
-        {{message}}
-      </div>
-    </main>
- 
-    
-
+    {% block body %}{% endblock %}
     <footer class="container">
-      <p>&copy;没有版权 1926-</p>
+      <p>&copy;Copyright 2018</p>
     </footer>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/static/jquery.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-  </body>
-</html>
+</body>
