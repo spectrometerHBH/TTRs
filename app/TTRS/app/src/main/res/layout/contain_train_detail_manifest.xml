@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/logoScreenBackground"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <TextView
+        android:id="@+id/contain_train_detail_manifest_textview3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="列车ID"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/contain_train_detail_manifest_textview4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/contain_train_detail_manifest_trainid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:gravity="center"
+        android:text="列车ID"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/contain_train_detail_manifest_h_cursor1"
+        app:layout_constraintEnd_toStartOf="@+id/contain_train_detail_manifest_trainname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_detail_manifest_textview3" />
+
+    <TextView
+        android:id="@+id/contain_train_detail_manifest_textview4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="32dp"
+        android:text="列车名"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@+id/contain_train_detail_manifest_textview3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/contain_train_detail_manifest_textview3"
+        app:layout_constraintTop_toTopOf="@+id/contain_train_detail_manifest_textview3" />
+
+    <TextView
+        android:id="@+id/contain_train_detail_manifest_trainname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:gravity="center"
+        android:text="列车名"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/contain_train_detail_manifest_h_cursor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/contain_train_detail_manifest_trainid"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_detail_manifest_textview4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/contain_train_detail_manifest_h_cursor1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_detail_manifest_trainid" />
+
+    <View
+        android:id="@+id/contain_train_detail_manifest_h_cursor2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup4" />
+
+    <Button
+        android:id="@+id/contain_train_detail_manifest_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/round_corner_bg_loginbtn"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="查看时刻表及票价"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_detail_manifest_h_cursor2" />
+
+    <View
+        android:id="@+id/contain_train_detail_manifest_button_v_cursor"
+        android:layout_width="1dip"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/logoScreenBackground"
+        app:layout_constraintBottom_toTopOf="@+id/contain_train_detail_manifest_h_cursor2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_detail_manifest_h_cursor1"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/contain_train_detail_manifest_textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="席别"
+        android:textColor="@color/gray"
+        app:layout_constraintStart_toEndOf="@+id/contain_train_detail_manifest_button_v_cursor"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_detail_manifest_h_cursor1" />
+
+
+    <RadioGroup
+        android:id="@+id/radiogroup1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/radiogroup2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contain_train_detail_manifest_textview2">
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_shangwuzuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="商务座" />
+
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_yingzuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="硬座" />
+
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_yingwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="硬卧" />
+    </RadioGroup>
+
+
+    <RadioGroup
+        android:id="@+id/radiogroup2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/radiogroup3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup1">
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_yidengzuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="一等座" />
+
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_ruanzuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="软座" />
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_ruanwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="软卧" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radiogroup3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/radiogroup4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup2">
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_erdengzuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="二等座" />
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_wuzuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="无座" />
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_dongwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="动卧" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radiogroup4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/contain_train_detail_manifest_h_cursor2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup3">
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_tedengzuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="特等座" />
+
+        <RadioButton
+            android:id="@+id/contain_train_detail_manifest_gaojiruanwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorLoginButton"
+            android:text="高级软卧" />
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>
