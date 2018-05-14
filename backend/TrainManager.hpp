@@ -414,7 +414,7 @@ public:
 	int modify_train(std::istream & is = std::cin, std::ostream & os = std::cout) {
 		TrainID train_id;
 		is >> train_id;
-		int flag = delete_train(train_id);
+		int flag = delete_train(train_id, is, os);
 		if (flag == 0) {
 			Train train;
 			is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
@@ -433,7 +433,7 @@ public:
 			}
 			return 0;
 		}
-		return add_train(train_id);
+		return add_train(train_id, is, os);
 	}
 
 	int query_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {
