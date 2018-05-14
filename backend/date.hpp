@@ -58,6 +58,18 @@ public:
 		return 0;
 	}
 
+	friend bool operator>(const Date & d1, const Date & d2) {
+		return operator<(d2, d1);
+	}
+
+	friend bool operator>=(const Date & d1, const Date & d2) {
+		return !(operator<(d1, d2));
+	}
+
+	friend bool operator<=(const Date & d1, const Date & d2) {
+		return !(operator>(d1, d2));
+	}
+
 	friend std::istream & operator>>(std::istream & is, Date & date) {
 		char ch;
 		is >> date.year >> ch >> date.month >> ch >> date.day;

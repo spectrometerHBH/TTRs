@@ -5,6 +5,7 @@
 #include "exceptions.h"
 #include "bptree.hpp"
 #include "String.hpp"
+#include "date.hpp"
 
 class UserManager {
 private:
@@ -53,13 +54,8 @@ public:
 		std::ofstream out;
 		out.open(user_file_name.getAddress());
 		out.seekp(0, std::ios::end);
-		current_id = 2018;
+		current_id = 2017;
 		out.write(reinterpret_cast<char *> (&current_id), sizeof(UserID));
-		User default_admin;
-		default_admin.id = current_id;
-		default_admin.password = "123456";
-		default_admin.privilege = 2;
-		out.write(reinterpret_cast<char *> (&default_admin), sizeof(User));
 		out.close();
 	}
 	
@@ -69,6 +65,9 @@ public:
 		is >> user.name >> user.password >> user.email >> user.phone;
 		++current_id;
 		user.id = current_id;
+		if (current_id == 2018) {
+			user.privilege = 2;
+		}
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
 		iofile.seekp(0, std::ios::beg);
@@ -106,8 +105,12 @@ public:
 		User user;
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
 		iofile.close();
-		os << user.name << ' ' << user.email << ' ' << user.phone << '\n';
+		os << user.name << ' ' << user.email << ' ' << user.phone << ' ' << user.privilege << '\n';
 		return 1;
+	}
+
+	bool check_id(const UserID & user_id) {
+		return (user_id >= 2018 && user_id <= current_id);
 	}
 
 	int modify_profile(std::istream & is = std::cin, std::ostream & os = std::cout) {
@@ -116,9 +119,12 @@ public:
 		if (user.id > current_id || user.id < 2018) {
 			return 0;
 		}
-		is >> user.name >> user.password >> user.email >> user.phone;
 		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
+		iofile.seekg(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
+		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
+		is >> user.name >> user.password >> user.email >> user.phone;
+		
 		iofile.seekp(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
 		iofile.close();
@@ -186,8 +192,4 @@ public:
 		return 1;
 	}
 
-	int buy_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {
-	}
-
-	int refund_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {}
 };

@@ -51,8 +51,7 @@ private:
 
 	char buffer[node_size];
 	inline void file_reopen() {
-		if (file) fclose(file);
-		file = fopen(filename, "rb+");
+		if (file) fflush(file);
 	}
 	inline void move_to_data(const node &p) {
 		fseek(file, p.pos + sizeof(node), SEEK_SET);
@@ -170,7 +169,7 @@ private:
 
 	}
 
-	//·µ»ØµÚÒ»¸ö´óÓÚµÈÓÚ
+	//ï¿½ï¿½ï¿½Øµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½
 	size_t bsearch_t(buffer_p b, key_t k, size_t n) {
 		size_t l = 0, r = n, mid;
 		key_t * t;
@@ -233,7 +232,11 @@ private:
 	}
 	void buf_remove_b(buffer_p b, key_t k, node &p) {
 		size_t i, x = bsearch_b(b, k, p.sz);
-		if (x == p.sz || !equal(*nthk_b(b, x), k)) throw not_found();
+		if (x == p.sz || !equal(*nthk_b(b, x), k)) {
+			//puts("here");
+			throw not_found();
+		}
+		//if (x == p.sz || !equal(*nthk_b(b, x), k)) return;
 		for (i = x; i < p.sz - 1; ++i) {
 			*nthk_b(b, i) = *nthk_b(b, i + 1);
 			*nthv_b(b, i) = *nthv_b(b, i + 1);
@@ -314,6 +317,7 @@ private:
 		fwrite(&head, sizeof(off_t), 1, file);
 		fwrite(&tail, sizeof(off_t), 1, file);
 		fwrite(&root, sizeof(off_t), 1, file);
+		fflush(file);
 		save_index();
 	}
 	inline void read_info() {
@@ -422,6 +426,7 @@ private:
 				return;
 			}
 			else {
+				//puts("here");
 				throw not_found();
 			}
 		}
@@ -750,6 +755,7 @@ private:
 		else if (result == 2) {
 			free_node(p);
 			head = tail = root = invalid_off;
+			save_info();
 			return 2;
 		}
 		else {
@@ -862,11 +868,15 @@ public:
 		}
 		else {
 			read_info();
+			//printf("%lld\n", root);
 		}
 	}
 	~bptree() {
 		save_index();
+		save_info();
+		//printf("##%lld\n", root);
 		if (file) fclose(file);
+		//printf("%lld\n", root);
 		delete filename;
 		delete index_file;
 	}
@@ -888,12 +898,17 @@ public:
 	}
 
 	int count(const key_t &key) {
+		if (root == invalid_off) {
+			return 0;
+		}
 		node rn = read_node(root);
 		return _count(rn, key);
 	}
 	value_t find(const key_t &key, const value_t & d = value_t()) {
+		//printf("##%lld\n", root);
 		if (root == invalid_off) {
 			//puts("haha");
+
 			return d;
 		}
 		node rn = read_node(root);
@@ -916,7 +931,7 @@ public:
 			root = p.pos;
 			head = tail = q.pos;
 			save_info();
-
+			//printf("~%lld %lld\n", p.pos, root);
 			_insert_b(q, key, v);
 			_insert_t(p, key, q.pos);
 			return;

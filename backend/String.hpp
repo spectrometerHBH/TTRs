@@ -115,7 +115,14 @@ public:
 		return this->operator==(other.ch);
 	}
 
+	bool operator!=(const String & other) const {
+		return !(this->operator==(other));
+	}
+
 	bool operator==(const char * other) const {
+		if (other == nullptr) {
+			return 0;
+		}
 		int len1, len2;
 		len1 = strlen(ch);
 		len2 = strlen(other);
@@ -125,6 +132,10 @@ public:
 				return 0;
 		}
 		return 1;
+	}
+
+	bool operator!=(const char * other) const {
+		return !(this->operator==(other));
 	}
 
 	char & operator[](size_t index) {
@@ -186,7 +197,7 @@ String<N> IntToString(int x) {
 #ifndef SIGNAL
 #define SIGNAL
 //about user
-typedef String<20> UserName;
+typedef String<40> UserName;
 typedef String<20> Password;
 typedef String<20> Email;
 typedef String<20> Phone;
@@ -194,9 +205,20 @@ typedef long long UserID;
 
 // about train
 typedef String<5> Time;
-typedef String<10> Catalog;
+typedef String<10> CatalogList;
+typedef char Catalog;
 typedef String<20> Location;
 typedef String<20> TrainID;
-typedef String<20> TrainName;
+typedef String<40> TrainName;
 typedef String<20> Seat;
 #endif // !SIGNAL
+
+inline int turn_to_minute(const Time & time) {
+	int hour = ((int)(time[0] - '0')) * 10 + (int)(time[1] - '0');
+	int min = ((int)(time[3] - '0')) * 10 + (int)(time[4] - '0');
+	return hour * 60 + min;
+}
+
+inline int operator-(const Time & t1, const Time & t2) {
+	return turn_to_minute(t1) - turn_to_minute(t2);
+}
