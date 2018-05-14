@@ -63,6 +63,11 @@
             android:label="我已购买的票"
             android:launchMode="singleTask">
         </activity>
+        <activity
+            android:name=".SelectStation"
+            android:launchMode="singleTask"
+            android:label="车站选择">
+        </activity>
     </application>
 
 </manifest>

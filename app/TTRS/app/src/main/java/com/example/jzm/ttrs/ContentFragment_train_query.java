@@ -29,8 +29,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class ContentFragment_train_query extends Fragment {
     private View view;
-    private EditText departureTextview;
-    private EditText destinationTextview;
+    private Button departureSelect;
+    private Button destinationSelect;
     private AppCompatImageButton exchangeButton;
     private Button calenderButton;
     private TextView monthTextview;
@@ -51,10 +51,10 @@ public class ContentFragment_train_query extends Fragment {
         exchangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String departure = departureTextview.getText().toString();
-                String destination = destinationTextview.getText().toString();
-                departureTextview.setText(destination);
-                destinationTextview.setText(departure);
+                String departure = departureSelect.getText().toString();
+                String destination = destinationSelect.getText().toString();
+                departureSelect.setText(destination);
+                destinationSelect.setText(departure);
             }
         });
         calenderButton.setOnClickListener(new View.OnClickListener() {
@@ -91,8 +91,8 @@ public class ContentFragment_train_query extends Fragment {
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String loc1 = departureTextview.getText().toString();
-                String loc2 = destinationTextview.getText().toString();
+                String loc1 = departureSelect.getText().toString();
+                String loc2 = destinationSelect.getText().toString();
                 String year = yearTextview.getText().toString();
                 String month = monthTextview.getText().toString();
                 String day = dayTextview.getText().toString();
@@ -125,12 +125,28 @@ public class ContentFragment_train_query extends Fragment {
                 sendRequest(command);
             }
         });
+        departureSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SelectStation.class);
+                intent.putExtra("type", "depart");
+                startActivityForResult(intent, 2);
+            }
+        });
+        destinationSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SelectStation.class);
+                intent.putExtra("type", "destination");
+                startActivityForResult(intent, 2);
+            }
+        });
         return view;
     }
 
     private void initializeWidgets(View view) {
-        departureTextview = view.findViewById(R.id.contain_train_query_departure);
-        destinationTextview = view.findViewById(R.id.contain_train_query_destination);
+        departureSelect = view.findViewById(R.id.contain_train_query_departure);
+        destinationSelect = view.findViewById(R.id.contain_train_query_destination);
         exchangeButton = view.findViewById(R.id.contain_train_query_exchange);
         calenderButton = view.findViewById(R.id.calendar_enter);
         yearTextview = view.findViewById(R.id.contain_train_query_year);
@@ -160,6 +176,18 @@ public class ContentFragment_train_query extends Fragment {
                     dayTextview.setText(day);
                     monthTextview.setText(month);
                     yearTextview.setText(year);
+                }
+                break;
+            }
+            case 2:{
+                if (resultCode == RESULT_OK) {
+                    String type = data.getStringExtra("type");
+                    String station = data.getStringExtra("station");
+                    if (type.equals("depart")) {
+                        departureSelect.setText(station);
+                    } else {
+                        destinationSelect.setText(station);
+                    }
                 }
                 break;
             }
