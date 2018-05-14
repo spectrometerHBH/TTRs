@@ -142,7 +142,7 @@ private:
 		iofile.close();
 
 		os << train.id << ' ' << s_array[s1_no].loc << ' ' << date << ' ' << s_array[s1_no].depart
-			<< ' ' << s_array[s2_no].loc << ' ' << date << ' ' << s_array[s2_no].arrive << ' ';
+			<< ' ' << s_array[s2_no].loc << ' ' << date << ' ' << s_array[s2_no].arrive;
 		for (int i = 0; i < train.seat_num; ++i) {
 			int ticket_left = 2000;
 			double ticket_price = 0;
@@ -152,7 +152,7 @@ private:
 				}
 				ticket_price += tp_array[j + i * train.station_num];
 			}
-			os << train.seat[i] << ' ' << ticket_left << ' ' << ticket_price << ' ';
+			os << ' ' << train.seat[i] << ' ' << ticket_left << ' ' << ticket_price;
 		}
 		os << '\n';
 
@@ -197,7 +197,7 @@ private:
 	void show_ticket(const Train & train, int s1_no, int s2_no, Station * station_list, const Date & date, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		os << train.id << ' '
 			<< station_list[s1_no].loc << ' ' << date << ' ' << station_list[s1_no].depart << ' '
-			<< station_list[s2_no].loc << ' ' << date << ' ' << station_list[s2_no].arrive << ' ';
+			<< station_list[s2_no].loc << ' ' << date << ' ' << station_list[s2_no].arrive;
 		int ticket_num = train.seat_num * train.station_num;
 		double * tp_array = new double[ticket_num];
 		std::fstream iofile;
@@ -220,7 +220,7 @@ private:
 					ticket_left = tl_array[j + i * train.station_num];
 				}
 			}
-			os << train.seat[i] << ' ' << ticket_left << ' ' << ticket_price << ' ';
+			os << ' ' << train.seat[i] << ' ' << ticket_left << ' ' << ticket_price;
 		}
 		os << '\n';
 		delete[] tp_array;
@@ -270,9 +270,9 @@ public:
 		if (train.station_num == 0) return 0;
 		if (train.open == 0) return 0;
 		os << train.id << ' ' << train.name << ' ' << train.catalog 
-			<< ' ' << train.station_num << ' ' << train.seat_num << ' ';
+			<< ' ' << train.station_num << ' ' << train.seat_num;
 		for (int i = 0; i < train.seat_num; ++i) {
-			os << train.seat[i] << ' ';
+			os << ' ' << train.seat[i];
 		}
 		os << '\n';
 		
@@ -293,10 +293,9 @@ public:
 
 		for (int i = 0; i < train.station_num; ++i) {
 			os << s_array[i].loc << ' ' << s_array[i].arrive << ' ' 
-				<< s_array[i].depart << ' ' << s_array[i].stop << ' ';
+				<< s_array[i].depart << ' ' << s_array[i].stop;
 			for (int j = 0; j < train.seat_num; ++j) {
-				os << "я┐е" << tp_array[i + j * train.station_num] << ' ';
-				//os << '$' << tp_array[i + j * train.station_num] << ' ';
+				os << ' ' << "гд" << tp_array[i + j * train.station_num];
 			}
 			os << '\n';
 		}
@@ -314,7 +313,6 @@ public:
 		is >> train.name >> train.catalog >> train.station_num >> train.seat_num;
 		//if ((train_record.find(train.id)).station_num != 0) {
 		if (train_record.count(train.id) == 1) {
-			//std::cout << train_id << ' ' << train.id << std::endl;
 			for (int i = 0; i < train.seat_num; ++i) {
 				is >> train.seat[i];
 			}
@@ -393,6 +391,7 @@ public:
 		if (train.station_num == 0) return 0;
 		if (train.open == 1) return 0;
 		if (train.sale == 1) return 0;
+	
 		std::fstream iofile;
 		iofile.open(route_file.getAddress());
 		iofile.seekg(train.route_pos, std::ios::beg);
@@ -434,7 +433,7 @@ public:
 			}
 			return 0;
 		}
-		return add_train(train_id, is, os);
+		return add_train(train_id);
 	}
 
 	int query_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {
@@ -745,12 +744,12 @@ public:
 			for (int j = 0; j < t_array[i].size(); ++j) {
 				os << t_array[i][j].first.train_id << ' '
 					<< t_array[i][j].first.from << ' ' << date << ' ' << t_array[i][j].second.depart << ' '
-					<< t_array[i][j].first.to << ' ' << date << ' ' << t_array[i][j].second.arrive << ' ';
+					<< t_array[i][j].first.to << ' ' << date << ' ' << t_array[i][j].second.arrive;
 				int k = 0;
 				while (t_array[i][j].second.num[k] != -1) {
-					os << t_array[i][j].second.seat[k] << ' ' 
+					os << ' ' << t_array[i][j].second.seat[k] << ' ' 
 						<< t_array[i][j].second.num[k] << ' ' 
-						<< t_array[i][j].second.price[k] << ' ';
+						<< t_array[i][j].second.price[k];
 					++k;
 				}
 				os << '\n';
