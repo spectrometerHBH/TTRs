@@ -170,7 +170,7 @@ private:
 
 	}
 
-	//·µ»ØµÚÒ»¸ö´óÓÚµÈÓÚ
+	//ï¿½ï¿½ï¿½Øµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½
 	size_t bsearch_t(buffer_p b, key_t k, size_t n) {
 		size_t l = 0, r = n, mid;
 		key_t * t;
@@ -233,7 +233,11 @@ private:
 	}
 	void buf_remove_b(buffer_p b, key_t k, node &p) {
 		size_t i, x = bsearch_b(b, k, p.sz);
-		if (x == p.sz || !equal(*nthk_b(b, x), k)) throw not_found();
+		if (x == p.sz || !equal(*nthk_b(b, x), k)) {
+			//puts("here");
+			throw not_found();
+		}
+		//if (x == p.sz || !equal(*nthk_b(b, x), k)) return;
 		for (i = x; i < p.sz - 1; ++i) {
 			*nthk_b(b, i) = *nthk_b(b, i + 1);
 			*nthv_b(b, i) = *nthv_b(b, i + 1);
@@ -422,6 +426,7 @@ private:
 				return;
 			}
 			else {
+				//puts("here");
 				throw not_found();
 			}
 		}

@@ -252,9 +252,8 @@ public:
 	
 	int delete_train(TrainID & train_id, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		Train train = train_record.find(train_id);
-		if (train.station_num = 0) return 0;
+		if (train.station_num == 0) return 0;
 		if (train.sale == 1) return 0;
-	
 		std::fstream iofile;
 		iofile.open(route_file.getAddress());
 		iofile.seekg(train.route_pos, std::ios::beg);
@@ -279,7 +278,7 @@ public:
 		is >> train_id;
 		int flag = delete_train(train_id);
 		if (flag == 0) return 0;
-		return add_train(train_id);
+		return add_train(train_id, is, os);
 	}
 
 	int query_ticket(std::istream & is = std::cin, std::ostream & os = std::cout) {
