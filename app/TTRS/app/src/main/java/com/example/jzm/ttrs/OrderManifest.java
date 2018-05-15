@@ -74,16 +74,20 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int parentPos, int childPos, long l) {
-                Train train = parentdata.get(parentPos);
-                Seats seatType = childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
-                nowDate = train.getDepartDate();
-                nowLoc1 = train.getDeparture();
-                nowLoc2 = train.getDestination();
-                nowTime1 = train.getDepartTime();
-                nowTime2 = train.getArriveTime();
-                nowTrainId = train.getTrainID();
-                nowTicketKind = seatType.getName();
-                showViewDiaLogFragment();
+                try {
+                    Train train = parentdata.get(parentPos);
+                    Seats seatType = childdata.get(parentdata.get(parentPos).getUnique()).get(childPos);
+                    nowDate = train.getDepartDate();
+                    nowLoc1 = train.getDeparture();
+                    nowLoc2 = train.getDestination();
+                    nowTime1 = train.getDepartTime();
+                    nowTime2 = train.getArriveTime();
+                    nowTrainId = train.getTrainID();
+                    nowTicketKind = seatType.getName();
+                    showViewDiaLogFragment();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 return true;
             }
         });
@@ -132,7 +136,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
             }
             Train train = new Train(trainID, "", "", departure, destination, departTime, arriveTime, departDate, arriveDate);
             parentdata.add(train);
-            childdata.put(trainID, seats);
+            childdata.put(train.getUnique(), seats);
         }
     }
 
@@ -175,12 +179,16 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter.notifyDataSetChanged();
-                for (int i = 0; i < parentdata.size(); i++){
-                    boolean isExpanded = expandableListView.isGroupExpanded(i);
-                    expandableListView.collapseGroup(i);
-                    expandableListView.expandGroup(i);
-                    if (!isExpanded) expandableListView.collapseGroup(i);
+                try{
+                    adapter.notifyDataSetChanged();
+                    for (int i = 0; i < parentdata.size(); i++){
+                        boolean isExpanded = expandableListView.isGroupExpanded(i);
+                        expandableListView.collapseGroup(i);
+                        expandableListView.expandGroup(i);
+                        if (!isExpanded) expandableListView.collapseGroup(i);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });
@@ -228,7 +236,12 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         //  获得某个父项的某个子项
         @Override
         public Object getChild(int parentPos, int childPos) {
-            return childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
+            try{
+                return childdata.get(parentdata.get(parentPos).getUnique()).get(childPos);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return Object.class;
         }
 
         //  获得父项的数量
@@ -240,13 +253,23 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         //  获得某个父项的子项数目
         @Override
         public int getChildrenCount(int parentPos) {
-            return childdata.get(parentdata.get(parentPos).getTrainID()).size();
+            try {
+                return childdata.get(parentdata.get(parentPos).getUnique()).size();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return 0;
         }
 
         //  获得某个父项
         @Override
         public Object getGroup(int parentPos) {
-            return childdata.get(parentdata.get(parentPos));
+            try {
+                return childdata.get(parentdata.get(parentPos).getUnique());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return Object.class;
         }
 
         //  获得某个父项的id
@@ -274,19 +297,23 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                 LayoutInflater inflater = (LayoutInflater) OrderManifest.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.train_ticket_query, null);
             }
-            view.setTag(R.layout.train_ticket_query, parentPos);
-            view.setTag(R.layout.ticket_purchase, -1);
-            TextView train_id = view.findViewById(R.id.train_id);
-            TextView departure = view.findViewById(R.id.departure);
-            TextView destination = view.findViewById(R.id.destination);
-            TextView destination_time = view.findViewById(R.id.destination_time);
-            TextView depart_time = view.findViewById(R.id.depart_time);
-            Train train = parentdata.get(parentPos);
-            train_id.setText(train.getTrainID());
-            departure.setText(train.getDeparture());
-            destination.setText(train.getDestination());
-            destination_time.setText(train.getArriveTime());
-            depart_time.setText(train.getDepartTime());
+            try {
+                view.setTag(R.layout.train_ticket_query, parentPos);
+                view.setTag(R.layout.ticket_purchase, -1);
+                TextView train_id = view.findViewById(R.id.train_id);
+                TextView departure = view.findViewById(R.id.departure);
+                TextView destination = view.findViewById(R.id.destination);
+                TextView destination_time = view.findViewById(R.id.destination_time);
+                TextView depart_time = view.findViewById(R.id.depart_time);
+                Train train = parentdata.get(parentPos);
+                train_id.setText(train.getTrainID());
+                departure.setText(train.getDeparture());
+                destination.setText(train.getDestination());
+                destination_time.setText(train.getArriveTime());
+                depart_time.setText(train.getDepartTime());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return view;
         }
 
@@ -297,15 +324,19 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                 LayoutInflater inflater = (LayoutInflater) OrderManifest.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.ticket_purchase, null);
             }
-            view.setTag(R.layout.train_ticket_query, parentPos);
-            view.setTag(R.layout.ticket_purchase, childPos);
-            Seats seat = childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
-            TextView seatType = view.findViewById(R.id.ticket_purchase_seat);
-            TextView price = view.findViewById(R.id.ticket_purchase_price);
-            TextView amount = view.findViewById(R.id.ticket_purchase_amount);
-            seatType.setText(seat.getName());
-            price.setText(seat.getPrice());
-            amount.setText(seat.getNum());
+            try {
+                view.setTag(R.layout.train_ticket_query, parentPos);
+                view.setTag(R.layout.ticket_purchase, childPos);
+                Seats seat = childdata.get(parentdata.get(parentPos).getUnique()).get(childPos);
+                TextView seatType = view.findViewById(R.id.ticket_purchase_seat);
+                TextView price = view.findViewById(R.id.ticket_purchase_price);
+                TextView amount = view.findViewById(R.id.ticket_purchase_amount);
+                seatType.setText(seat.getName());
+                price.setText(seat.getPrice());
+                amount.setText(seat.getNum());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return view;
         }
 
