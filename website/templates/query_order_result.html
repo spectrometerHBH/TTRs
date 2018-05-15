@@ -19,9 +19,9 @@
     <td> {{item.datefrom}} {{item.timefrom}} </td>
     <td> {{item.locto}} </td>
     <td>{{item.dateto}} {{item.timeto}}</td>
-    <td> <button  class="btn btn-secondary" data-toggle="collapse" data-target="#{{item.train_id}}">购票记录</button> </td>
+    <td> <button  class="btn btn-secondary" data-toggle="collapse" data-target="#{{item.train_id}}{{item.locfrom}}{{item.locto}}">购票记录</button> </td>
   </tr>
-  <tr id="{{item.train_id}}" class="collapse">
+  <tr id="{{item.train_id}}{{item.locfrom}}{{item.locto}}" class="collapse">
     <td colspan="7">
       <ul class="list-group col-4">
         {%for ticket in item.ticket.keys() %}
