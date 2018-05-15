@@ -108,7 +108,7 @@ private:
 		return (off_t *)(b + (sizeof(key_t))*(n + 1) + sizeof(off_t) * n);
 	}
 
-	void print_tnode(const node &p, int level) {
+	/*void print_tnode(const node &p, int level) {
 		buffer_t b;
 		node q;
 		buf_load_t(b, p);
@@ -124,8 +124,8 @@ private:
 			//if (!q.type) print_tnode(q, level + 1);
 		}
 		//printf("\n", p.sz);
-	}
-	void print_block(const node &p, int level) {
+	}*/
+	/*void traverse_block(const node &p, int level) {
 		buffer_t b;
 		buf_load_b(b, p);
 		int i, j;
@@ -135,7 +135,7 @@ private:
 			for (j = 0; j < level; ++j) printf("\t");
 			printf("[%d : %d]\n", *nthk_b(b, i), *nthv_b(b, i));
 		}
-	}
+	}*/
 
 	node read_node(off_t p) {
 		node r;
@@ -169,7 +169,7 @@ private:
 
 	}
 
-	//·µ»ØµÚÒ»¸ö´óÓÚµÈÓÚ
+	//ï¿½ï¿½ï¿½Øµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½
 	size_t bsearch_t(buffer_p b, key_t k, size_t n) {
 		size_t l = 0, r = n, mid;
 		key_t * t;
@@ -232,7 +232,11 @@ private:
 	}
 	void buf_remove_b(buffer_p b, key_t k, node &p) {
 		size_t i, x = bsearch_b(b, k, p.sz);
-		if (x == p.sz || !equal(*nthk_b(b, x), k)) throw not_found();
+		if (x == p.sz || !equal(*nthk_b(b, x), k)) {
+			//puts("here");
+			throw not_found();
+		}
+		//if (x == p.sz || !equal(*nthk_b(b, x), k)) return;
 		for (i = x; i < p.sz - 1; ++i) {
 			*nthk_b(b, i) = *nthk_b(b, i + 1);
 			*nthv_b(b, i) = *nthv_b(b, i + 1);
@@ -422,6 +426,7 @@ private:
 				return;
 			}
 			else {
+				//puts("here");
 				throw not_found();
 			}
 		}
@@ -953,16 +958,21 @@ public:
 		_search(r, arr, key, compar);
 	}
 
-	void print() {
+	/*void print() {
 		print_tnode(read_node(root), 0);
-	}
+	}*/
 
-	void traverse() {
+	void traverse(std::function<void(const key_t &, const value_t &)> func) {
 		off_t p = head;
 		node q;
+		buffer_t b;
 		while (p != invalid_off) {
-			q = read_node(p);
-			print_block(q, 0);
+			q = read_node(p);	
+			buf_load_b(b, q);
+			int i, j;
+			for (i = 0; i < q.sz; ++i) {
+				func(*nthk_b(b, i), *nthv_b(b,i));
+			}
 			p = q.next;
 		}
 	}
