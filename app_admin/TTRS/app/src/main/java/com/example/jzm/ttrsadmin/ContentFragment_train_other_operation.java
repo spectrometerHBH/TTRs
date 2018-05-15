@@ -13,7 +13,7 @@ public class ContentFragment_train_other_operation extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.content_train_other_operation, container, false);
+        view = inflater.inflate(R.layout.contain_train_other_operation, container, false);
         return view;
     }
 }
