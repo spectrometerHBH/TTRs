@@ -77,6 +77,7 @@ public class UserQuery extends AppCompatActivity
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         View headerLayout = navigationView.getHeaderView(0);
         CircleImageView logo = headerLayout.findViewById(R.id.nav_logo);
@@ -174,7 +175,7 @@ public class UserQuery extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.activity_train_query);
+        DrawerLayout drawer = findViewById(R.id.activity_user_management);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

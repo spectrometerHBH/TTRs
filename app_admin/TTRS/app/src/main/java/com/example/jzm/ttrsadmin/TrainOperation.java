@@ -149,7 +149,7 @@ public class TrainOperation extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.activity_train_query);
+        DrawerLayout drawer = findViewById(R.id.activity_train_operation);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -195,7 +195,7 @@ public class TrainOperation extends AppCompatActivity
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
         } else if (id == R.id.nav_settings) {
-                Toast.makeText(TrainOperation.this, "你已经在车次管理页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TrainOperation.this, "你已经在车次管理页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_info) {
 
         }
