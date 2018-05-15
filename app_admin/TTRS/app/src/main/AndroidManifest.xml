@@ -16,7 +16,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -73,11 +72,16 @@
         <activity
             android:name=".SelectStation"
             android:label="车站选择"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".OrderManifest"
             android:label="车票查询"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".TrainOperation"
+            android:label="车次管理"
+            android:launchMode="singleTask">
+        </activity>
     </application>
 
 </manifest>

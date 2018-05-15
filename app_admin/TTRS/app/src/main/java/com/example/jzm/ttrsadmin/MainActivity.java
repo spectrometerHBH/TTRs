@@ -294,7 +294,9 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
         } else if (id == R.id.nav_settings) {
-
+            Intent intent = new Intent(MainActivity.this, TrainOperation.class);
+            intent.putExtra("info", userInfo.toString());
+            startActivity(intent);
         } else if (id == R.id.nav_info) {
 
         }
