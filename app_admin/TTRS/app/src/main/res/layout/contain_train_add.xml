@@ -136,7 +136,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/round_corner_bg_loginbtn"
         android:gravity="center"
         android:padding="10dp"
@@ -144,21 +144,202 @@
         android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+        app:layout_constraintTop_toBottomOf="@+id/train_add_cursor2" />
+
+    <CheckBox
+        android:id="@+id/checkBox_swz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="商务座"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_yz"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_all" />
+
+    <CheckBox
+        android:id="@+id/checkBox_ydz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="一等座"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_rz"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_swz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_edz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="二等座"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_wz"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_ydz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_tdz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="特等座"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_gjrw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_edz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_yz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="硬座"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_swz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_yw"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_swz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_swz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_rz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="软座"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_ydz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_rw"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_ydz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_ydz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_wz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="无座"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_edz"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_dw"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_edz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_edz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_gjrw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="高级软卧"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_tdz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_tdz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_tdz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_yw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="硬卧"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_yz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_yz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_yz"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <CheckBox
+        android:id="@+id/checkBox_rw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="软卧"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_rz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_rz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_rz" />
+
+    <CheckBox
+        android:id="@+id/checkBox_dw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="动卧"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_wz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_wz"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_wz" />
 
     <TextView
-        android:id="@+id/textView23"
+        android:id="@+id/textView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="注释：T(特快) Z(直达)  C(城际)\n O(普通) G(高铁) D(动车) K(快车)"
-        app:layout_constraintBottom_toTopOf="@+id/contain_train_add_button"
+        android:text="席别"
+        android:buttonTint="@color/colorLoginButton"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_all"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_all" />
+
+    <CheckBox
+        android:id="@+id/checkBox_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:buttonTint="@color/colorLoginButton"
+        android:text="全选"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView33"
+        app:layout_constraintTop_toBottomOf="@+id/train_add_cursor1" />
+
+    <View
+        android:id="@+id/train_add_cursor1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trainname_add_Layout" />
+
+    <View
+        android:id="@+id/train_add_cursor2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorCursor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_tdz" />
+
 
 </android.support.constraint.ConstraintLayout>
