@@ -118,5 +118,5 @@ public:
 };
 
 
-const Date start_date(2018, 5, 1), end_date(2018, 6, 1);
+const Date start_date(2018, 6, 1), end_date(2018, 7, 1);
 
