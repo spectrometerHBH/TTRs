@@ -192,6 +192,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                         expandableListView.expandGroup(i);
                         if (!isExpanded) expandableListView.collapseGroup(i);
                     }
+                    progressbarFragment.dismiss();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
