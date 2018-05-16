@@ -183,6 +183,11 @@ public class MainActivity extends AppCompatActivity
                     HttpClient client = new HttpClient();
                     client.setCommand(command);
                     JSONObject jsonObject = new JSONObject(client.run());
+                    if (jsonObject.getString("success").equals("false")){
+                        progressbarFragment.dismiss();
+                        showResponse("你还一张票都没买呢( ⊙ o ⊙ )！");
+                        return;
+                    }
                     String num = jsonObject.getString("num");
                     if (!num.equals("0")) {
                         Intent intent = new Intent(MainActivity.this, OrderManifest.class);
