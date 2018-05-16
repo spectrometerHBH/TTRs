@@ -305,6 +305,47 @@ public:
 
 		return 1;
 	}
+
+	int query_train2(const TrainID & train_id, std::istream & is = std::cin, std::ostream & os = std::cout) {
+
+		Train train = train_record.find(train_id);
+		if (train.station_num == 0) return 0;
+		os << train.id << ' ' << train.name << ' ' << train.catalog
+			<< ' ' << train.station_num << ' ' << train.seat_num;
+		for (int i = 0; i < train.seat_num; ++i) {
+			os << ' ' << train.seat[i];
+		}
+		os << '\n';
+
+		std::fstream iofile;
+
+		iofile.open(route_file.getAddress());
+		iofile.seekg(train.route_pos, std::ios::beg);
+		Station * s_array = new Station[train.station_num];          // s_array: station_array
+		iofile.read(reinterpret_cast<char *> (s_array), sizeof(Station) * train.station_num);
+		iofile.close();
+
+		iofile.open(ticket_price_file.getAddress());
+		iofile.seekg(train.ticket_price_pos, std::ios::beg);
+		int tp_num = train.seat_num * train.station_num;           // tp_num: ticket_price_num 
+		double * tp_array = new double[tp_num];                      // tp_array: ticket_price_array
+		iofile.read(reinterpret_cast<char *> (tp_array), sizeof(double) * tp_num);
+		iofile.close();
+
+		for (int i = 0; i < train.station_num; ++i) {
+			os << s_array[i].loc << ' ' << s_array[i].arrive << ' '
+				<< s_array[i].depart << ' ' << s_array[i].stop;
+			for (int j = 0; j < train.seat_num; ++j) {
+				os << ' ' << "гд" << tp_array[i + j * train.station_num];
+			}
+			os << '\n';
+		}
+
+		delete[] s_array;
+		delete[] tp_array;
+
+		return 1;
+	}
 	
 	int add_train(const TrainID & train_id, std::istream & is = std::cin, std::ostream & os = std::cout) {
 
@@ -862,6 +903,14 @@ public:
 		iofile.close();
 	}
 	
+	void list_unsale_train(std::istream & is = std::cin, std::ostream & os = std::cout) {
+		auto list_unsale = [&](const TrainID & train_id, const Train & train)->void {
+			if (train.sale == 0) {
+				os << train_id << '\n';
+			}
+		};
+		train_record.traverse(list_unsale);
+	}
 };
 
 
