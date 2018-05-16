@@ -18,6 +18,8 @@ import org.json.JSONObject;
 public class ContentFragment_train_detail extends Fragment {
     private View view;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -30,7 +32,12 @@ public class ContentFragment_train_detail extends Fragment {
                 String trainId = editText.getText().toString();
                 if (trainId.equals("")){
                     showResponse("还没有输入列车的id呀");
-                }else sendRequest();
+                }else {
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getActivity().getFragmentManager());
+                    sendRequest();
+                }
             }
         });
         return view;
@@ -51,6 +58,7 @@ public class ContentFragment_train_detail extends Fragment {
                     if (success.equals("true")){
                         Intent intent = new Intent(getActivity(), TrainDetailManifest.class);
                         intent.putExtra("JSON", jsonObject.toString());
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                     }else{
                         showResponse("这是一辆幽灵列车");
