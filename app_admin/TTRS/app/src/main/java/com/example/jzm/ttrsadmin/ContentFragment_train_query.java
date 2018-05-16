@@ -205,6 +205,10 @@ public class ContentFragment_train_query extends Fragment {
                     HttpClient client = new HttpClient();
                     client.setCommand(command);
                     JSONObject jsonObject = new JSONObject(client.run());
+                    if (jsonObject.getString("success").equals("false")){
+                        showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"");
+                        return;
+                    }
                     String num = jsonObject.getString("num");
                     if (!num.equals("0")) {
                         Intent intent = new Intent(getActivity(), TicketManifest.class);

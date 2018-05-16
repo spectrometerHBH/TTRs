@@ -16,6 +16,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -81,6 +82,11 @@
             android:name=".TrainOperation"
             android:label="车次管理"
             android:launchMode="singleTask">
+        </activity>
+        <activity
+            android:name=".TrainAddDetail"
+            android:launchMode="singleTask"
+            android:label="添加车次">
         </activity>
     </application>
 
