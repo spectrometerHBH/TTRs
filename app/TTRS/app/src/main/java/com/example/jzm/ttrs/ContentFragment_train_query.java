@@ -211,6 +211,7 @@ public class ContentFragment_train_query extends Fragment {
                     client.setCommand(command);
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("false")){
+                        progressbarFragment.dismiss();
                         showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"");
                         return;
                     }
@@ -227,6 +228,7 @@ public class ContentFragment_train_query extends Fragment {
                         progressbarFragment.dismiss();
                         startActivity(intent);
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("没有这样的车票呀( ⊙ o ⊙ )！");
                     }
                 } catch (Exception e){

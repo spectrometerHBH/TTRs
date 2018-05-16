@@ -61,6 +61,7 @@ public class ContentFragment_train_detail extends Fragment {
                         progressbarFragment.dismiss();
                         startActivity(intent);
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("这是一辆幽灵列车");
                     }
                 }catch (Exception e){
