@@ -905,7 +905,7 @@ public:
 	
 	void list_unsale_train(std::istream & is = std::cin, std::ostream & os = std::cout) {
 		auto list_unsale = [&](const TrainID & train_id, const Train & train)->void {
-			if (train.sale == 0) {
+			if (train.open == 0) {
 				os << train_id << '\n';
 			}
 		};

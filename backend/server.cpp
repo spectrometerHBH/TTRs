@@ -5,7 +5,7 @@
 #include <strstream>
 #include "command.h"
 #include <cstring>
-#define bufsize 81920
+#define bufsize 1000000
 #include <ctime>
 using boost::asio::ip::tcp;
 int Session(tcp::socket socket) {

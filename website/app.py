@@ -484,14 +484,18 @@ func = {"register":(encode_register, decode_register),
         "modify_profile2":(encode_modify_profile2, decode_modify_profile2),
         "modify_privilege":(encode_modify_privilege, decode_modify_privilege),
         "query_ticket":(encode_query_ticket, decode_query_ticket),
+        "query_transfer":(encode_query_transfer, decode_query_transfer),
         "buy_ticket":(encode_buy_ticket, decode_buy_ticket),
         "refund_ticket":(encode_refund_ticket, decode_refund_ticket),
         "add_train":(encode_add_train, decode_add_train),
+        "modify_train":(encode_modify_train, decode_add_train),
         "sale_train":(encode_sale_train, decode_sale_train),
         "query_train":(encode_query_train, decode_query_train),
+        "query_train2":(encode_query_train2, decode_query_train),
         "delete_train":(encode_delete_train, decode_delete_train),
         "query_order":(encode_query_order, decode_query_ticket),
-        "list_station":(encode_list_station, decode_list_station)
+        "list_station":(encode_list_station, decode_list_station),
+        "list_unsale_train":(encode_list_unsale_train, decode_list_unsale_train)
         }
 
 @app.route('/action/post', methods=['POST', 'GET'])

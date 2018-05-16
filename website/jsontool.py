@@ -139,6 +139,28 @@ def encode_add_train(data):
         command += "\n"
     return command
 
+def encode_modify_train(data):
+    para = ("train_id", "name", "catalog", "stationnum", "pricenum",
+        "ticket", "station")
+    for item in para:
+        if not data.has_key(item):
+            return ""
+    command = "modify_train {train_id} {name} {catalog} {stationnum} {pricenum}".format(**data)
+    for pricename in data["ticket"]:
+        command += " "+pricename
+    command += "\n"
+    station_para = ("name","timearriv","timestart","timestopover","ticket")
+    for station in data["station"]:
+        for item in station_para:
+            if not station.has_key(item):
+                return ""
+        command += "{name} {timearriv} {timestart} {timestopover}".format(**station)
+        for price in station["ticket"]:
+            command += " ￥" + str(price)
+        command += "\n"
+    return command
+
+
 def decode_add_train(data):
     result={}
     if data == "1\n":
@@ -152,8 +174,7 @@ def encode_query_ticket(data):
     for item in para:
         if not data.has_key(item):
             return ""
-    #print "haha"
-    return "query_ticket {loc1} {loc2} {date} {catalog}\n".format(**data)    
+    return "query_ticket {loc1} {loc2} {date} {catalog}\n".format(**data)  
 
 def decode_query_ticket(data):
     result = {}
@@ -182,6 +203,40 @@ def decode_query_ticket(data):
                 info_dict["ticket"][info[i]] = {"num": int(info[i+1]), "price":float(info[i+2])}
             result["ticket"].append(info_dict)
     return result
+
+
+def encode_query_transfer(data):
+    para = ("loc1", "loc2", "date", "catalog")
+    for item in para:
+        if not data.has_key(item):
+            return ""
+    return "query_transfer {loc1} {loc2} {date} {catalog}\n".format(**data) 
+
+def decode_query_transfer(data):
+    result = {}
+    if data == "-1\n":
+        result["success"] = False
+    else:
+        result["success"] = True
+        trainlist = data.split("\n")
+        #result["num"] = int(trainlist[0])
+        result["ticket"] = []
+        keywd = ("train_id", "locfrom", "datefrom", "timefrom", "locto",
+            "dateto", "timeto")
+        for item in trainlist:
+            info = item.split(" ")
+            if (len(info) < len(keywd)):
+                continue
+            info_dict = {}
+            for i in range(len(keywd)):
+                info_dict[keywd[i]] = info[i]
+            info_dict["ticket"] = {}
+            info = filter(None, info)
+            for i in range(len(keywd), len(info), 3):
+                info_dict["ticket"][info[i]] = {"num": int(info[i+1]), "price":float(info[i+2])}
+            result["ticket"].append(info_dict)
+    return result
+
 
 def encode_buy_ticket(data):
     para = ("id", "num", "train_id", "loc1", "loc2", "date", "ticket_kind")
@@ -222,6 +277,13 @@ def encode_query_train(data):
         if not data.has_key(item):
             return ""
     return "query_train {train_id}\n".format(**data)    
+
+def encode_query_train2(data):
+    para = ("train_id",)
+    for item in para:
+        if not data.has_key(item):
+            return ""
+    return "query_train2 {train_id}\n".format(**data)    
 
 def decode_query_train(data):
     #print data
@@ -305,6 +367,7 @@ def encode_list_unsale_train(data):
 def decode_list_unsale_train(data):
     result = {}
     lines = data.split("\n")
+    print lines
     lines = filter(None, lines)
     result["success"] = True
     result["num"] = len(lines)
