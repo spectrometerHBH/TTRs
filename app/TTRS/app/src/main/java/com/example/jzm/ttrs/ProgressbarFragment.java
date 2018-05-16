@@ -15,7 +15,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class ProgressbarFragment extends DialogFragment {
+public class  ProgressbarFragment extends DialogFragment {
 
     public void show(FragmentManager fragmentManager){
         show(fragmentManager, "ProgressbarFragment");

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorRegisterButton">
+
+    <TextView
+        android:id="@+id/seat_subitem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="座次"
+        android:textColor="@color/blank"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/price_subitem"
+        app:layout_constraintEnd_toStartOf="@+id/price_subitem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/price_subitem"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/price_subitem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="￥666"
+        android:textColor="@color/blank"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/seat_subitem" />
+
+    <View
+        android:id="@+id/ticket_purchase_cursor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorCursor"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

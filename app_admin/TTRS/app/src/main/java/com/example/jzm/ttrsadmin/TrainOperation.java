@@ -99,8 +99,8 @@ public class TrainOperation extends AppCompatActivity
             e.printStackTrace();
         }
 
-        titles.add("车次添加");
-        titles.add("车次修改/公开/删除");
+        titles.add("车次添加/修改");
+        titles.add("车次公开/删除");
         initializeViewPager();
     }
 

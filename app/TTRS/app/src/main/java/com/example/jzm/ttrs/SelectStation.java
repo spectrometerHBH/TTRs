@@ -43,8 +43,8 @@ public class SelectStation extends AppCompatActivity
         setContentView(R.layout.activity_select_station);
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
-        progressbarFragment.show(getFragmentManager());
         progressbarFragment.setCancelable(false);
+        progressbarFragment.show(getFragmentManager());
         sendRequest();
     }
 

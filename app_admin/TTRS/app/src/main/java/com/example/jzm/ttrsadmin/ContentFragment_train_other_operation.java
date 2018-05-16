@@ -16,7 +16,6 @@ public class ContentFragment_train_other_operation extends Fragment
     implements View.OnClickListener{
     private View view;
     private EditText trainId;
-    private Button modify;
     private Button sale;
     private Button delete;
 
@@ -25,12 +24,13 @@ public class ContentFragment_train_other_operation extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         view = inflater.inflate(R.layout.contain_train_other_operation, container, false);
         initializeWidgets(view);
+        sale.setOnClickListener(this);
+        delete.setOnClickListener(this);
         return view;
     }
 
     private void initializeWidgets(View view){
         trainId = view.findViewById(R.id.train_other_operation_Edit);
-        modify = view.findViewById(R.id.contain_train_modify_button);
         sale = view.findViewById(R.id.contain_train_publicize_button);
         delete = view.findViewById(R.id.contain_train_delete_button);
     }
@@ -38,9 +38,6 @@ public class ContentFragment_train_other_operation extends Fragment
     @Override
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.contain_train_modify_button:{
-                break;
-            }
             case R.id.contain_train_publicize_button : {
                 String train = trainId.getText().toString();
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();

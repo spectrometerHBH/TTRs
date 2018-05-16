@@ -84,9 +84,10 @@
             android:launchMode="singleTask">
         </activity>
         <activity
-            android:name=".TrainAddDetail"
-            android:launchMode="singleTask"
-            android:label="添加车次">
+            android:name=".GetStaion"
+            android:label="添加车次"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTask">
         </activity>
     </application>
 

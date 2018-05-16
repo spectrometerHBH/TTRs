@@ -64,7 +64,7 @@ public class ContentFragment_train_add extends Fragment {
                         showWarning("这是一辆没有座位的列车+_+");
                         return;
                     }
-                    Intent intent = new Intent(getActivity().getApplicationContext(), TrainAddDetail.class);
+                    Intent intent = new Intent(getActivity().getApplicationContext(), GetStaion.class);
                     intent.putExtra("trainId", trainId);
                     intent.putExtra("trainName", trainName);
                     intent.putStringArrayListExtra("seats", seatTypes);
