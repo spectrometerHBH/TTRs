@@ -174,7 +174,8 @@ def decode_query_ticket(data):
             for i in range(len(keywd)):
                 info_dict[keywd[i]] = info[i]
             info_dict["ticket"] = {}
-            info.remove("")
+            #info.remove("")
+            info = filter(None, info)
             #print info,len(info)
             for i in range(len(keywd), len(info), 3):
                 #print i
@@ -294,5 +295,6 @@ def decode_list_station(data):
         result["success"] = True
         result["num"] = int(lines[0])
         result["station"] = lines[1].split(" ")
-        result["station"].remove("")
+        #result["station"].remove("")
+        result["station"] = filter(None, result["station"])
     return result
