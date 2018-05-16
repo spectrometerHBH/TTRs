@@ -329,7 +329,7 @@ def action_query_user():
 def action_query():
     if request.method == 'POST':
         print request.form
-        para = ("loc1", "loc2", "date", "catalog")
+        para = ("loc1", "loc2", "date", "catalog","transfer")
         command = {}
         for item in para:
             value = request.form.get(item, "")
@@ -337,12 +337,16 @@ def action_query():
                 command[item] = value
             else :
                 return ""
-        command["type"] = "query_ticket"
-        #print "#",encode_query_ticket(command)
-        raw_result = client.send(encode_query_ticket(command))
-        #print raw_result
-        raw_result = unicode(raw_result, "utf-8")
-        result = decode_query_ticket(raw_result)
+        if request.form["transfer"] == u"true":
+            command["type"] = "query_transfer"
+            raw_result = client.send(encode_query_transfer(command))
+            raw_result = unicode(raw_result, "utf-8")
+            result = decode_query_transfer(raw_result)
+        else:
+            command["type"] = "query_ticket"
+            raw_result = client.send(encode_query_ticket(command))
+            raw_result = unicode(raw_result, "utf-8")
+            result = decode_query_ticket(raw_result)            
         return render_template('query_result.html',
         data = result)
     else:
@@ -530,4 +534,4 @@ app.secret_key = 'A0Zr98j/3asdfHH!&&mN]LWX/,?RT'
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
