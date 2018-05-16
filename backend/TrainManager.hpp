@@ -145,8 +145,8 @@ private:
 		iofile.close();
 
 		Date date1 = date, date2 = date;
-		if (s_array[s1_no] == 1) ++date1;
-		if (s_array[s2_no] == 1) ++date2;
+		if (s_array[s1_no].day == 1) ++date1;
+		if (s_array[s2_no].day == 1) ++date2;
 		os << train.id << ' ' << s_array[s1_no].loc << ' ' << date1 << ' ' << s_array[s1_no].depart 
 			<< ' ' << s_array[s2_no].loc << ' ' << date2 << ' ' << s_array[s2_no].arrive;
 		for (int i = 0; i < train.seat_num; ++i) {
@@ -203,8 +203,8 @@ private:
 
 	void show_ticket(const Train & train, int s1_no, int s2_no, Station * station_list, const Date & date, std::istream & is = std::cin, std::ostream & os = std::cout) {
 		Date date1 = date, date2 = date;
-		if (station_list[s1_no] == 1) ++date1;
-		if (station_list[s2_no] == 1) ++date2;
+		if (station_list[s1_no].day == 1) ++date1;
+		if (station_list[s2_no].day == 1) ++date2;
 		os << train.id << ' ' << station_list[s1_no].loc << ' ' << date1 << ' ' << station_list[s1_no].depart;
 		os << ' ' << station_list[s2_no].loc << ' ' << date2 << ' ' << station_list[s2_no].arrive;
 		int ticket_num = train.seat_num * train.station_num;
@@ -836,8 +836,8 @@ public:
 		for (int i = 0; i < t_array.size(); ++i) {
 			for (int j = 0; j < t_array[i].size(); ++j) {
 				Date date1 = date, date2 = date;
-				if (t_array[i][j].second.from == 1) ++date;
-				if (t_array[i][j].second.to == 1) ++date;
+				if (t_array[i][j].second.day_from == 1) ++date;
+				if (t_array[i][j].second.day_to == 1) ++date;
 				os << t_array[i][j].first.train_id << ' '
 					<< t_array[i][j].first.from << ' ' << date1 << ' ' << t_array[i][j].second.depart << ' '
 					<< t_array[i][j].first.to << ' ' << date2 << ' ' << t_array[i][j].second.arrive;
