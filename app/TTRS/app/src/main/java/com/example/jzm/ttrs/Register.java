@@ -24,6 +24,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextphone;
     private Button buttonRegister;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getFragmentManager());
                 sendRequest();
                 break;
             }
@@ -111,6 +116,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         finish();
                     }else{
                         showWarning("不知道为什么注册失败了~QAQ~");
+                        progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
                     e.printStackTrace();

@@ -43,6 +43,8 @@ public class ContentFragment_train_query extends Fragment {
     private String userCatalog;
     private String queryType;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -122,6 +124,9 @@ public class ContentFragment_train_query extends Fragment {
                 jsonObjectStringCreate.addStringPair("date", time);
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
+
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getActivity().getFragmentManager());
                 sendRequest(command);
             }
         });
@@ -206,6 +211,7 @@ public class ContentFragment_train_query extends Fragment {
                     client.setCommand(command);
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("false")){
+                        progressbarFragment.dismiss();
                         showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"");
                         return;
                     }
@@ -219,8 +225,10 @@ public class ContentFragment_train_query extends Fragment {
                         intent.putExtra("id", userId);
                         intent.putExtra("catalog", userCatalog);
                         intent.putExtra("type", queryType);
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("没有这样的车票呀( ⊙ o ⊙ )！");
                     }
                 } catch (Exception e){

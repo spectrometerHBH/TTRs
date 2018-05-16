@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity
     private Button queryButton;
     private List<CheckBox> checkBoxes = new ArrayList<>();
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     public class MyBroadCastReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent){
@@ -165,6 +167,9 @@ public class MainActivity extends AppCompatActivity
                 jsonObjectStringCreate.addStringPair("date", time);
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
+
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getFragmentManager());
                 sendRequest(command);
             }
         });
@@ -184,8 +189,10 @@ public class MainActivity extends AppCompatActivity
                         intent.putExtra("data", jsonObject.toString());
                         intent.putExtra("id", userId);
                         intent.putExtra("catalog", userCatalog);
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("你还一张票都没买呢( ⊙ o ⊙ )！");
                     }
                 }catch (Exception e){

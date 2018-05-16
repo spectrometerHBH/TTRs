@@ -43,6 +43,8 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
     private String nowCatalog;
     private MyExpandableListViewAdapter adapter;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +153,9 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
+
+        progressbarFragment.setCancelable(false);
+        progressbarFragment.show(getFragmentManager());
         sendRequestForRefund(jsonObjectStringCreate.getResult());
     }
 
@@ -187,6 +192,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                         expandableListView.expandGroup(i);
                         if (!isExpanded) expandableListView.collapseGroup(i);
                     }
+                    progressbarFragment.dismiss();
                 }catch (Exception e){
                     e.printStackTrace();
                 }

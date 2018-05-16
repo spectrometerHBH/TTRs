@@ -45,6 +45,8 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
     private String nowType;
     private MyExpandableListViewAdapter adapter;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +152,9 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
+
+        progressbarFragment.setCancelable(false);
+        progressbarFragment.show(getFragmentManager());
         sendRequestForBuy(jsonObjectStringCreate.getResult());
     }
 
@@ -186,6 +191,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                         expandableListView.expandGroup(i);
                         if (!isExpanded) expandableListView.collapseGroup(i);
                     }
+                    progressbarFragment.dismiss();
                 }catch (Exception e){
                     e.printStackTrace();
                     Toast.makeText(TicketManifest.this, "fuck", Toast.LENGTH_LONG).show();
