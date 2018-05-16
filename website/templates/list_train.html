@@ -1,0 +1,47 @@
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th style="width:80%">ID</th>
+            <th colspan="3">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data.train %}
+        <tr>
+            <td>{{item}}</td>
+            <td><div id="{{item}}" class="sale btn btn-primary">发售</div></td>
+            <td><a href="/modify_train?train_id={{item}}" class="btn btn-secondary">修改</a></td>
+            <td><div id="{{item}}" class="delete btn btn-danger">删除</div></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+$().ready(function() {
+$(".delete").click(function(){
+  $.get("/action/del_train",
+    {train_id: this.id}
+    , function(result){
+        $("#message").show();
+        $("#message").html(result);
+  });
+  $.get("/action/list_train",
+    function(result){
+        $("#result").html(result);
+  });
+});
+$(".sale").click(function(){
+  $.get("/action/sale_train",
+    {train_id: this.id}
+    , function(result){
+        $("#message").show();
+        $("#message").html(result);
+  });
+  $.get("/action/list_train",
+    function(result){
+        $("#result").html(result);
+  });
+});
+});
+</script>

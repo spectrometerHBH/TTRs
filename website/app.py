@@ -11,7 +11,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 
-date_re = re.compile("\d\d:\d\d$")
+date_re = re.compile("(\d\d:\d\d)|(xx:xx)$")
 
 
 def get_station():
@@ -37,7 +37,7 @@ message = { 'login' : "成功登录",
             'modify' : "信息修改成功",
             'modifyfail' : "信息修改失败",
             'buy' : "购票成功",
-            "refund" : "退票成功"}
+            "refund" : "退票成功",}
 
 @app.route('/')
 def index():
@@ -162,7 +162,24 @@ def signup():
                             admin = get_privilege(current_user),
                             message = "您已登录",
                             user = current_user)
-    return render_template('signup.html',
+
+    return render_template('manage_train.html',
+                            admin = get_privilege(current_user),
+                            message = message.get(fromWhere, ""),
+                            user = current_user)
+
+@app.route('/manage_train')
+def manage_train():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+    admin = get_privilege(current_user)
+    if (admin != 2):
+        return render_template("warning.html",
+                            admin = get_privilege(current_user),
+                            message = "权限不足",
+                            user = current_user
+            )   
+    return render_template('manage_train.html',
                             admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
@@ -480,6 +497,66 @@ def action_add_train():
             return u"Failed"
     else:
         return ""
+
+@app.route('/action/del_train')
+def action_del_train():
+    current_user = session.get('userid','')
+    if get_privilege(current_user) != 2:
+        return render_template("warning.html",
+                            admin = get_privilege(current_user),
+                            message = "权限不足",
+                            user = current_user)
+    train_id = request.args.get("train_id","")
+    if not train_id:
+        return render_template("warning.html",
+                            admin = get_privilege(current_user),
+                            message = "缺少参数",
+                            user = current_user) 
+    command = {"type" : "delete_train",
+               "train_id" : train_id}
+    raw_result = client.send(encode_delete_train(command))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_delete_train(raw_result)
+    if (result.get("success",False)):
+        return u"删车成功"
+    else:
+        return u"删车失败"
+
+@app.route('/action/sale_train')
+def action_sale_train():
+    current_user = session.get('userid','')
+    if get_privilege(current_user) != 2:
+        return render_template("warning.html",
+                            admin = get_privilege(current_user),
+                            message = "权限不足",
+                            user = current_user)
+    train_id = request.args.get("train_id","")
+    if not train_id:
+        return render_template("warning.html",
+                            admin = get_privilege(current_user),
+                            message = "缺少参数",
+                            user = current_user) 
+    command = {"type" : "sale_train",
+               "train_id" : train_id}
+    raw_result = client.send(encode_sale_train(command))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_sale_train(raw_result)
+    if (result.get("success",False)):
+        return u"发售成功"
+    else:
+        return u"发售失败"
+
+@app.route('/action/list_train')
+def list_train():
+    current_user = session.get('userid','')
+    if get_privilege(current_user) != 2:
+        return u"权限不足"
+    command = {"type" : "list_unsale_train"}
+    raw_result = client.send(encode_list_unsale_train(command))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_list_unsale_train(raw_result)
+    return render_template('list_train.html',
+                    data = result)
 
 func = {"register":(encode_register, decode_register),
         "login":(encode_login, decode_login),

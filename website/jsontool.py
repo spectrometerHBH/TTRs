@@ -371,5 +371,5 @@ def decode_list_unsale_train(data):
     lines = filter(None, lines)
     result["success"] = True
     result["num"] = len(lines)
-    result["station"] = lines
+    result["train"] = lines
     return result
