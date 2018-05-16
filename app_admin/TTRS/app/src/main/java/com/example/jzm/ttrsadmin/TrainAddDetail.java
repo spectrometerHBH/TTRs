@@ -22,6 +22,8 @@ public class TrainAddDetail extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
 
     @Override
