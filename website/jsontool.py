@@ -296,3 +296,15 @@ def decode_list_station(data):
         result["station"] = lines[1].split(" ")
         result["station"].remove("")
     return result
+
+def encode_list_unsale_train(data):
+    return "list_unsale_train\n"
+
+def decode_list_unsale_train(data):
+    result = {}
+    lines = data.split("\n")
+    lines = filter(None, lines)
+    result["success"] = True
+    result["num"] = len(lines)
+    result["station"] = lines
+    return result
