@@ -123,10 +123,21 @@ void read_command(std::istream & is, std::ostream & os) {
 			os << train_manager.sale_train(train_id, is, os) << '\n';
 			continue;
 		}
+		//query_train including sale only
 		if (command == "query_train") {
 			TrainID train_id;
 			is >> train_id;
 			int flag = train_manager.query_train(train_id, is, os);
+			if (flag == 0) {
+				os << 0 << '\n';
+			}
+			continue;
+		}
+		//query_train including sale & unsale
+		if (command == "query_train2") {
+			TrainID train_id;
+			is >> train_id;
+			int flag = train_manager.query_train2(train_id, is, os);
 			if (flag == 0) {
 				os << 0 << '\n';
 			}
@@ -154,6 +165,10 @@ void read_command(std::istream & is, std::ostream & os) {
 		// others
 		if (command == "list_station") {
 			train_manager.list_station(is, os);
+			continue;
+		}
+		if (command == "list_unsale_train") {
+			train_manager.list_unsale_train(is, os);
 			continue;
 		}
 	}
