@@ -684,9 +684,11 @@ func = {"register":(encode_register, decode_register),
 
 @app.route('/action/post', methods=['POST', 'GET'])
 def action_post():
+    
     if request.method == 'POST':
         raw_text = request.form.get('input','')
         #raw_text = unicode(raw_text, "utf-8")
+        print raw_text
         try:
             data = json.loads(raw_text)
         except ValueError:
