@@ -33,7 +33,7 @@ public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.train_main, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.train_ticket_query, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
