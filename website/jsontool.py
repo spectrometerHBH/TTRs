@@ -169,6 +169,8 @@ def decode_add_train(data):
         result["success"] = False
     return result
 
+decode_modify_train = decode_add_train
+
 def encode_query_ticket(data):
     para = ("loc1", "loc2", "date", "catalog")
     for item in para:
@@ -320,6 +322,8 @@ def decode_query_train(data):
                     info_dict["ticket"].append(float(info[i][1:]))
             result["station"].append(info_dict)
     return result
+
+decode_query_train2 = decode_query_train
 
 def encode_delete_train(data):
     para = ("train_id",)

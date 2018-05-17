@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}修改车次{% endblock %}
+{% block head_extra %}
+<link type="text/css" rel="stylesheet" href="/static/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="/static/jsgrid-theme.min.css" /> 
+<script type="text/javascript" src="/static/jsgrid.min.js"></script>
+{% endblock %}
+{% block body %}
+      <main role="main" class="container">
+        <div>
+          <div class="alert alert-warning" id="result"></div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="train_id">车次ID</label>
+              <input type="text" class="form-control" id="train_id"  value="{{train_id}}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="name">车次名</label>
+              <input type="text" class="form-control" id="name" value="{{name}}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="catalog">车次类型</label>
+              <select class="custom-select" id="catalog"> 
+                <option id="T" value="T" >T</option>
+                <option id="Z" value="Z" >Z</option>
+                <option id="C" value="C" >C</option>
+                <option id="O" value="O" >O</option>
+                <option id="G" value="G" >G</option>
+                <option id="D" value="D" >D</option>
+                <option id="K" value="K" >K</option>
+              </select>
+            </div>
+          </div>
+        <div class="form-group">
+          <label for="seat_choose">
+              车票类型
+          </label>
+        <div id="seat_choose" class="row btn-group btn-group-toggle" data-toggle="buttons" >
+
+            <label class="btn btn-secondary" id="特等座">
+              <input class="checkbox" type="checkbox" id="特等座" > 特等座
+            </label>
+
+            <label class="btn btn-secondary" id="商务座">
+              <input class="checkbox" type="checkbox" id="商务座" > 商务座
+            </label>
+
+            <label class="btn btn-secondary" id="一等座"  >
+              <input class="checkbox" type="checkbox" id="一等座" > 一等座
+            </label>
+
+            <label class="btn btn-secondary" id="二等座" >
+              <input class="checkbox" type="checkbox" id="二等座" > 二等座
+            </label>
+
+            <label class="btn btn-secondary" id="高级软卧">
+              <input class="checkbox" type="checkbox" id="高级软卧" > 高级软卧
+            </label>
+
+            <label class="btn btn-secondary" id="软卧">
+              <input class="checkbox" type="checkbox"  id="软卧" > 软卧
+            </label>
+
+            <label class="btn btn-secondary" id="动卧">
+              <input class="checkbox" type="checkbox" id="动卧"  > 动卧
+            </label>
+
+            <label class="btn btn-secondary" id="硬卧">
+              <input class="checkbox" type="checkbox"  id="硬卧" > 硬卧
+            </label>
+
+            <label class="btn btn-secondary" id="软座">
+              <input class="checkbox" type="checkbox" id="软座"> 软座
+            </label>
+
+            <label class="btn btn-secondary" id="硬座">
+              <input class="checkbox" type="checkbox" id="硬座"  > 硬座
+            </label>
+
+            <label class="choose btn btn-secondary" id="无座">
+              <input class="checkbox" type="checkbox"  autocomplete="off" id="无座"> 无座
+            </label>
+        </div>
+      </div>
+        <div class="row">
+          <div id="grid"></div>
+        </div>
+        <div class="row">
+          <button id="submit" class="btn btn-primary" onclick="doPost()">Submit</div>
+        </div>
+      </div>
+
+    </main>
+ <script>
+     $(document).ready(function(){
+      $("#{{catalog}}").attr("selected","selected");
+      $("#result").hide();
+      $("#submit").click(function(){
+        });
+      $(".checkbox").change(function(){
+        $("#grid").jsGrid("fieldOption", this.id, "visible", $(this).prop("checked"));
+      });
+
+      var ticket = {% autoescape false %} {{ticket}} {% endautoescape %};
+      for (x in ticket){
+        $("input#"+ticket[x]).prop("checked", true);
+        $("label#"+ticket[x]).addClass("active");
+        //alert($("#"+ticket[x]).prop("checked"));
+        $("#grid").jsGrid("fieldOption",ticket[x] , "visible", true);
+      }
+      
+      
+    });
+    
+    
+
+    var stations = {% autoescape false %} {{stations}} {% endautoescape %};
+
+    $("#grid").jsGrid({
+        width: "100%",
+        height: "600px",
+ 
+        inserting: true,
+        editing: true,
+        shrinkToFit:false,
+        forceFit:true,
+
+        data:stations,
+
+        fields: [
+            { name:"name", title: "站点", type: "text",  validate: "required",width: 70},
+            { name:"timearriv", title: "到达", type: "text"},
+            { name:"timestart", title: "出发", type: "text"},
+            { name:"timestopover", title: "停留", type: "text"},
+            { name: "特等座", type: "text", visible:false},
+            { name: "商务座", type: "text", visible:false},
+            { name: "一等座", type: "text", visible:false},
+            { name: "二等座", type: "text", visible:false},
+            { name: "高级软卧", type: "text", visible:false},
+            { name: "软卧", type: "text", visible:false},
+            { name: "动卧", type: "text", visible:false},
+            { name: "硬卧", type: "text", visible:false},
+            { name: "软座", type: "text", visible:false},
+            { name: "硬座", type: "text", visible:false},
+            { name: "无座", type: "text", visible:false},
+            { type: "control" }
+        ]
+    });
+
+    function doPost()
+      {
+        var items = $("#grid").jsGrid("option", "data");
+        //alert(JSON.stringify(items));
+        var ticket = new Array();
+        $(".checkbox").each(function(){
+          if ($(this).prop("checked")){
+            ticket.push(this.id);
+          }
+        });
+        $.post("/action/modify_train", {
+          "train_id": $("#train_id").val(),
+          "name": $("#name").val(),
+          "catalog": $("#catalog").val(),
+          "station":JSON.stringify(items),
+          "ticket":JSON.stringify(ticket)},
+          function(data) {
+            $("#result").show();
+            $("#result").html(data);
+          });
+      }
+</script>
+
+{% endblock %}

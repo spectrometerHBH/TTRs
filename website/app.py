@@ -149,6 +149,38 @@ def add_train():
                             message = message.get(fromWhere, ""),
                             user = current_user)
 
+@app.route('/modify_train')
+def modify_train():
+    current_user = session.get('userid','')
+    fromWhere = request.args.get("from","")
+    train_id = request.args.get("train_id",'')
+    if not train_id:
+        return ""
+    command = {"type" : "query_train",
+               "train_id" : train_id}
+    raw_result = client.send(encode_query_train2(command))
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_train2(raw_result)
+    if not result["success"]:
+        return render_template("warning.html",
+                            admin = get_privilege(current_user),
+                            message = "这辆车并不存在",
+                            user = current_user)
+    stations = []
+    for item in result["station"]:
+        for t in range(result["pricenum"]):
+            item[result["ticket"][t]] = item["ticket"][t]
+        item.pop("ticket")
+        stations.append(item)
+    return render_template('modify_train.html',
+                            train_id = train_id,
+                            name = result["name"],
+                            catalog = result["catalog"],
+                            ticket = json.dumps(result["ticket"]),
+                            stations = json.dumps(stations),
+                            admin = get_privilege(current_user),
+                            message = message.get(fromWhere, ""),
+                            user = current_user)
 @app.route('/debug')
 def debug():
     return render_template('debugger.html')
@@ -163,7 +195,7 @@ def signup():
                             message = "您已登录",
                             user = current_user)
 
-    return render_template('manage_train.html',
+    return render_template('signup.html',
                             admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
@@ -488,13 +520,84 @@ def action_add_train():
 
         print encode_add_train(command)
         raw_result = client.send(encode_add_train(command))
-        #print "$",raw_result,"$"
         raw_result = unicode(raw_result, "utf-8")
         result = decode_add_train(raw_result)
         if (result.get("success",False)):
-            return u"Success"
+            return u"加车成功"
         else:
-            return u"Failed"
+            return u"加车失败"
+    else:
+        return ""
+
+@app.route('/action/modify_train', methods=['POST', 'GET'])
+def action_modify_train():
+    if request.method == 'POST':
+        print str(request.form)
+        train_id = request.form.get("train_id", "")
+        if not train_id:
+            return u"缺少列车ID"
+        name = request.form.get("name", "")
+        if not name:
+            return u"缺少车次名"
+        catalog = request.form.get("catalog","")
+        if not catalog:
+            return u"缺少车次类型"
+        station = request.form.get("station", "")
+        if not station:
+            return u"缺少车站信息"
+        ticket = request.form.get("ticket", "")
+        tickets = json.loads(ticket)
+        stations = json.loads(station)
+        station_num  = len(stations)
+        if station_num < 2:
+            return u"站数不够……"
+        
+        price_num = len(tickets)
+        if price_num < 1:
+            return u"票数不够……"
+
+        command = {
+            "type" : "add_train",
+            "train_id" : train_id,
+            "name" : name,
+            "catalog" : catalog,
+            "stationnum" : station_num,
+            "pricenum" : price_num,
+            "ticket" : tickets,
+            "station" : []
+        }
+
+        for item in stations:
+            if (not date_re.match(item["timearriv"])) :
+                return u"时间格式错误"
+            if (not date_re.match(item["timestart"])) :
+                return u"时间格式错误"
+            if (not date_re.match(item["timestopover"])) :
+                return u"时间格式错误"
+            item["ticket_num"] = []
+            for t in tickets:
+                try:
+                    item["ticket_num"].append(float(item[t]))
+                except ValueError:
+                    return u"票价格式错误"
+
+
+        for item in stations:
+            command["station"].append({
+                "name" : item["name"],
+                "timearriv" : item["timearriv"],
+                "timestart" : item["timestart"],
+                "timestopover" : item["timestopover"],
+                "ticket" : item["ticket_num"]
+            })
+
+        raw_result = client.send(encode_modify_train(command))
+        raw_result = unicode(raw_result, "utf-8")
+        result = decode_modify_train(raw_result)
+        if (result.get("success",False)):
+            return u"修改成功"
+        else:
+            return u"修改失败"
     else:
         return ""
 
