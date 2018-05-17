@@ -238,14 +238,12 @@ def action_login():
 @app.route('/action/signup', methods=['POST', 'GET'])
 def action_signup():
     if request.method == 'POST':
-        para = ("name", "password", "password2", "email", "phone")
+        para = ("name", "password", "email", "phone")
         
         for item in para:
             if not request.form.has_key(item):
-                #print item
-                return ""
-        if (request.form['password'] != request.form['password2']):
-            return redirect('/signup?from=pwdfail')
+                return "0"
+        print str(request.form)
         result = client.register(
                 request.form['name'],
                 request.form['password'],
@@ -253,11 +251,11 @@ def action_signup():
                 request.form['phone']
                 )
         if result == "-1\n":
-            return redirect('/')
+            return "0"
         else:
             session['userid'] = result[:-1]
-            return redirect('/?from=signup')
-    return "invalid signup"
+            return "1"
+    return "0"
 
 @app.route('/action/modify_profile', methods=['POST', 'GET'])
 def action_modify_profile():
@@ -692,11 +690,11 @@ def action_post():
         try:
             data = json.loads(raw_text)
         except ValueError:
-            return "not a valid json"
+            return "{'success':false}"
         #return str(data)
         #print data
         if (not (isinstance(data, dict) and data.has_key("type"))):
-            return "not a valid json or type is not defined"
+            return "{'success':false}"
         #print data["type"],func.has_key(data["type"])
         if func.has_key(data["type"]):
             #print data, func[data['type']][0](data)
@@ -709,8 +707,8 @@ def action_post():
             result = unicode(result, "utf-8")
             return json.dumps(func[data['type']][1](result))
         else:
-            return ""
-    return ""
+            return "{'success':false}"
+    return "{'success':false}"
 
 app.secret_key = 'A0Zr98j/3asdfHH!&&mN]LWX/,?RT'
 
