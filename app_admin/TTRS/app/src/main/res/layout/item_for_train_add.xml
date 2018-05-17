@@ -17,58 +17,60 @@
 
         <EditText
             android:id='@+id/station_item'
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="站名"
             android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/arrive_time_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/arrive_time_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="32dp"
             android:text="到时"
+            android:clickable="true"
+            android:focusable="true"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/station_item"
             app:layout_constraintEnd_toStartOf="@+id/stopover_item"
-            app:layout_constraintStart_toEndOf="@+id/station_item"
             app:layout_constraintTop_toTopOf="@+id/station_item" />
 
-        <EditText
+        <TextView
             android:id="@+id/depart_time_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:text="发时"
+            android:clickable="true"
+            android:focusable="true"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/stopover_item"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/stopover_item"
             app:layout_constraintTop_toTopOf="@+id/stopover_item" />
 
-        <EditText
+        <TextView
             android:id="@+id/stopover_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="32dp"
             android:text="停时"
+            android:clickable="true"
+            android:focusable="true"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/arrive_time_item"
             app:layout_constraintEnd_toStartOf="@+id/depart_time_item"
-            app:layout_constraintStart_toEndOf="@+id/arrive_time_item"
             app:layout_constraintTop_toTopOf="@+id/arrive_time_item" />
 
     </android.support.constraint.ConstraintLayout>

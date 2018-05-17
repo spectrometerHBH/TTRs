@@ -84,7 +84,7 @@
             android:launchMode="singleTask">
         </activity>
         <activity
-            android:name=".GetStaion"
+            android:name=".GetStation"
             android:label="添加车次"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTask">

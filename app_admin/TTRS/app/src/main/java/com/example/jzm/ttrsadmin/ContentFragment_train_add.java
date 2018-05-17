@@ -23,6 +23,7 @@ public class ContentFragment_train_add extends Fragment {
     private View view;
     private EditText trainIdEditText;
     private EditText trainNameEditText;
+    private EditText trainCatalogEditText;
     private CheckBox checkBoxAll;
     private List<CheckBox> checkBoxList = new ArrayList<>();
     private Map<Integer, String> seatType = new HashMap<>();
@@ -53,9 +54,11 @@ public class ContentFragment_train_add extends Fragment {
             public void onClick(View view) {
                 String trainId = trainIdEditText.getText().toString();
                 String trainName = trainNameEditText.getText().toString();
+                String trainCatalog = trainCatalogEditText.getText().toString();
                 try {
                     if (!trainIdCheck(trainId)) return;
                     if (!trainNameCheck(trainName)) return;
+                    if (!trainCatalogCheck(trainCatalog)) return;
                     seatTypes.clear();
                     for (int i = 0; i < 11; i++){
                         CheckBox checkBox = checkBoxList.get(i);
@@ -65,39 +68,11 @@ public class ContentFragment_train_add extends Fragment {
                         showWarning("这是一辆没有座位的列车+_+");
                         return;
                     }
-                    Intent intent = new Intent(getActivity().getApplicationContext(), GetStaion.class);
-                    intent.putExtra("type", "add_train");
+                    Intent intent = new Intent(getActivity().getApplicationContext(), GetStation.class);
                     intent.putExtra("trainId", trainId);
                     intent.putExtra("trainName", trainName);
                     intent.putStringArrayListExtra("seats", seatTypes);
-                    startActivity(intent);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        modifyTrain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String trainId = trainIdEditText.getText().toString();
-                String trainName = trainNameEditText.getText().toString();
-                try {
-                    if (!trainIdCheck(trainId)) return;
-                    if (!trainNameCheck(trainName)) return;
-                    seatTypes.clear();
-                    for (int i = 0; i < 11; i++){
-                        CheckBox checkBox = checkBoxList.get(i);
-                        if (checkBox.isChecked()) seatTypes.add(seatType.get(i));
-                    }
-                    if (seatTypes.isEmpty()){
-                        showWarning("这是一辆没有座位的列车+_+");
-                        return;
-                    }
-                    Intent intent = new Intent(getActivity().getApplicationContext(), GetStaion.class);
-                    intent.putExtra("type", "modify_train");
-                    intent.putExtra("trainId", trainId);
-                    intent.putExtra("trainName", trainName);
-                    intent.putStringArrayListExtra("seats", seatTypes);
+                    intent.putExtra("trainCatalog", trainCatalog);
                     startActivity(intent);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -110,6 +85,7 @@ public class ContentFragment_train_add extends Fragment {
     private void initializeWidgets(View view){
         trainIdEditText = view.findViewById(R.id.trainid_add_Edit);
         trainNameEditText = view.findViewById(R.id.trainname_add_Edit);
+        trainCatalogEditText = view.findViewById(R.id.traincatalog_add_Edit);
         checkBoxAll = view.findViewById(R.id.checkBox_all);
         checkBoxList.add((CheckBox) view.findViewById(R.id.checkBox_swz));
         checkBoxList.add((CheckBox) view.findViewById(R.id.checkBox_yz));
@@ -167,10 +143,25 @@ public class ContentFragment_train_add extends Fragment {
         }else return false;
     }
 
+    private boolean single(String s, String message) throws UnsupportedEncodingException {
+        if (s.getBytes("UTF-8").length != 1){
+            showWarning(message + "只能有一种呀~QAQ~");
+            return false;
+        }else return true;
+    }
+
     private boolean trainIdCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "火车ID")) return false;
         if (tooLong(s, "火车ID")) return false;
         if (checkWhiteSpace(s, "火车ID")) return false;
+        return true;
+    }
+
+
+    private boolean trainCatalogCheck(String s) throws UnsupportedEncodingException {
+        if (empty(s, "火车类别")) return false;
+        if (!single(s, "火车类别")) return false;
+        if (checkWhiteSpace(s, "火车类别")) return false;
         return true;
     }
 
