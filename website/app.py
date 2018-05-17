@@ -230,10 +230,10 @@ def action_login():
         #print(result, len(result))
         if result == "1\n":
             session['userid'] = request.form['userid']
-            return redirect('/?from=login')
+            return "1"
         else:
-            return redirect('/login?from=logfail')
-    return "invalid login"
+            return "0"
+    return "0"
 
 @app.route('/action/signup', methods=['POST', 'GET'])
 def action_signup():

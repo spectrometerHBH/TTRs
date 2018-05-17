@@ -13,6 +13,7 @@
     <script src="/static/additional-methods.js"></script>
     <link href="/static/style.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/jquery-ui.css">
+
     {% block head_extra %}
     {% endblock %}
 </head>
@@ -48,7 +49,7 @@
           {% endif %}
         </ul>
 
-        <div class="btn-group">
+        <div class="btn-group" id="nav">
           {% if user %}
           <a href="/user/{{ user }}" class="btn btn-secondary">
             {{ user }}
@@ -60,7 +61,7 @@
             Log out
           </a>
           {% else %}
-          <a href="/login" class="btn btn-secondary">
+          <a href="/login" class="btn btn-secondary" data-toggle="modal" data-target="#login-modal">
             登录
           </a>
           <a href="/signup" class="btn btn-primary">
@@ -74,4 +75,101 @@
     <footer class="container">
       <p>&copy;Copyright 2018</p>
     </footer>
+
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="login-modal-label">登录</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="form-signin" id="loginForm">
+              <div class="alert alert-warning  error" role="alert" id="error" name="error" style="display: none;">
+              </div>
+              <div class="form-group">
+                <input class="form-control" id="userid" name="userid" placeholder="用户ID">
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+              </div>
+              <button type="submit"class="btn btn-primary">登录</button>
+            </form>
+          </div>
+            
+        </div>
+      </div>
+    </div>
+    <script>
+      
+      // 在键盘按下并释放及提交后验证提交表单
+        $("#loginForm").validate({
+          errorLabelContainer: $("div.error"),
+          errorContainer: ".error",
+          wrapper: "div",
+          rules: {
+            userid: {
+              required: true,
+              minlength: 2,
+              noSpace:true,
+              byteRangeLength:20
+            },
+            password: {
+              required: true,
+              minlength: 6,
+              noSpace:true,
+              byteRangeLength:20
+            }
+          },
+          messages: {
+            userid: {
+              required: "请输入用户名",
+              minlength: "用户名必需由两个字母组成",
+              noSpace:"用户名不能含有空格",
+              byteRangeLength:"用户名不能超过20B"
+            },
+            password: {
+              required: "请输入密码",
+              minlength: "密码长度不能小于 6 个字母",
+              noSpace:"密码不能含有空格",
+              byteRangeLength:"密码不能超过20B"
+            }
+           },
+           submitHandler: function(form) {
+            $.post("/action/login",
+            {userid:$("#userid").val(),
+            password:$("#password").val()
+            },
+            function(result){
+              
+              if (result == "1"){
+                location.reload();
+              }else{
+                $("#error").show();
+                $("#error").text("ID或密码错误");
+              }
+            });
+          }
+          });
+
+ 
+      $("#login").click(function(e){
+        if($("#loginFom").validate()){
+          $.post("/action/login",
+            {userid:$("#userid").val(),
+            password:$("#password").val()
+            },
+            function(result){
+              alert(result);
+              if (result == "1"){
+                location.reload();
+              }else{
+                $("error").html("ID或密码错误");
+              }
+          });
+        };
+      });
+    </script>
 </body>
