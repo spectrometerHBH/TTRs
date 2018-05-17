@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class  ProgressbarFragment extends DialogFragment {
 
@@ -25,7 +26,19 @@ public class  ProgressbarFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.progressbar_fragment, null);
-        builder.setView(view);
+        builder.setView(view)
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(), "小熊猫会努力变得更快的！(；′⌒`)", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        getActivity().finish();
+                    }
+                });
         return builder.create();
     }
 

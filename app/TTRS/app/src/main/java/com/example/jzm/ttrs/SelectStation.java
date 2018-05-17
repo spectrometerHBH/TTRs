@@ -43,16 +43,18 @@ public class SelectStation extends AppCompatActivity
         setContentView(R.layout.activity_select_station);
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
-        progressbarFragment.setCancelable(false);
-        progressbarFragment.show(getFragmentManager());
+        mSideBar = findViewById(R.id.sideBar);
+        try {
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         sendRequest();
     }
 
     private void initViews() {
         mComparator = new PinyinComparator();
-
-        mSideBar = findViewById(R.id.sideBar);
-
         //设置右侧SideBar触摸监听
         mSideBar.setOnTouchLetterChangeListener(new WaveSideBar.OnTouchLetterChangeListener() {
             @Override
@@ -107,7 +109,11 @@ public class SelectStation extends AppCompatActivity
                     public void afterTextChanged(Editable s) {
                     }
                 });
-                progressbarFragment.dismiss();
+                try{
+                    progressbarFragment.dismiss();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }

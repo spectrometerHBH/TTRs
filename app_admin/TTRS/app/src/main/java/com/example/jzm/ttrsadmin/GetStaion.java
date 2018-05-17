@@ -30,6 +30,7 @@ public class GetStaion extends AppCompatActivity {
     private ArrayList<String> seatTypes = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
     private List<List<View>> subviewList = new ArrayList<>();
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class GetStaion extends AppCompatActivity {
         trainId = intent.getStringExtra("trainId");
         trainName = intent.getStringExtra("trainName");
         seatTypes = intent.getStringArrayListExtra("seats");
+        type = intent.getStringExtra("type");
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +62,7 @@ public class GetStaion extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 JSONObjectStringCreate commandMaker = new JSONObjectStringCreate();
-                commandMaker.addStringPair("type", "add_train");
+                commandMaker.addStringPair("type", type);
                 commandMaker.addStringPair("train_id", trainId);
                 commandMaker.addStringPair("name", trainName);
                 commandMaker.addIntPair("stationnum", String.valueOf(viewList.size()));

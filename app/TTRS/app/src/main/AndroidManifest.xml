@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:name=".CrashApplication"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:persistent="true">
 
         <activity
             android:name=".Login"
@@ -60,15 +61,18 @@
         <activity
             android:name=".TicketManifest"
             android:label="车票查询"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".OrderManifest"
             android:label="我已购买的票"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
         </activity>
         <activity
             android:name=".SelectStation"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:label="车站选择">
         </activity>
     </application>

@@ -28,6 +28,7 @@ public class ContentFragment_train_add extends Fragment {
     private Map<Integer, String> seatType = new HashMap<>();
     private ArrayList<String> seatTypes = new ArrayList<>();
     private Button addTrain;
+    private Button modifyTrain;
 
     @Nullable
     @Override
@@ -65,6 +66,35 @@ public class ContentFragment_train_add extends Fragment {
                         return;
                     }
                     Intent intent = new Intent(getActivity().getApplicationContext(), GetStaion.class);
+                    intent.putExtra("type", "add_train");
+                    intent.putExtra("trainId", trainId);
+                    intent.putExtra("trainName", trainName);
+                    intent.putStringArrayListExtra("seats", seatTypes);
+                    startActivity(intent);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        modifyTrain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String trainId = trainIdEditText.getText().toString();
+                String trainName = trainNameEditText.getText().toString();
+                try {
+                    if (!trainIdCheck(trainId)) return;
+                    if (!trainNameCheck(trainName)) return;
+                    seatTypes.clear();
+                    for (int i = 0; i < 11; i++){
+                        CheckBox checkBox = checkBoxList.get(i);
+                        if (checkBox.isChecked()) seatTypes.add(seatType.get(i));
+                    }
+                    if (seatTypes.isEmpty()){
+                        showWarning("这是一辆没有座位的列车+_+");
+                        return;
+                    }
+                    Intent intent = new Intent(getActivity().getApplicationContext(), GetStaion.class);
+                    intent.putExtra("type", "modify_train");
                     intent.putExtra("trainId", trainId);
                     intent.putExtra("trainName", trainName);
                     intent.putStringArrayListExtra("seats", seatTypes);
@@ -93,6 +123,7 @@ public class ContentFragment_train_add extends Fragment {
         checkBoxList.add((CheckBox) view.findViewById(R.id.checkBox_tdz));
         checkBoxList.add((CheckBox) view.findViewById(R.id.checkBox_gjrw));
         addTrain = view.findViewById(R.id.contain_train_add_button);
+        modifyTrain = view.findViewById(R.id.contain_train_modify_button);
         seatType.put(0, "商务座");
         seatType.put(1, "硬座");
         seatType.put(2, "硬卧");
