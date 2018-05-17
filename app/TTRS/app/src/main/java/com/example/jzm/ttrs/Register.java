@@ -132,7 +132,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
-        if (s.getBytes("UTF-8").length > 20){
+        int maxLength = 20;
+        if (message.equals("用户名")) maxLength = 40;
+        if (s.getBytes("UTF-8").length > maxLength){
             showWarning(message + "太长了呀~QAQ");
             return true;
         }else return false;

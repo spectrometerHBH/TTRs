@@ -47,12 +47,11 @@ public class SelectStation extends AppCompatActivity
         try {
             progressbarFragment.setCancelable(false);
             progressbarFragment.show(getFragmentManager());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         sendRequest();
     }
-
     private void initViews() {
         mComparator = new PinyinComparator();
         //设置右侧SideBar触摸监听
@@ -124,6 +123,7 @@ public class SelectStation extends AppCompatActivity
         Intent intent = new Intent(SelectStation.this, ContentFragment_train_query.class);
         intent.putExtra("station", station);
         intent.putExtra("type", type);
+        intent.putStringArrayListExtra("list", (ArrayList<String>)list);
         setResult(RESULT_OK, intent);
         finish();
     }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -311,12 +312,18 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                 TextView destination = view.findViewById(R.id.destination);
                 TextView destination_time = view.findViewById(R.id.destination_time);
                 TextView depart_time = view.findViewById(R.id.depart_time);
+                ImageView plusOne = view.findViewById(R.id.plus_one_image);
+                TextView depart_date = view.findViewById(R.id.textView_date);
                 Train train = parentdata.get(parentPos);
                 train_id.setText(train.getTrainID());
                 departure.setText(train.getDeparture());
                 destination.setText(train.getDestination());
                 destination_time.setText(train.getArriveTime());
                 depart_time.setText(train.getDepartTime());
+                depart_date.setText(train.getDepartDate());
+                if (train.getDepartTime().compareTo(train.getArriveTime()) < 0){
+                    plusOne.setVisibility(View.INVISIBLE);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
