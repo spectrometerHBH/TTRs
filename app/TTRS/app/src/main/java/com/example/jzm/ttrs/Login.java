@@ -2,10 +2,13 @@ package com.example.jzm.ttrs;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.*;
 
 import org.json.JSONObject;
@@ -21,9 +24,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private CheckBox rememberPassword;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
@@ -77,6 +85,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getFragmentManager());
                 sendRequest();
                 break;
             case R.id.login_RegisterButton:{
@@ -110,10 +120,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         }
                         editor.apply();
                         Intent intent = new Intent(Login.this, MainActivity.class);
+                        JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
+                        jsonObjectStringCreate.addStringPair("type", "query_profile");
+                        jsonObjectStringCreate.addStringPair("id", suserid);
+                        client.setCommand(jsonObjectStringCreate.getResult());
+                        JSONObject result = new JSONObject(client.run());
+                        result.put("id", suserid);
+                        result.put("password", spassword);
+                        intent.putExtra("info", result.toString());
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                         finish();
                     }else{
                         showResponse("用户名密码不符~QAQ~");
+                        progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -146,15 +166,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }else return false;
     }
 
+    private boolean checkWhiteSpace(String s, String message){
+        if (s.contains(" ")) {
+            showResponse(message + "不能有空格呀~QAQ~");
+            return true;
+        }else return false;
+    }
+
     private boolean usernameCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "id")) return false;
         if (tooLong(s, "id")) return false;
+        if (checkWhiteSpace(s, "id")) return false;
         return true;
     }
 
     private boolean passwordCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "密码")) return false;
         if (tooLong(s, "密码")) return false;
+        if (checkWhiteSpace(s, "密码")) return false;
         return true;
     }
 }

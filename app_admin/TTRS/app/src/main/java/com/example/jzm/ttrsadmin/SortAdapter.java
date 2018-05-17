@@ -20,10 +20,17 @@ public class SortAdapter extends RecyclerView.Adapter<SortAdapter.ViewHolder> {
     private List<SortModel> mData;
     private Context mContext;
 
+    public interface Callback{
+        void onClick(String station);
+    }
+
+    private Callback callback;
+
     public SortAdapter(Context context, List<SortModel> data) {
         mInflater = LayoutInflater.from(context);
         mData = data;
         this.mContext = context;
+        callback = (Callback) context;
     }
 
     @Override
@@ -50,11 +57,9 @@ public class SortAdapter extends RecyclerView.Adapter<SortAdapter.ViewHolder> {
         holder.tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, mData.get(position).getName(),Toast.LENGTH_SHORT).show();
-
+                callback.onClick(mData.get(position).getName());
             }
         });
-
     }
 
     @Override

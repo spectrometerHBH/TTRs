@@ -21,5 +21,5 @@
             app:layout_scrollFlags="scroll|enterAlways|snap"/>
     </android.support.design.widget.AppBarLayout>
 
-
+    <include layout="@layout/contain_order_query" />
 </android.support.design.widget.CoordinatorLayout>

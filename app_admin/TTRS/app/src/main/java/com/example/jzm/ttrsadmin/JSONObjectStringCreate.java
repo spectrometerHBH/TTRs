@@ -10,6 +10,9 @@ public class JSONObjectStringCreate {
     public void addIntPair(String key, String value){
         result = result + "\"" + key + "\":" + value + ",";
     }
+    public void addJSONArrayPair(String key, String value){
+        result = result + "\"" + key + "\":" + value + ",";
+    }
     public String getResult(){
         String ans = result.substring(0, result.length() - 1);
         return "{" + ans + "}";

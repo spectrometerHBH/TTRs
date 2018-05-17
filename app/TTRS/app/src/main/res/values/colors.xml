@@ -19,6 +19,13 @@
     <color name="swapButton">#1A237E</color>
     <color name="black">#000000</color>
     <color name="drawer_color">#7986CB</color>
+<<<<<<< HEAD
+=======
+    <color name="gray">#A9A9A9</color>
+    <color name="red">#DC143C</color>
+    <color name="lightpink">#FFB6C1</color>
+    <color name="plus_one">#FF4081</color>
+>>>>>>> admin
     <drawable name="checkbox">#666666</drawable>
     <drawable name="camera_back_press">#1b1b1b</drawable>
     <drawable name="camera_back_default">#2f2f2f</drawable>
