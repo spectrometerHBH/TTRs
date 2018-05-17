@@ -42,6 +42,7 @@ public class GetStation extends AppCompatActivity {
         setContentView(R.layout.activity_get_staion);
         initializeWidgets();
         Intent intent = getIntent();
+        type = intent.getStringExtra("type");
         trainId = intent.getStringExtra("trainId");
         trainName = intent.getStringExtra("trainName");
         seatTypes = intent.getStringArrayListExtra("seats");

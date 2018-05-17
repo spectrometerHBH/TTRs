@@ -225,7 +225,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:text="v1.0.3/5.17.0117"
+        android:text="v2.0/5.17.2149"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_RegisterButton" />
