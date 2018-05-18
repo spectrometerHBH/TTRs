@@ -154,8 +154,13 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
 
-        progressbarFragment.setCancelable(false);
-        progressbarFragment.show(getFragmentManager());
+        try{
+
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         sendRequestForBuy(jsonObjectStringCreate.getResult());
     }
 
@@ -173,7 +178,13 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                     else
                         showResponse("购票失败~QAQ~");
                     sendRequestForRefresh();
-                } catch (JSONException e) {
+                } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -194,8 +205,13 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                     }
                     progressbarFragment.dismiss();
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
-                    Toast.makeText(TicketManifest.this, "fuck", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -218,7 +234,13 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                     JSONObject jsonObject = new JSONObject(response);
                     refreshData(jsonObject);
                     refresh();
-                } catch (JSONException e) {
+                } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

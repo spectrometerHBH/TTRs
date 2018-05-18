@@ -125,9 +125,13 @@ public class ContentFragment_train_query extends Fragment {
                 jsonObjectStringCreate.addStringPair("date", time);
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
+                try{
 
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getActivity().getFragmentManager());
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getActivity().getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest(command);
             }
         });
@@ -234,6 +238,12 @@ public class ContentFragment_train_query extends Fragment {
                     }
                 } catch (Exception e){
                     e.printStackTrace();
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                 }
             }
         }).start();

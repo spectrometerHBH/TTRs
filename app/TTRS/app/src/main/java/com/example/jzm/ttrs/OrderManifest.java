@@ -154,9 +154,13 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
+        try{
 
-        progressbarFragment.setCancelable(false);
-        progressbarFragment.show(getFragmentManager());
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         sendRequestForRefund(jsonObjectStringCreate.getResult());
     }
 
@@ -175,6 +179,13 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                         showResponse("退票失败~QAQ~");
                     sendRequestForRefresh();
                 } catch (JSONException e) {
+
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -195,6 +206,11 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                     }
                     progressbarFragment.dismiss();
                 }catch (Exception e){
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -218,6 +234,12 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                     refreshData(jsonObject);
                     refresh();
                 } catch (JSONException e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
