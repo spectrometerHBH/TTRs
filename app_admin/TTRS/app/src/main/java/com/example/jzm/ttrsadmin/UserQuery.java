@@ -56,6 +56,7 @@ public class UserQuery extends AppCompatActivity
         }
     }
     private MyBroadCastReceiver myBroadCastReceiver;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +136,8 @@ public class UserQuery extends AppCompatActivity
                 String useridQuery = editUserid.getText().toString();
                 try {
                     if (!useridCheck(useridQuery)) break;
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
                     sendRequest();
                 } catch (Exception e){
                     e.printStackTrace();
@@ -163,9 +166,13 @@ public class UserQuery extends AppCompatActivity
                         intent.putExtra("myInfo", userInfo.toString());
                         intent.putExtra("userInfo", jsonObject.toString());
                         intent.putExtra("userID", useridQuery);
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                     }
-                    else showResponse("不知道为什么获取不到信息~QAQ~");
+                    else{
+                        progressbarFragment.dismiss();
+                        showResponse("不知道为什么获取不到信息~QAQ~");
+                    }
                 } catch (Exception e){
                     e.printStackTrace();
                 }

@@ -24,6 +24,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private CheckBox rememberPassword;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getFragmentManager());
                 sendRequest();
                 break;
             case R.id.login_RegisterButton:{
@@ -125,10 +128,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         result.put("id", suserid);
                         result.put("password", spassword);
                         intent.putExtra("info", result.toString());
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                         finish();
                     }else{
                         showResponse("用户名密码不符~QAQ~");
+                        progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
                     e.printStackTrace();

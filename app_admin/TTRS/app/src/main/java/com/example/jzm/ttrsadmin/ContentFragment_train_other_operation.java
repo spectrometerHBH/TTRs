@@ -18,6 +18,7 @@ public class ContentFragment_train_other_operation extends Fragment
     private EditText trainId;
     private Button sale;
     private Button delete;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Nullable
     @Override
@@ -43,6 +44,8 @@ public class ContentFragment_train_other_operation extends Fragment
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
                 jsonObjectStringCreate.addStringPair("type", "sale_train");
                 jsonObjectStringCreate.addStringPair("train_id", train);
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getActivity().getFragmentManager());
                 sale(jsonObjectStringCreate.getResult());
                 break;
             }
@@ -51,6 +54,8 @@ public class ContentFragment_train_other_operation extends Fragment
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
                 jsonObjectStringCreate.addStringPair("type", "delete_train");
                 jsonObjectStringCreate.addStringPair("train_id", train);
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getActivity().getFragmentManager());
                 delete(jsonObjectStringCreate.getResult());
                 break;
             }
@@ -78,8 +83,10 @@ public class ContentFragment_train_other_operation extends Fragment
                 try {
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("true")){
+                        progressbarFragment.dismiss();
                         showResponse("公开车次成功O(∩_∩)O");
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("公开车次失败( ⊙ o ⊙ )");
                     }
                 }catch (Exception e){
@@ -98,8 +105,10 @@ public class ContentFragment_train_other_operation extends Fragment
                 try{
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("true")){
+                        progressbarFragment.dismiss();
                         showResponse("删除车次成功O(∩_∩)O");
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("删除车次失败(*@ο@*) ");
                     }
                 }catch (Exception e){

@@ -66,21 +66,26 @@
         <activity
             android:name=".TicketManifest"
             android:label="车票查询"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".OrderQuery"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".SelectStation"
             android:label="车站选择"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".OrderManifest"
             android:label="车票查询"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".TrainOperation"
             android:label="车次管理"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
         </activity>
         <activity

@@ -9,10 +9,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.reflect.Field;
 
 public class ViewDialogFragment extends DialogFragment {
+    private EditText countEditText;
     public interface Callback{
         void onClick(String ticket_cnt);
     }
@@ -31,12 +36,9 @@ public class ViewDialogFragment extends DialogFragment {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (callback != null){
-                            EditText ticketNumEdit = view.findViewById(R.id.editText_dialog);
-                            callback.onClick(ticketNumEdit.getText().toString());
-                        }
                     }
                 });
+        countEditText = view.findViewById(R.id.editText_dialog);
         if (getArguments() != null){
             Bundle bundle = getArguments();
             TextView time1 = view.findViewById(R.id.depart_time_dialog);
@@ -61,6 +63,31 @@ public class ViewDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        final AlertDialog dialog = (AlertDialog) getDialog();
+        if (dialog != null){
+            Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (callback != null){
+                        String count = countEditText.getText().toString();
+                        if (count.equals("")){
+                            Toast.makeText(getActivity(), "还没输入票数呀( ⊙ o ⊙ )", Toast.LENGTH_SHORT).show();
+                        }else if (count.matches("[0-9]+")) {
+                                count = String.valueOf(Integer.valueOf(count));
+                                callback.onClick(count);
+                                dismiss();
+                        }else{
+                            Toast.makeText(getActivity(), "票数必须是整数呀( ⊙ o ⊙ )", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+        }
+    }
     @Override
     public void onAttach(Context context){
         super.onAttach(context);

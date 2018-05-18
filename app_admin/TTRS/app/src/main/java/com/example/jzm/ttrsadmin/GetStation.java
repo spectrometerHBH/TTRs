@@ -37,6 +37,7 @@ public class GetStation extends AppCompatActivity {
     private List<View> viewList = new ArrayList<>();
     private List<List<View>> subviewList = new ArrayList<>();
     private String type;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,6 @@ public class GetStation extends AppCompatActivity {
         trainName = intent.getStringExtra("trainName");
         seatTypes = intent.getStringArrayListExtra("seats");
         trainCatalog = intent.getStringExtra("trainCatalog");
-
-
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +159,8 @@ public class GetStation extends AppCompatActivity {
                 }
                 commandMaker.addJSONArrayPair("station", jsonArrayStringCreate.getResult());
                 commandMaker.addStringPair("catalog", trainCatalog);
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getFragmentManager());
                 sendRequest(commandMaker.getResult());
             }
         });
@@ -244,9 +245,11 @@ public class GetStation extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("true")){
+                        progressbarFragment.dismiss();
                         showResponse("加车成功O(∩_∩)O");
                         finish();
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("加车失败( ⊙ o ⊙ )");
                     }
                 } catch (JSONException e) {

@@ -49,6 +49,8 @@ public class ModifyUserInfo extends AppCompatActivity
     private String emailNow;
     private String phoneNow;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,9 @@ public class ModifyUserInfo extends AppCompatActivity
             admin.setClickable(false);
             admin.performClick();
         }
+
+        progressbarFragment.setCancelable(false);
+        progressbarFragment.show(getFragmentManager());
         getProfile();
         buttonModify.setOnClickListener(this);
     }
@@ -106,7 +111,10 @@ public class ModifyUserInfo extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true")) refreshProfile(jsonObject);
-                    else showResponse("不知道为什么获取不到信息~QAQ~");
+                    else {
+                        showResponse("不知道为什么获取不到信息~QAQ~");
+                        progressbarFragment.dismiss();
+                    }
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -125,7 +133,7 @@ public class ModifyUserInfo extends AppCompatActivity
                     editTextphone.setText(jsonObject.getString("phone"));
                     editTextpassword.setText("");
                     editTextconfirmpassword.setText("");
-
+                    progressbarFragment.dismiss();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -178,6 +186,9 @@ public class ModifyUserInfo extends AppCompatActivity
                         showWarning("两次密码不一样呀~QAQ~");
                         break;
                     }
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
                     verifyPassword(oldpassword);
                 } catch (Exception e){
                     e.printStackTrace();
@@ -205,6 +216,7 @@ public class ModifyUserInfo extends AppCompatActivity
                         sendRequest();
                     }else{
                         showResponse("用户名密码不符~QAQ~");
+                        progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -261,6 +273,7 @@ public class ModifyUserInfo extends AppCompatActivity
 
                     }else{
                         showWarning("不知道为什么修改失败了~QAQ~");
+                        progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
                     e.printStackTrace();

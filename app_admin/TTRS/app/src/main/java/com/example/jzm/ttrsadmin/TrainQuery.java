@@ -1,4 +1,4 @@
- package com.example.jzm.ttrsadmin;
+package com.example.jzm.ttrsadmin;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -38,14 +38,15 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TrainQuery extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener{
+    implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
     private JSONObject userInfo;
     private IntentFilter intentFilter;
+
     public class MyBroadCastReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent){
+        public void onReceive(Context context, Intent intent) {
             try {
                 userInfo = new JSONObject(intent.getStringExtra("info"));
                 refreshNav();
@@ -54,6 +55,7 @@ public class TrainQuery extends AppCompatActivity
             }
         }
     }
+
     private MyBroadCastReceiver myBroadCastReceiver;
 
     List<String> titles = new ArrayList<>();
@@ -85,7 +87,7 @@ public class TrainQuery extends AppCompatActivity
         try {
             userInfo = new JSONObject(intent.getStringExtra("info"));
             refreshNav();
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -109,7 +111,7 @@ public class TrainQuery extends AppCompatActivity
         registerReceiver(myBroadCastReceiver, intentFilter);
     }
 
-    private void initializeViewPager(){
+    private void initializeViewPager() {
         tabLayout = findViewById(R.id.tablayout_train_query);
         viewPager = findViewById(R.id.view_pager_train_query);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -119,12 +121,12 @@ public class TrainQuery extends AppCompatActivity
                 String userId;
                 try {
                     userId = userInfo.getString("id");
-                    if (position == 0){
+                    if (position == 0) {
                         fragment = new ContentFragment_train_query();
                         Bundle bundle = new Bundle();
                         bundle.putString("id", userId);
                         fragment.setArguments(bundle);
-                    }else{
+                    } else {
                         fragment = new ContentFragment_train_detail();
                     }
                 } catch (JSONException e) {
@@ -132,12 +134,14 @@ public class TrainQuery extends AppCompatActivity
                 }
                 return fragment;
             }
+
             @Override
             public int getCount() {
                 return titles.size();
             }
+
             @Override
-            public CharSequence getPageTitle(int position){
+            public CharSequence getPageTitle(int position) {
                 return titles.get(position);
             }
         });
@@ -153,9 +157,9 @@ public class TrainQuery extends AppCompatActivity
         name.setText(userInfo.getString("name"));
         email.setText(userInfo.getString("email"));
         phone.setText(userInfo.getString("phone"));
-        if (userInfo.getString("privilege").equals("1")){
+        if (userInfo.getString("privilege").equals("1")) {
             privilege.setText("用户爸爸");
-        }else{
+        } else {
             privilege.setText("鹳狸猿");
         }
     }
@@ -212,7 +216,6 @@ public class TrainQuery extends AppCompatActivity
         } else if (id == R.id.nav_info) {
 
         }
-
         DrawerLayout drawer = findViewById(R.id.activity_train_query);
         drawer.closeDrawer(GravityCompat.START);
         return true;

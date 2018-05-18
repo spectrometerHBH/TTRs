@@ -24,6 +24,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextphone;
     private Button buttonRegister;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getFragmentManager());
                 sendRequest();
                 break;
             }
@@ -111,6 +116,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         finish();
                     }else{
                         showWarning("不知道为什么注册失败了~QAQ~");
+                        progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
                     e.printStackTrace();
@@ -126,7 +132,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
-        if (s.getBytes("UTF-8").length > 20){
+        int maxLength = 20;
+        if (message.equals("用户名")) maxLength = 40;
+        if (s.getBytes("UTF-8").length > maxLength){
             showWarning(message + "太长了呀~QAQ");
             return true;
         }else return false;
@@ -162,7 +170,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private boolean emailCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "邮箱")) return false;
         if (tooLong(s, "邮箱")) return false;
-        if (checkWhiteSpace(s, "邮箱")) return false;
+        if (checkWhiteSpace(s, "密码")) return false;
         return true;
     }
 

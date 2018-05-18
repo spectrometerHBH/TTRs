@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,8 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
     private String nowCatalog;
     private String nowType;
     private MyExpandableListViewAdapter adapter;
+
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +153,9 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
+
+        progressbarFragment.setCancelable(false);
+        progressbarFragment.show(getFragmentManager());
         sendRequestForBuy(jsonObjectStringCreate.getResult());
     }
 
@@ -186,6 +192,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                         expandableListView.expandGroup(i);
                         if (!isExpanded) expandableListView.collapseGroup(i);
                     }
+                    progressbarFragment.dismiss();
                 }catch (Exception e){
                     e.printStackTrace();
                     Toast.makeText(TicketManifest.this, "fuck", Toast.LENGTH_LONG).show();
@@ -305,12 +312,18 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 TextView destination = view.findViewById(R.id.destination);
                 TextView destination_time = view.findViewById(R.id.destination_time);
                 TextView depart_time = view.findViewById(R.id.depart_time);
+                TextView depart_date = view.findViewById(R.id.textView_date);
+                ImageView plusOne = view.findViewById(R.id.plus_one_image);
                 Train train = parentdata.get(parentPos);
                 train_id.setText(train.getTrainID());
                 departure.setText(train.getDeparture());
                 destination.setText(train.getDestination());
                 destination_time.setText(train.getArriveTime());
                 depart_time.setText(train.getDepartTime());
+                depart_date.setText(train.getDepartDate());
+                if (train.getDepartTime().compareTo(train.getArriveTime()) < 0){
+                    plusOne.setVisibility(View.INVISIBLE);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }

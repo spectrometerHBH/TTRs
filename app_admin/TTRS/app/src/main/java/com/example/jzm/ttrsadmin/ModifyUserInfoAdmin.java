@@ -48,6 +48,7 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
     private String emailNow;
     private String phoneNow;
     private JSONObject myInfo;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +179,8 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
                         showWarning("两次密码不一样呀~QAQ~");
                         break;
                     }
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
                     sendRequest();
                 } catch (Exception e){
                     e.printStackTrace();
@@ -231,9 +234,13 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
                             phoneNow = phone;
                             privilegeNow = privilege;
                             refreshProfile();
+                            progressbarFragment.dismiss();
                             showResponse("修改成功了呢O(∩_∩)O");
+                        }else{
+                            progressbarFragment.dismiss();
                         }
                     }else{
+                        progressbarFragment.dismiss();
                         showWarning("不知道为什么修改失败了~QAQ~");
                     }
                 } catch (Exception e) {
