@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -207,10 +208,26 @@ public class SelectStation extends AppCompatActivity
                         initViews();
                     }
                 } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
         }).start();
+    }
+
+
+    private void showResponse(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(SelectStation.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

@@ -85,8 +85,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getFragmentManager());
+                try{
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest();
                 break;
             case R.id.login_RegisterButton:{
@@ -136,6 +141,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

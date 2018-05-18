@@ -10,39 +10,39 @@
             android:id="@+id/train_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
             android:gravity="center"
             android:text="车次"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:typeface="monospace"
+            app:layout_constraintBottom_toTopOf="@+id/textView_date"
             app:layout_constraintEnd_toStartOf="@+id/destination_time"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/depart_time"
-            app:layout_constraintTop_toTopOf="@+id/arrow_right_icon" />
+            app:layout_constraintStart_toEndOf="@+id/depart_time" />
 
         <TextView
             android:id="@+id/departure"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
             android:text="起点站"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:typeface="monospace"
-            app:layout_constraintEnd_toStartOf="@+id/textView_date"
-            app:layout_constraintStart_toStartOf="@+id/depart_time"
+            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/depart_time" />
 
         <ImageView
             android:id="@+id/arrow_right_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_arrow"
             app:layout_constraintBottom_toBottomOf="@+id/depart_time"
@@ -55,13 +55,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
             android:text="终点站"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:typeface="monospace"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/destination_time"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/destination_time" />
 
         <TextView
@@ -107,7 +108,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/departure"
-            app:layout_constraintEnd_toStartOf="@+id/departure"
+            app:layout_constraintStart_toStartOf="@+id/depart_time"
             app:layout_constraintTop_toTopOf="@+id/departure"
             app:srcCompat="@drawable/ic_depart" />
 
@@ -116,7 +117,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/destination"
-            app:layout_constraintEnd_toStartOf="@+id/destination"
+            app:layout_constraintStart_toStartOf="@+id/destination_time"
             app:layout_constraintTop_toTopOf="@+id/destination"
             app:srcCompat="@drawable/ic_arrive" />
 
@@ -136,12 +137,12 @@
             android:id="@+id/textView_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="1111年12月22日"
-            app:layout_constraintBottom_toTopOf="@+id/train_id"
             app:layout_constraintEnd_toStartOf="@+id/destination_time"
-            app:layout_constraintStart_toEndOf="@+id/depart_time" />
+            app:layout_constraintStart_toEndOf="@+id/depart_time"
+            app:layout_constraintTop_toTopOf="@+id/arrow_right_icon" />
 </android.support.constraint.ConstraintLayout>

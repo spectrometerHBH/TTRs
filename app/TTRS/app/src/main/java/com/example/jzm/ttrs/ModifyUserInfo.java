@@ -91,9 +91,13 @@ public class ModifyUserInfo extends AppCompatActivity
             admin.setClickable(false);
             admin.performClick();
         }
+        try{
 
-        progressbarFragment.setCancelable(false);
-        progressbarFragment.show(getFragmentManager());
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         getProfile();
         buttonModify.setOnClickListener(this);
     }
@@ -219,6 +223,12 @@ public class ModifyUserInfo extends AppCompatActivity
                         progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -276,6 +286,12 @@ public class ModifyUserInfo extends AppCompatActivity
                         progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
