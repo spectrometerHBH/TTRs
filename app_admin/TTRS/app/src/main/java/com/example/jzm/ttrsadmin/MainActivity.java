@@ -205,6 +205,12 @@ public class MainActivity extends AppCompatActivity
                         showResponse("你还一张票都没买呢( ⊙ o ⊙ )！");
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

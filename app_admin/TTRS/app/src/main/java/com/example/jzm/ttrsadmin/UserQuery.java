@@ -174,6 +174,12 @@ public class UserQuery extends AppCompatActivity
                         showResponse("不知道为什么获取不到信息~QAQ~");
                     }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

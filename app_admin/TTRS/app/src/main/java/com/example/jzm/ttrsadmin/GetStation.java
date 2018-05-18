@@ -257,7 +257,13 @@ public class GetStation extends AppCompatActivity {
                         progressbarFragment.dismiss();
                         showResponse("加车失败( ⊙ o ⊙ )");
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

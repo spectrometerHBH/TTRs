@@ -120,6 +120,12 @@ public class ModifyUserInfo extends AppCompatActivity
                         progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -190,7 +196,6 @@ public class ModifyUserInfo extends AppCompatActivity
                         showWarning("两次密码不一样呀~QAQ~");
                         break;
                     }
-
                     progressbarFragment.setCancelable(false);
                     progressbarFragment.show(getFragmentManager());
                     verifyPassword(oldpassword);
@@ -223,6 +228,12 @@ public class ModifyUserInfo extends AppCompatActivity
                         progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -280,6 +291,12 @@ public class ModifyUserInfo extends AppCompatActivity
                         progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

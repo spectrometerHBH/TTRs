@@ -86,7 +86,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 try{
-
                     progressbarFragment.setCancelable(false);
                     progressbarFragment.show(getFragmentManager());
                 }catch (Exception e){
@@ -141,6 +140,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

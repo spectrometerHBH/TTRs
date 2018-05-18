@@ -100,6 +100,12 @@ public class ContentFragment_train_other_operation extends Fragment
                         showResponse("公开车次失败( ⊙ o ⊙ )");
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -122,6 +128,12 @@ public class ContentFragment_train_other_operation extends Fragment
                         showResponse("删除车次失败(*@ο@*) ");
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

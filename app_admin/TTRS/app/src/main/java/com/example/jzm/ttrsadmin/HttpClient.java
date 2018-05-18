@@ -1,5 +1,8 @@
 package com.example.jzm.ttrsadmin;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -11,7 +14,11 @@ import okhttp3.Response;
 public class HttpClient {
     private String command;
     private String responseData;
+    private Context context;
 
+    public HttpClient(){
+        this.context = context;
+    }
     public void setCommand(String command) {
         this.command = command;
     }
@@ -24,6 +31,7 @@ public class HttpClient {
             Response response = client.newCall(request).execute();
             responseData = response.body().string();
         }catch (Exception e){
+
             e.printStackTrace();
         }
         return responseData;

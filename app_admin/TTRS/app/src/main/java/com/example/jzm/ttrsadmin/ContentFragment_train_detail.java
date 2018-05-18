@@ -71,6 +71,12 @@ public class ContentFragment_train_detail extends Fragment {
                         showResponse("这是一辆幽灵列车");
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }

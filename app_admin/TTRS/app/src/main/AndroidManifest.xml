@@ -69,10 +69,6 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
-            android:name=".OrderQuery"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
-        <activity
             android:name=".SelectStation"
             android:label="车站选择"
             android:screenOrientation="portrait"

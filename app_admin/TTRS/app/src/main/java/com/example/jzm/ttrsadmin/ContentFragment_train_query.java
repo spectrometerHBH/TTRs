@@ -127,7 +127,6 @@ public class ContentFragment_train_query extends Fragment {
                 String command = jsonObjectStringCreate.getResult();
 
                 try {
-
                     progressbarFragment.setCancelable(false);
                     progressbarFragment.show(getActivity().getFragmentManager());
                 }catch (Exception e){
@@ -238,6 +237,12 @@ public class ContentFragment_train_query extends Fragment {
                         showResponse("没有这样的车票呀( ⊙ o ⊙ )！");
                     }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
