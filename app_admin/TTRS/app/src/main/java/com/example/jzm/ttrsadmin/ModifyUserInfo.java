@@ -91,9 +91,13 @@ public class ModifyUserInfo extends AppCompatActivity
             admin.setClickable(false);
             admin.performClick();
         }
+        try{
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        progressbarFragment.setCancelable(false);
-        progressbarFragment.show(getFragmentManager());
         getProfile();
         buttonModify.setOnClickListener(this);
     }

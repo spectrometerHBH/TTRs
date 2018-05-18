@@ -106,6 +106,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         bundle.putString("seatType", nowTicketKind);
         bundle.putString("operateType", "tuipiao");
         ViewDialogFragment viewDialogFragment = new ViewDialogFragment();
+
         viewDialogFragment.show(getFragmentManager());
         viewDialogFragment.setArguments(bundle);
     }
@@ -155,8 +156,13 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
 
-        progressbarFragment.setCancelable(false);
-        progressbarFragment.show(getFragmentManager());
+        try{
+
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         sendRequestForRefund(jsonObjectStringCreate.getResult());
     }
 

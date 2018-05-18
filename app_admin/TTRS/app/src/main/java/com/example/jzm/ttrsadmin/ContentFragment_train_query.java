@@ -126,8 +126,13 @@ public class ContentFragment_train_query extends Fragment {
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
 
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getActivity().getFragmentManager());
+                try {
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getActivity().getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest(command);
             }
         });

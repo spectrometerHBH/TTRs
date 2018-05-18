@@ -159,8 +159,13 @@ public class GetStation extends AppCompatActivity {
                 }
                 commandMaker.addJSONArrayPair("station", jsonArrayStringCreate.getResult());
                 commandMaker.addStringPair("catalog", trainCatalog);
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getFragmentManager());
+                try {
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest(commandMaker.getResult());
             }
         });

@@ -153,9 +153,13 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
+        try{
 
-        progressbarFragment.setCancelable(false);
-        progressbarFragment.show(getFragmentManager());
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         sendRequestForBuy(jsonObjectStringCreate.getResult());
     }
 

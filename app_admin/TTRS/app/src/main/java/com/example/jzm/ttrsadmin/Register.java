@@ -85,9 +85,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+                try{
 
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getFragmentManager());
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest();
                 break;
             }
@@ -113,6 +117,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         Intent intent = new Intent(Register.this, Login.class);
                         intent.putExtra("id", userid);
                         setResult(RESULT_OK, intent);
+                        progressbarFragment.dismiss();
                         finish();
                     }else{
                         showWarning("不知道为什么注册失败了~QAQ~");

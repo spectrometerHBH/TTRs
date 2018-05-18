@@ -85,8 +85,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getFragmentManager());
+                try{
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest();
                 break;
             case R.id.login_RegisterButton:{

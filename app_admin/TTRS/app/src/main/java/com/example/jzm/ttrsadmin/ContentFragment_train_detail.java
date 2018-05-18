@@ -41,7 +41,7 @@ public class ContentFragment_train_detail extends Fragment {
                         progressbarFragment.show(getActivity().getFragmentManager());
                         sendRequest();
                     }
-                } catch (UnsupportedEncodingException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

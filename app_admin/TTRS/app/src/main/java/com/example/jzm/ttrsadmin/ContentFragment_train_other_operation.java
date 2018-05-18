@@ -44,8 +44,13 @@ public class ContentFragment_train_other_operation extends Fragment
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
                 jsonObjectStringCreate.addStringPair("type", "sale_train");
                 jsonObjectStringCreate.addStringPair("train_id", train);
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getActivity().getFragmentManager());
+                try {
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getActivity().getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sale(jsonObjectStringCreate.getResult());
                 break;
             }
@@ -54,8 +59,13 @@ public class ContentFragment_train_other_operation extends Fragment
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
                 jsonObjectStringCreate.addStringPair("type", "delete_train");
                 jsonObjectStringCreate.addStringPair("train_id", train);
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getActivity().getFragmentManager());
+                try{
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getActivity().getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 delete(jsonObjectStringCreate.getResult());
                 break;
             }

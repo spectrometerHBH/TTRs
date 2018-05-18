@@ -167,9 +167,13 @@ public class MainActivity extends AppCompatActivity
                 jsonObjectStringCreate.addStringPair("date", time);
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
+                try{
 
-                progressbarFragment.setCancelable(false);
-                progressbarFragment.show(getFragmentManager());
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest(command);
             }
         });
