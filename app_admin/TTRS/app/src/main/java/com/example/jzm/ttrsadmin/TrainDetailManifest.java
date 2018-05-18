@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
+
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class TrainDetailManifest extends AppCompatActivity
@@ -189,12 +191,11 @@ public class TrainDetailManifest extends AppCompatActivity
                     if (radioButtons.get(now_ticket).isEnabled() && radioButtons.get(now_ticket).isChecked()) break;
                 }
                 if (now_ticket == 11) {
-                    Toast.makeText(TrainDetailManifest.this, "还没选择席别呀", Toast.LENGTH_SHORT).show();
+                    Toasty.info(TrainDetailManifest.this, "还没选择席别呀", Toast.LENGTH_SHORT, true).show();
                 } else {
                     Intent intent = new Intent(TrainDetailManifest.this, TimeTable.class);
                     intent.putExtra("station", station.toString());
                     intent.putExtra("ticket_type", ticket_types.indexOf(radioButtons.get(now_ticket).getText().toString()));
-                    //Toast.makeText(TrainDetailManifest.this, String.valueOf(ticket_types.indexOf(radioButtons.get(now_ticket).getText().toString())), Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
             }

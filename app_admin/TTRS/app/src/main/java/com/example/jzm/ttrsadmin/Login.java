@@ -6,6 +6,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,8 @@ import android.widget.*;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+
+import es.dmoral.toasty.Toasty;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,7 +57,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 if (resultCode == RESULT_OK){
                     String id = data.getStringExtra("id");
                     userId.setText(id);
-                    showResponse("注册成功！这是您的用户ID，请记住它~♪（＾∀＾●）");
+                    showResponse("注册成功！这是您的用户ID，请记住它~♪（＾∀＾●）", "success");
                 }
                 break;
             default:
@@ -136,11 +139,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         startActivity(intent);
                         finish();
                     }else{
-                        showResponse("用户名密码不符~QAQ~");
+                        showResponse("用户名密码不符~QAQ~", "error");
                         progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
-                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
@@ -152,33 +155,50 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }).start();
     }
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 password.setText("");
-                Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(Login.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(Login.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(Login.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(Login.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }
 
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showResponse("未输入" + message + "呀~QAQ~");
+            showResponse("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
         if (s.getBytes("UTF-8").length > 20){
-            showResponse(message + "太长了呀~QAQ");
+            showResponse(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showResponse(message + "不能有空格呀~QAQ~");
+            showResponse(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }

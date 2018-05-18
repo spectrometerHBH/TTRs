@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class GetStation extends AppCompatActivity {
     private LinearLayout linearLayout;
     private Button addButton;
@@ -180,15 +182,15 @@ public class GetStation extends AppCompatActivity {
         if (!checkStation(stationEditText.getText().toString(), parentPos)) return "";
         jsonObjectStringCreate.addStringPair("name", stationEditText.getText().toString());
         if (arriveTimeEditText.getText().toString().equals("到时")) {
-            showResponse("第" + (parentPos + 1) + "站的到时没设置呀");
+            showResponse("第" + (parentPos + 1) + "站的到时没设置呀", "info");
             return "";
         }
         if (startTimeEditText.getText().toString().equals("发时")){
-            showResponse("第" + (parentPos + 1) + "站的发时没设置呀");
+            showResponse("第" + (parentPos + 1) + "站的发时没设置呀", "info");
             return "";
         }
         if (stopoverTimeEditText.getText().toString().equals("停时")){
-            showResponse("第" + (parentPos + 1) + "站的停时没设置呀");
+            showResponse("第" + (parentPos + 1) + "站的停时没设置呀", "info");
             return "";
         }
         if (view == viewList.get(0)) jsonObjectStringCreate.addStringPair("timearriv", "xx:xx");
@@ -232,11 +234,28 @@ public class GetStation extends AppCompatActivity {
     }
 
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }
@@ -251,14 +270,14 @@ public class GetStation extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("true")){
                         progressbarFragment.dismiss();
-                        showResponse("加车成功O(∩_∩)O");
+                        showResponse("加车成功O(∩_∩)O", "success");
                         finish();
                     }else{
                         progressbarFragment.dismiss();
-                        showResponse("加车失败( ⊙ o ⊙ )");
+                        showResponse("加车失败( ⊙ o ⊙ )", "error");
                     }
                 } catch (Exception e) {
-                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
@@ -289,28 +308,28 @@ public class GetStation extends AppCompatActivity {
             return true;
         }catch (Exception e){
             e.printStackTrace();
-            showResponse("第" + (position + 1) + "站的" + seat + "票价格式错了啦~QAQ~");
+            showResponse("第" + (position + 1) + "站的" + seat + "票价格式错了啦~QAQ~", "info");
             return false;
         }
     }
 
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showResponse("未输入" + message + "呀~QAQ~");
+            showResponse("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
         if (s.getBytes("UTF-8").length > 20){
-            showResponse(message + "太长了呀~QAQ");
+            showResponse(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showResponse(message + "不能有空格呀~QAQ~");
+            showResponse(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }

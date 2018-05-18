@@ -29,6 +29,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告.  
  *
@@ -114,7 +116,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出.", Toast.LENGTH_SHORT).show();
+                Toasty.warning(mContext, "小熊猫出现了异常，很抱歉，小熊猫会做的更好的！%>_<%", Toast.LENGTH_LONG, true).show();
                 Looper.loop();
             }
         }.start();

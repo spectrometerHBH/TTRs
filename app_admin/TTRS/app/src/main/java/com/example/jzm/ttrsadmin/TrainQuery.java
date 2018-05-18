@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class TrainQuery extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -204,7 +205,7 @@ public class TrainQuery extends AppCompatActivity
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
         } else if (id == R.id.nav_train) {
-            Toast.makeText(TrainQuery.this, "你已经在车次查询页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
+            Toasty.info(TrainQuery.this, "你已经在车次查询页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT, true).show();
         } else if (id == R.id.nav_user_management) {
             Intent intent = new Intent(TrainQuery.this, UserQuery.class);
             intent.putExtra("info", userInfo.toString());

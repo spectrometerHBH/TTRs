@@ -16,7 +16,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_logo"
+        android:src="@mipmap/ic_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -225,7 +225,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:text="v2.0/5.18.0036"
+        android:text="v3.0/5.18.2145"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_RegisterButton" />

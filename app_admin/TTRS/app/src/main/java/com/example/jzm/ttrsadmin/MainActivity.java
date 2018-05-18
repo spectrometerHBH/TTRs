@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initializeWidgets();
-        Toast.makeText(MainActivity.this, "登录成功~♪（＾∀＾●）", Toast.LENGTH_SHORT).show();
+        Toasty.success(MainActivity.this, "登录成功~♪（＾∀＾●）", Toast.LENGTH_SHORT, true).show();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity
                         userCatalog = userCatalog + checkBox.getText().toString().substring(0, 1);
                 }
                 if (userCatalog.equals("")){
-                    Toast.makeText(MainActivity.this, "还没选要看的类型啊~QAQ~", Toast.LENGTH_SHORT).show();
+                    Toasty.info(MainActivity.this, "还没选要看的类型啊~QAQ~", Toast.LENGTH_SHORT, true).show();
                     return;
                 }
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("false")){
                         progressbarFragment.dismiss();
-                        showResponse("你还一张票都没买呢( ⊙ o ⊙ )！");
+                        showResponse("你还一张票都没买呢( ⊙ o ⊙ )！", "error");
                         return;
                     }
                     String num = jsonObject.getString("num");
@@ -202,10 +203,10 @@ public class MainActivity extends AppCompatActivity
                         startActivity(intent);
                     }else{
                         progressbarFragment.dismiss();
-                        showResponse("你还一张票都没买呢( ⊙ o ⊙ )！");
+                        showResponse("你还一张票都没买呢( ⊙ o ⊙ )！", "error");
                     }
                 }catch (Exception e){
-                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
@@ -306,7 +307,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_homepage) {
-            Toast.makeText(MainActivity.this, "你已经在首页了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
+            Toasty.info(MainActivity.this, "你已经在首页了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT, true).show();
         } else if (id == R.id.nav_train) {
             Intent intent = new Intent(MainActivity.this, TrainQuery.class);
             intent.putExtra("info", userInfo.toString());
@@ -329,11 +330,28 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void showResponse(final String message){
+    private void showResponse(final String message, final String type){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }

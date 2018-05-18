@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
+
 public class OrderManifest extends AppCompatActivity implements ViewDialogFragment.Callback{
     private ExpandableListView expandableListView;
     private Map<String, List<Seats>> childdata = new HashMap<>();
@@ -176,9 +178,9 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true"))
-                        showResponse("退票成功(๑•̀ㅂ•́)و");
+                        showResponse("退票成功(๑•̀ㅂ•́)و", "success");
                     else
-                        showResponse("退票失败~QAQ~");
+                        showResponse("退票失败~QAQ~", "");
                     sendRequestForRefresh();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -366,11 +368,28 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         }
     }
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(OrderManifest.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(OrderManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(OrderManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(OrderManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(OrderManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }

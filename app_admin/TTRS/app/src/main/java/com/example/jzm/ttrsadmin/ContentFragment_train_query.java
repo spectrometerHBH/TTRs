@@ -26,6 +26,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import es.dmoral.toasty.Toasty;
+
 import static android.app.Activity.RESULT_OK;
 
 public class ContentFragment_train_query extends Fragment {
@@ -109,7 +111,7 @@ public class ContentFragment_train_query extends Fragment {
                         userCatalog = userCatalog + checkBox.getText().toString().substring(0, 1);
                 }
                 if (userCatalog.equals("")){
-                    Toast.makeText(getActivity(), "还没选要看的类型啊~QAQ~", Toast.LENGTH_SHORT).show();
+                    showResponse("还没选要看的类型啊~QAQ~", "info");
                     return;
                 }
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
@@ -217,7 +219,7 @@ public class ContentFragment_train_query extends Fragment {
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("false")){
                         progressbarFragment.dismiss();
-                        showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"");
+                        showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"", "error");
                         return;
                     }
                     String num = jsonObject.getString("num");
@@ -234,10 +236,10 @@ public class ContentFragment_train_query extends Fragment {
                         startActivity(intent);
                     }else{
                         progressbarFragment.dismiss();
-                        showResponse("没有这样的车票呀( ⊙ o ⊙ )！");
+                        showResponse("没有这样的车票呀( ⊙ o ⊙ )！", "error");
                     }
                 } catch (Exception e){
-                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
@@ -249,11 +251,32 @@ public class ContentFragment_train_query extends Fragment {
         }).start();
     }
 
-    private void showResponse(final String message){
+    private void showResponse(final String message, final String type){
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                try {
+                    switch (type) {
+                        case "error": {
+                            Toasty.error(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "success": {
+                            Toasty.success(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "info": {
+                            Toasty.info(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "warning": {
+                            Toasty.warning(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }

@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
+
 public class TicketManifest extends AppCompatActivity implements ViewDialogFragment.Callback{
     private ExpandableListView expandableListView;
     private Map<String, List<Seats>> childdata = new HashMap<>();
@@ -173,12 +175,12 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true"))
-                        showResponse("购票成功(๑•̀ㅂ•́)و");
+                        showResponse("购票成功(๑•̀ㅂ•́)و", "success");
                     else
-                        showResponse("购票失败~QAQ~");
+                        showResponse("购票失败~QAQ~", "error");
                     sendRequestForRefresh();
                 } catch (Exception e) {
-                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
@@ -229,7 +231,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                     refreshData(jsonObject);
                     refresh();
                 } catch (Exception e) {
-                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
@@ -376,11 +378,28 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         }
     }
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }

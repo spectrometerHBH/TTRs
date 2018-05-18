@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 
+import es.dmoral.toasty.Toasty;
+
 public class ViewDialogFragment extends DialogFragment {
     private EditText countEditText;
     public interface Callback{
@@ -75,13 +77,13 @@ public class ViewDialogFragment extends DialogFragment {
                     if (callback != null){
                         String count = countEditText.getText().toString();
                         if (count.equals("")){
-                            Toast.makeText(getActivity(), "还没输入票数呀( ⊙ o ⊙ )", Toast.LENGTH_SHORT).show();
+                            Toasty.info(getActivity(), "还没输入票数呀( ⊙ o ⊙ )", Toast.LENGTH_SHORT, true).show();
                         }else if (count.matches("[0-9]+")) {
                                 count = String.valueOf(Integer.valueOf(count));
                                 callback.onClick(count);
                                 dismiss();
                         }else{
-                            Toast.makeText(getActivity(), "票数必须是整数呀( ⊙ o ⊙ )", Toast.LENGTH_SHORT).show();
+                            Toasty.info(getActivity(), "票数必须是整数呀( ⊙ o ⊙ )", Toast.LENGTH_SHORT, true).show();
                         }
                     }
                 }

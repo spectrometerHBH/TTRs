@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import es.dmoral.toasty.Toasty;
+
 public class ContentFragment_train_detail extends Fragment {
     private View view;
 
@@ -68,10 +70,10 @@ public class ContentFragment_train_detail extends Fragment {
                         startActivity(intent);
                     }else{
                         progressbarFragment.dismiss();
-                        showResponse("这是一辆幽灵列车");
+                        showResponse("这是一辆幽灵列车", "error");
                     }
                 }catch (Exception e){
-                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%");
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
@@ -83,18 +85,39 @@ public class ContentFragment_train_detail extends Fragment {
         }).start();
     }
 
-    private void showResponse(final String message){
+    private void showResponse(final String message, final String type){
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                try {
+                    switch (type) {
+                        case "error": {
+                            Toasty.error(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "success": {
+                            Toasty.success(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "info": {
+                            Toasty.info(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "warning": {
+                            Toasty.warning(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
     
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showResponse("未输入" + message + "呀~QAQ~");
+            showResponse("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
@@ -103,14 +126,14 @@ public class ContentFragment_train_detail extends Fragment {
         int maxLength = 20;
         if (message.equals("用户名")) maxLength = 40;
         if (s.getBytes("UTF-8").length > maxLength){
-            showResponse(message + "太长了呀~QAQ");
+            showResponse(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showResponse(message + "不能有空格呀~QAQ~");
+            showResponse(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }

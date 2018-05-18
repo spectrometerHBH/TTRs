@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
+
 public class ContentFragment_train_add extends Fragment {
     private View view;
     private EditText trainIdEditText;
@@ -65,7 +67,7 @@ public class ContentFragment_train_add extends Fragment {
                         if (checkBox.isChecked()) seatTypes.add(seatType.get(i));
                     }
                     if (seatTypes.isEmpty()){
-                        showWarning("这是一辆没有座位的列车+_+");
+                        showWarning("这是一辆没有座位的列车+_+", "info");
                         return;
                     }
                     Intent intent = new Intent(getActivity().getApplicationContext(), GetStation.class);
@@ -96,7 +98,7 @@ public class ContentFragment_train_add extends Fragment {
                         if (checkBox.isChecked()) seatTypes.add(seatType.get(i));
                     }
                     if (seatTypes.isEmpty()){
-                        showWarning("这是一辆没有座位的列车+_+");
+                        showWarning("这是一辆没有座位的列车+_+", "info");
                         return;
                     }
                     Intent intent = new Intent(getActivity().getApplicationContext(), GetStation.class);
@@ -145,39 +147,60 @@ public class ContentFragment_train_add extends Fragment {
         seatType.put(10, "高级软卧");
     }
 
-    private void showWarning(final String message){
+    private void showWarning(final String message, final String type){
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                try {
+                    switch (type) {
+                        case "error": {
+                            Toasty.error(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "success": {
+                            Toasty.success(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "info": {
+                            Toasty.info(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "warning": {
+                            Toasty.warning(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showWarning("未输入" + message + "呀~QAQ~");
+            showWarning("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
         if (s.getBytes("UTF-8").length > 20){
-            showWarning(message + "太长了呀~QAQ");
+            showWarning(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showWarning(message + "不能有空格呀~QAQ~");
+            showWarning(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean single(String s, String message) throws UnsupportedEncodingException {
         if (s.getBytes("UTF-8").length != 1){
-            showWarning(message + "只能有一种呀~QAQ~");
+            showWarning(message + "只能有一种呀~QAQ~", "info");
             return false;
         }else return true;
     }
