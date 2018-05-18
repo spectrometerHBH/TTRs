@@ -87,6 +87,10 @@ public class TrainQuery extends AppCompatActivity
         Intent intent = getIntent();
         try {
             userInfo = new JSONObject(intent.getStringExtra("info"));
+            if (userInfo.getString("privilege").equals("1")){
+                navigationView.getMenu().findItem(R.id.nav_user_management).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_settings).setVisible(false);
+            }
             refreshNav();
         } catch (JSONException e) {
             e.printStackTrace();

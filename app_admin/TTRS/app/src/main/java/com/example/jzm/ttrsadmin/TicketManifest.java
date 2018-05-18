@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -95,6 +97,57 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 return true;
             }
         });
+        expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if ((int) view.getTag(R.layout.ticket_purchase) == -1) {
+                    int parentpos = (int) view.getTag(R.layout.train_ticket_query);
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                    try {
+                        sendRequestForTimeTable(parentdata.get(parentpos).getTrainID());
+                    }catch (Exception e){
+                        progressbarFragment.dismiss();
+                        showResponse("不知道为什么查看时刻表没有成功~QAQ~", "error");
+                        e.printStackTrace();
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    private void sendRequestForTimeTable(final String trainId){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    HttpClient client = new HttpClient();
+                    client.setCommand("{\"type\":\"query_train\",\"train_id\":\""+trainId+"\"}");
+                    String response = client.run();
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("true")){
+                        Intent intent = new Intent(TicketManifest.this, TimeTableWithoutPrice.class);
+                        JSONArray station = jsonObject.getJSONArray("station");
+                        intent.putExtra("station", station.toString());
+                        progressbarFragment.dismiss();
+                        startActivity(intent);
+                    }else{
+                        progressbarFragment.dismiss();
+                        showResponse("这是一辆幽灵列车", "error");
+                    }
+                }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void showViewDiaLogFragment(){
@@ -220,10 +273,21 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 HttpClient client = new HttpClient();
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
                 jsonObjectStringCreate.addStringPair("type", nowType);
-                jsonObjectStringCreate.addStringPair("loc1", nowLoc1);
-                jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
-                jsonObjectStringCreate.addStringPair("date", nowDate);
-                jsonObjectStringCreate.addStringPair("catalog", nowCatalog);
+                if (nowType.equals("query_ticket")) {
+                    jsonObjectStringCreate.addStringPair("loc1", nowLoc1);
+                    jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
+                    jsonObjectStringCreate.addStringPair("date", nowDate);
+                    jsonObjectStringCreate.addStringPair("catalog", nowCatalog);
+                }else {
+                    try {
+                        jsonObjectStringCreate.addStringPair("loc1", parentdata.get(0).getDeparture());
+                        jsonObjectStringCreate.addStringPair("loc2", parentdata.get(1).getDestination());
+                        jsonObjectStringCreate.addStringPair("date", parentdata.get(0).getDepartDate());
+                        jsonObjectStringCreate.addStringPair("catalog", nowCatalog);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 client.setCommand(jsonObjectStringCreate.getResult());
                 try {
                     String response = client.run();

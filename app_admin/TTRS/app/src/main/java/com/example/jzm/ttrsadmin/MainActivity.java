@@ -111,6 +111,10 @@ public class MainActivity extends AppCompatActivity
         try {
             userInfo = new JSONObject(intent.getStringExtra("info"));
             userId = userInfo.getString("id");
+            if (userInfo.getString("privilege").equals("1")){
+                navigationView.getMenu().findItem(R.id.nav_user_management).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_settings).setVisible(false);
+            }
             refreshNav();
         }catch (JSONException e){
             e.printStackTrace();
