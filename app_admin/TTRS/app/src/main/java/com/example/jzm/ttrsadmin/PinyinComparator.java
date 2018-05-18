@@ -2,9 +2,9 @@ package com.example.jzm.ttrsadmin;
 
 import java.util.Comparator;
 
-public class PinyinComparator implements Comparator<com.example.jzm.ttrsadmin.SortModel> {
+public class PinyinComparator implements Comparator<SortModel> {
 
-	public int compare(com.example.jzm.ttrsadmin.SortModel o1, com.example.jzm.ttrsadmin.SortModel o2) {
+	public int compare(SortModel o1, SortModel o2) {
 		if (o1.getLetters().equals("@")
 				|| o2.getLetters().equals("#")) {
 			return 1;

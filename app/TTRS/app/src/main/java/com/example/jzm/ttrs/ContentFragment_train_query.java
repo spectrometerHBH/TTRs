@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -42,6 +43,8 @@ public class ContentFragment_train_query extends Fragment {
     private String userId;
     private String userCatalog;
     private String queryType;
+
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Nullable
     @Override
@@ -122,6 +125,9 @@ public class ContentFragment_train_query extends Fragment {
                 jsonObjectStringCreate.addStringPair("date", time);
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
+
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getActivity().getFragmentManager());
                 sendRequest(command);
             }
         });
@@ -205,6 +211,11 @@ public class ContentFragment_train_query extends Fragment {
                     HttpClient client = new HttpClient();
                     client.setCommand(command);
                     JSONObject jsonObject = new JSONObject(client.run());
+                    if (jsonObject.getString("success").equals("false")){
+                        progressbarFragment.dismiss();
+                        showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"");
+                        return;
+                    }
                     String num = jsonObject.getString("num");
                     if (!num.equals("0")) {
                         Intent intent = new Intent(getActivity(), TicketManifest.class);
@@ -215,8 +226,10 @@ public class ContentFragment_train_query extends Fragment {
                         intent.putExtra("id", userId);
                         intent.putExtra("catalog", userCatalog);
                         intent.putExtra("type", queryType);
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                     }else{
+                        progressbarFragment.dismiss();
                         showResponse("没有这样的车票呀( ⊙ o ⊙ )！");
                     }
                 } catch (Exception e){

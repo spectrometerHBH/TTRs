@@ -36,6 +36,7 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
         if (mClearDrawable == null) {
             mClearDrawable = getResources()
                     .getDrawable(R.drawable.ic_highlight_off_white_24dp);
+            mClearDrawable.setTint(getResources().getColor(R.color.icon_default_color));
         }
         mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight());
         setClearIconVisible(false);

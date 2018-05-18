@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class SortAdapter extends RecyclerView.Adapter<SortAdapter.ViewHolder> {
     private LayoutInflater mInflater;
-    private List<SortModel> mData;
+    private List<SortModel> mData = new ArrayList<>();
     private Context mContext;
 
     public interface Callback{
@@ -112,10 +113,14 @@ public class SortAdapter extends RecyclerView.Adapter<SortAdapter.ViewHolder> {
      */
     public int getPositionForSection(int section) {
         for (int i = 0; i < getItemCount(); i++) {
-            String sortStr = mData.get(i).getLetters();
-            char firstChar = sortStr.toUpperCase().charAt(0);
-            if (firstChar == section) {
-                return i;
+            try{
+                String sortStr = mData.get(i).getLetters();
+                char firstChar = sortStr.toUpperCase().charAt(0);
+                if (firstChar == section) {
+                    return i;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
         return -1;

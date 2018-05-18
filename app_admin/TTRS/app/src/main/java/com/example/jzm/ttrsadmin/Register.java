@@ -162,7 +162,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private boolean emailCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "邮箱")) return false;
         if (tooLong(s, "邮箱")) return false;
-        if (checkWhiteSpace(s, "密码")) return false;
+        if (checkWhiteSpace(s, "邮箱")) return false;
         return true;
     }
 

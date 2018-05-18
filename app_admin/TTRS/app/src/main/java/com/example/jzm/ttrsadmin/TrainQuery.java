@@ -1,4 +1,4 @@
-package com.example.jzm.ttrsadmin;
+ package com.example.jzm.ttrsadmin;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -201,8 +201,14 @@ public class TrainQuery extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_train) {
             Toast.makeText(TrainQuery.this, "你已经在车次查询页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_user_management) {
+            Intent intent = new Intent(TrainQuery.this, UserQuery.class);
+            intent.putExtra("info", userInfo.toString());
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
-
+            Intent intent = new Intent(TrainQuery.this, TrainOperation.class);
+            intent.putExtra("info", userInfo.toString());
+            startActivity(intent);
         } else if (id == R.id.nav_info) {
 
         }
@@ -211,6 +217,4 @@ public class TrainQuery extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }
