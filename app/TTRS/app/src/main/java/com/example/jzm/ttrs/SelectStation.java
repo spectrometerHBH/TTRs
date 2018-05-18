@@ -29,6 +29,7 @@ public class SelectStation extends AppCompatActivity
     private List<SortModel> mDateList;
     private TitleItemDecoration mDecoration;
     private List<String> list = new ArrayList<>();
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     /**
      * 根据拼音来排列RecyclerView里面的数据类
@@ -42,14 +43,17 @@ public class SelectStation extends AppCompatActivity
         setContentView(R.layout.activity_select_station);
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
+        mSideBar = findViewById(R.id.sideBar);
+        try {
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         sendRequest();
     }
-
     private void initViews() {
         mComparator = new PinyinComparator();
-
-        mSideBar = findViewById(R.id.sideBar);
-
         //设置右侧SideBar触摸监听
         mSideBar.setOnTouchLetterChangeListener(new WaveSideBar.OnTouchLetterChangeListener() {
             @Override
@@ -104,6 +108,11 @@ public class SelectStation extends AppCompatActivity
                     public void afterTextChanged(Editable s) {
                     }
                 });
+                try{
+                    progressbarFragment.dismiss();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -114,6 +123,7 @@ public class SelectStation extends AppCompatActivity
         Intent intent = new Intent(SelectStation.this, ContentFragment_train_query.class);
         intent.putExtra("station", station);
         intent.putExtra("type", type);
+        intent.putStringArrayListExtra("list", (ArrayList<String>)list);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -194,7 +204,6 @@ public class SelectStation extends AppCompatActivity
                         JSONArray jsonArray = jsonObject.getJSONArray("station");
                         for (int i = 0; i < jsonArray.length(); ++i)
                             list.add(jsonArray.getString(i));
-
                         initViews();
                     }
                 } catch (Exception e) {

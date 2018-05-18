@@ -18,13 +18,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SelectStation extends AppCompatActivity {
+public class SelectStation extends AppCompatActivity
+    implements SortAdapter.Callback{
     private RecyclerView mRecyclerView;
     private WaveSideBar mSideBar;
     private SortAdapter mAdapter;
     private ClearEditText mClearEditText;
     private LinearLayoutManager manager;
-
+    private String type;
     private List<SortModel> mDateList;
     private TitleItemDecoration mDecoration;
     private List<String> list = new ArrayList<>();
@@ -39,6 +40,8 @@ public class SelectStation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_station);
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
         sendRequest();
     }
 
@@ -69,15 +72,6 @@ public class SelectStation extends AppCompatActivity {
         manager = new LinearLayoutManager(this);
         mAdapter = new SortAdapter(this, mDateList);
         mDecoration = new TitleItemDecoration(this, mDateList);
-        mAdapter.setOnItemClickListener(new SortAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent();
-                intent.putExtra("station", mAdapter.getLocation(position));
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -114,6 +108,15 @@ public class SelectStation extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public void onClick(String station){
+        Intent intent = new Intent(SelectStation.this, ContentFragment_train_query.class);
+        intent.putExtra("station", station);
+        intent.putExtra("type", type);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
     /**
      * 为RecyclerView填充数据

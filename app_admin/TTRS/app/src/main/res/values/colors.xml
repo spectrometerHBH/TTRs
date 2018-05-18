@@ -22,6 +22,7 @@
     <color name="gray">#A9A9A9</color>
     <color name="red">#DC143C</color>
     <color name="lightpink">#FFB6C1</color>
+    <color name="plus_one">#FF4081</color>
     <drawable name="checkbox">#666666</drawable>
     <drawable name="camera_back_press">#1b1b1b</drawable>
     <drawable name="camera_back_default">#2f2f2f</drawable>

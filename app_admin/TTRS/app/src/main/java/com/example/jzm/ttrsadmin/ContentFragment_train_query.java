@@ -127,16 +127,18 @@ public class ContentFragment_train_query extends Fragment {
         });
         departureSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SelectStation.class);
+                intent.putExtra("type", "depart");
                 startActivityForResult(intent, 2);
             }
         });
         destinationSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SelectStation.class);
-                startActivityForResult(intent, 3);
+                intent.putExtra("type", "destination");
+                startActivityForResult(intent, 2);
             }
         });
         return view;
@@ -178,14 +180,14 @@ public class ContentFragment_train_query extends Fragment {
                 break;
             }
             case 2:{
-                if (requestCode == RESULT_OK) {
-                    departureSelect.setText(data.getStringExtra("station"));
-                }
-                break;
-            }
-            case 3:{
-                if (requestCode == RESULT_OK) {
-                    destinationSelect.setText(data.getStringExtra("station"));
+                if (resultCode == RESULT_OK) {
+                    String type = data.getStringExtra("type");
+                    String station = data.getStringExtra("station");
+                    if (type.equals("depart")) {
+                        departureSelect.setText(station);
+                    } else {
+                        destinationSelect.setText(station);
+                    }
                 }
                 break;
             }
@@ -203,6 +205,10 @@ public class ContentFragment_train_query extends Fragment {
                     HttpClient client = new HttpClient();
                     client.setCommand(command);
                     JSONObject jsonObject = new JSONObject(client.run());
+                    if (jsonObject.getString("success").equals("false")){
+                        showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"");
+                        return;
+                    }
                     String num = jsonObject.getString("num");
                     if (!num.equals("0")) {
                         Intent intent = new Intent(getActivity(), TicketManifest.class);

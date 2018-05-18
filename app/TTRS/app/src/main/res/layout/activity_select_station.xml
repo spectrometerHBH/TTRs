@@ -13,10 +13,12 @@
         android:paddingLeft="8dp"
         android:background="@color/colorRegisterButton"
         android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:drawableTint="@color/icon_default_color"
         android:hint="请输入关键字"
-        android:maxLines="1"
-        android:textColor="@color/blank"
-        android:textSize="18sp" />
+        android:textColorHint="@color/icon_default_color"
+        android:textColor="@color/icon_default_color"
+        android:textSize="20sp"
+        android:maxLines="1"/>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -31,12 +33,11 @@
             android:id="@+id/sideBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:chooseTextColor="@android:color/white"
-            app:textColor="#969696"
+            app:chooseTextColor="@color/blank"
+            android:textColor="@color/icon_default_color"
             app:backgroundColor="@color/colorSplashBackground"
-            app:textSize="10sp"
-            app:hintTextSize="32sp"
-            app:radius="20dp"
+            app:hintTextSize="30sp"
+            app:radius="24dp"
             app:circleRadius="24dp"/>
 
     </FrameLayout>

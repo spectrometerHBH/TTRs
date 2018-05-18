@@ -3,7 +3,9 @@ package com.example.jzm.ttrs;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,10 +24,22 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextphone;
     private Button buttonRegister;
 
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        Toolbar toolbar = findViewById(R.id.toolbar_register);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         initializeWidgets();
         buttonRegister.setOnClickListener(this);
     }
@@ -71,6 +85,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+
+                progressbarFragment.setCancelable(false);
+                progressbarFragment.show(getFragmentManager());
                 sendRequest();
                 break;
             }
@@ -99,6 +116,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         finish();
                     }else{
                         showWarning("不知道为什么注册失败了~QAQ~");
+                        progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
                     e.printStackTrace();
@@ -114,29 +132,32 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
-        if (s.getBytes("UTF-8").length > 20){
+        int maxLength = 20;
+        if (message.equals("用户名")) maxLength = 40;
+        if (s.getBytes("UTF-8").length > maxLength){
             showWarning(message + "太长了呀~QAQ");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
-        if (s.contains(" ")){
+        if (s.contains(" ")) {
             showWarning(message + "不能有空格呀~QAQ~");
             return true;
-        }
-        return false;
+        }else return false;
     }
 
     private boolean usernameCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "用户名")) return false;
         if (tooLong(s, "用户名")) return false;
+        if (checkWhiteSpace(s, "用户名")) return false;
         return true;
     }
 
     private boolean passwordCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "密码")) return false;
         if (tooLong(s, "密码")) return false;
+        if (checkWhiteSpace(s, "密码")) return false;
         return true;
     }
 
@@ -149,12 +170,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private boolean emailCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "邮箱")) return false;
         if (tooLong(s, "邮箱")) return false;
+        if (checkWhiteSpace(s, "密码")) return false;
         return true;
     }
 
     private boolean phoneCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "电话")) return false;
         if (tooLong(s, "电话")) return false;
+        if (checkWhiteSpace(s, "电话")) return false;
         return true;
     }
 

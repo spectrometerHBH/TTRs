@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,6 +100,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         bundle.putString("loc2", nowLoc2);
         bundle.putString("trainId", nowTrainId);
         bundle.putString("seatType", nowTicketKind);
+        bundle.putString("operateType", "dingpiao");
         ViewDialogFragment viewDialogFragment = new ViewDialogFragment();
         viewDialogFragment.show(getFragmentManager());
         viewDialogFragment.setArguments(bundle);
@@ -176,12 +178,17 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter.notifyDataSetChanged();
-                for (int i = 0; i < parentdata.size(); i++){
-                    boolean isExpanded = expandableListView.isGroupExpanded(i);
-                    expandableListView.collapseGroup(i);
-                    expandableListView.expandGroup(i);
-                    if (!isExpanded) expandableListView.collapseGroup(i);
+                try {
+                    adapter.notifyDataSetChanged();
+                    for (int i = 0; i < parentdata.size(); i++){
+                        boolean isExpanded = expandableListView.isGroupExpanded(i);
+                        expandableListView.collapseGroup(i);
+                        expandableListView.expandGroup(i);
+                        if (!isExpanded) expandableListView.collapseGroup(i);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(TicketManifest.this, "fuck", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -229,10 +236,14 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
     private class MyExpandableListViewAdapter extends BaseExpandableListAdapter{
         //  获得某个父项的某个子项
         @Override
-        public Object getChild(int parentPos, int childPos) {
-            return childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
+        public Object getChild(int parentPos, int childPos){
+            try {
+                return childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
+            }catch (Exception e){
+                e.printStackTrace();
+                return Object.class;
+            }
         }
-
         //  获得父项的数量
         @Override
         public int getGroupCount() {
@@ -242,13 +253,23 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         //  获得某个父项的子项数目
         @Override
         public int getChildrenCount(int parentPos) {
-            return childdata.get(parentdata.get(parentPos).getTrainID()).size();
+            try {
+                return childdata.get(parentdata.get(parentPos).getTrainID()).size();
+            }catch (Exception e){
+                e.printStackTrace();
+                return 0;
+            }
         }
 
         //  获得某个父项
         @Override
         public Object getGroup(int parentPos) {
-            return childdata.get(parentdata.get(parentPos));
+            try {
+                return childdata.get(parentdata.get(parentPos).getTrainID());
+            }catch (Exception e){
+                e.printStackTrace();
+                return Object.class;
+            }
         }
 
         //  获得某个父项的id
@@ -274,21 +295,25 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         public View getGroupView(int parentPos, boolean b, View view, ViewGroup viewGroup) {
             if (view == null){
                 LayoutInflater inflater = (LayoutInflater) TicketManifest.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.train_main, null);
+                view = inflater.inflate(R.layout.train_ticket_query, null);
             }
-            view.setTag(R.layout.train_ticket_query, parentPos);
-            view.setTag(R.layout.ticket_purchase, -1);
-            TextView train_id = view.findViewById(R.id.train_id);
-            TextView departure = view.findViewById(R.id.departure);
-            TextView destination = view.findViewById(R.id.destination);
-            TextView destination_time = view.findViewById(R.id.destination_time);
-            TextView depart_time = view.findViewById(R.id.depart_time);
-            Train train = parentdata.get(parentPos);
-            train_id.setText(train.getTrainID());
-            departure.setText(train.getDeparture());
-            destination.setText(train.getDestination());
-            destination_time.setText(train.getArriveTime());
-            depart_time.setText(train.getDepartTime());
+            try {
+                view.setTag(R.layout.train_ticket_query, parentPos);
+                view.setTag(R.layout.ticket_purchase, -1);
+                TextView train_id = view.findViewById(R.id.train_id);
+                TextView departure = view.findViewById(R.id.departure);
+                TextView destination = view.findViewById(R.id.destination);
+                TextView destination_time = view.findViewById(R.id.destination_time);
+                TextView depart_time = view.findViewById(R.id.depart_time);
+                Train train = parentdata.get(parentPos);
+                train_id.setText(train.getTrainID());
+                departure.setText(train.getDeparture());
+                destination.setText(train.getDestination());
+                destination_time.setText(train.getArriveTime());
+                depart_time.setText(train.getDepartTime());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return view;
         }
 
@@ -301,13 +326,17 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
             }
             view.setTag(R.layout.train_ticket_query, parentPos);
             view.setTag(R.layout.ticket_purchase, childPos);
-            Seats seat = childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
-            TextView seatType = view.findViewById(R.id.ticket_purchase_seat);
-            TextView price = view.findViewById(R.id.ticket_purchase_price);
-            TextView amount = view.findViewById(R.id.ticket_purchase_amount);
-            seatType.setText(seat.getName());
-            price.setText(seat.getPrice());
-            amount.setText(seat.getNum());
+            try {
+                Seats seat = childdata.get(parentdata.get(parentPos).getTrainID()).get(childPos);
+                TextView seatType = view.findViewById(R.id.ticket_purchase_seat);
+                TextView price = view.findViewById(R.id.ticket_purchase_price);
+                TextView amount = view.findViewById(R.id.ticket_purchase_amount);
+                seatType.setText(seat.getName());
+                price.setText(seat.getPrice());
+                amount.setText(seat.getNum());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return view;
         }
 

@@ -10,6 +10,7 @@ public class Train {
     private String arriveTime;
     private String departDate;
     private String arriveDate;
+    private String unique;
     public Train(){
 
     }
@@ -23,6 +24,7 @@ public class Train {
         this.arriveTime = arriveTime;
         this.departDate = departDate;
         this.arriveDate = arriveDate;
+        this.unique = trainID + departure + destination;
     }
     public String getTrainID(){
         return trainID;
@@ -50,6 +52,10 @@ public class Train {
     }
     public String getDepartDate() {
         return departDate;
+    }
+
+    public String getUnique() {
+        return unique;
     }
 
     public void setDepartTime(String departTime) {
@@ -86,6 +92,10 @@ public class Train {
 
     public void setTrainName(String trainName) {
         this.trainName = trainName;
+    }
+
+    public void setUnique(String unique) {
+        this.unique = unique;
     }
 }
 
