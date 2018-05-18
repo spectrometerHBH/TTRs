@@ -49,22 +49,22 @@
           {% endif %}
         </ul>
 
-        <div class="btn-group" id="nav">
+        <div class="" id="nav">
           {% if user %}
-          <a href="/user/{{ user }}" class="btn btn-secondary">
+          <a href="/user/{{ user }}" class="btn btn-outline-light">
             {{ user }}
           </a>
-          <a href="/query_order?id={{ user }}&catalog=TZCOGDK" class="btn btn-info">
+          <a href="/query_order?id={{ user }}&catalog=TZCOGDK" class="btn btn-outline-warning">
             购票记录
           </a>          
-          <a href="/action/logout" class="btn btn-primary">
-            Log out
+          <a href="/action/logout" class="btn btn-outline-danger">
+            退出
           </a>
           {% else %}
-          <a href="/login" class="btn btn-secondary" data-toggle="modal" data-target="#login-modal">
+          <a href="/login" class="btn btn-outline-warning" data-toggle="modal" data-target="#login-modal">
             登录
           </a>
-          <a href="/signup" class="btn btn-primary" data-toggle="modal" data-target="#signup-modal">
+          <a href="/signup" class="btn btn-outline-danger" data-toggle="modal" data-target="#signup-modal">
             注册
           </a>
           {% endif %}
