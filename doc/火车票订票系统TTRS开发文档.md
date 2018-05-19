@@ -284,7 +284,7 @@ public class JSONArrayStringCreate {
 <img src="images\registe.gif" width="216"/> <img src="images\wrongregiste.gif" width="216"/>
 
 **2、登录**
-<img src="images\login.gif" width="216"/> <img src="images\loginadmin.gif" width="216"/>
+<img src="images\login.gif" width="216"/> <img src="images\login_admin.gif" width="216"/>
 <img src="images\rememberpassword.gif" width="216"/> <img src="images\wrongpassword.gif" width="216"/>
 
 **3、用户信息查询**
