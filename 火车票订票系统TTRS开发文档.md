@@ -12,18 +12,18 @@
 
 开发工具：Android Studio 3.1.2
 
-开发环境：Linux、windows10
+开发环境：windows10、macOS High Sierra 10.13.4、ubuntu16.04
 
 测试平台：Android Virtual Devices、Huawei MLA-AL 10、VIVO Xplay6、 Sony Xperia xzs
 
-测试环境：Android 6.0、 Android 7.11
+测试环境：Android 6.0、 Android 7.11、Android 8.0
 
 
 ##模块划分图
 
 ##模块设计
 
-本app的通讯基于http协议，采用了OkHttp3.10.0通讯框架，利用轻量级数据交换格式JSON
+本app的通讯基于http协议，采用了OkHttp3.10.0通讯框架，利用轻量级数据交换格式JSON对传输数据进行封装，使用了AES对称加密算法和Base64编码进行数据的安全传递。
 
 ###通讯模块
 
@@ -51,7 +51,7 @@ public class HttpClient {
 }
 ```
 
-封装`HttpClient` 类用于通讯
+封装`HttpClient` 类用于向服务器发起Http请求并收到回复
 
 ```java
 public class JSONArrayStringCreate {

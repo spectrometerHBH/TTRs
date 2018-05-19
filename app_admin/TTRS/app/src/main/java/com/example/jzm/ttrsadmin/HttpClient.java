@@ -15,6 +15,7 @@ public class HttpClient {
     private String command;
     private String responseData;
     private Context context;
+    private String KEY = "tjuacTexIcOzId7p$HTbcDE@BlzkFl71";
 
     public HttpClient(){
         this.context = context;
@@ -25,13 +26,13 @@ public class HttpClient {
 
     public String run() {
         try {
+            String commandEncoded = AESUtil.Encrypt(command, KEY);
             OkHttpClient client = new OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS).readTimeout(200, TimeUnit.SECONDS).build();
-            RequestBody requestBody = new FormBody.Builder().add("input", command).build();
+            RequestBody requestBody = new FormBody.Builder().add("input", commandEncoded).build();
             Request request = new Request.Builder().url("http://120.79.236.3:5000/action/post").post(requestBody).build();
             Response response = client.newCall(request).execute();
-            responseData = response.body().string();
+            responseData = AESUtil.Decrypt(response.body().string(), KEY);
         }catch (Exception e){
-
             e.printStackTrace();
         }
         return responseData;
