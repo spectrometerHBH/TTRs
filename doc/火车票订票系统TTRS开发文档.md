@@ -229,6 +229,8 @@ public class JSONArrayStringCreate {
 
 在参考了多个火车票订票软件和Material Design官方的demo之后，我们最终采用时刻优先，站名次之，票价最次的理念设计，整体票的展示使用`ExpandableListview`组件，为`parentView`和`childView`编写了布局文件`train_ticket_query.xml`和`ticket_purchase.xml`
 
+并且
+
 3、时刻表的显示
 
 我们采用了透明黑底色、纯白字体的设计来显示时刻表，布局文件`activity_time_table.xml`和`station.xml`
@@ -244,6 +246,10 @@ public class JSONArrayStringCreate {
 6、日历
 
 从时刻表的设计中获取灵感，我们将`Calender`组件和透明黑底的设计结合在一起，布局文件`calendar.xml`
+
+7、`Toast`提示信息
+
+为了更直观地体现信息，突出信息，丰富界面的色彩，我们采用了开源的`Toasty`组件替代原生的`Toast`组件，达到多种颜色显示提示信息的效果
 
 
 
