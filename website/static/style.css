@@ -142,3 +142,9 @@ thead.ticket{
   background-color:#008583;
   color:white;
 }
+
+p.intro{
+  text-indent:2em;
+  font-size:14px;
+  line-height:175%
+}
