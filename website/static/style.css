@@ -1,6 +1,13 @@
 body {
   padding-top: 4.5rem;
+  background-color: #f1f1f1;
 }
+
+main.container{
+  background-color: white;
+  padding:20px 15px 20px 15px;
+}
+
 .starter-template {
   padding: 40px 15px;
   text-align: center;
