@@ -1,5 +1,7 @@
 
 
+
+
 #火车票订票系统TTRS开发文档
 
 ---
@@ -20,8 +22,9 @@
 
 开发技术：Java + xml
 
-
 ##模块划分图
+
+![](/Users/houbohan/TTRS/doc/images/project.png)
 
 ##模块设计
 
