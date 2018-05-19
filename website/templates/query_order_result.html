@@ -43,8 +43,8 @@
   </tbody>
 </table>
 
-<div class="modal fade" id="buyticket" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="buyticket" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" >
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">退票</h5>
@@ -53,10 +53,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/action/refund" method="post">
+        <div class="alert alert-warning" id="error">
+        </div>
+        <form id="refund" >
            <div class="form-group">
             <label for="id">用户ID</label>
-            <input class="form-control" id="id" name="id" readonly="readonly" value="{{userid}}" />
+            <input class="form-control" id="uid" name="id" readonly="readonly" value="{{userid}}" />
            </div>
            <div class="form-group">
             <label for="train_id">列车号</label>
@@ -92,3 +94,31 @@
   </div>
 </div>
 
+<script>
+  $("#error").hide();
+  $("form#refund").submit(function(e){
+    e.preventDefault();
+    $.post(
+      "/action/refund",
+      $(this).serialize(),
+      function(result){
+        if (result == "1"){
+          //
+          //
+          $("#buyticket").modal('hide');
+          $("#message").show();
+          $("#message").html("退票成功");
+          $("#buyticket").on("hidden.bs.modal",
+            function(){
+              $.ajax({url:"/action/query_order?id=" + $("#id").val() + "&date=" + $("#date").val() + 
+            "&catalog=" + $("#catalog").val() , success:function(result){
+          $("#result").html(result);
+          }});});
+        }else{
+          $("#error").show();
+          $("#error").html("退票失败");
+        }
+      }
+    )
+  });
+</script>
