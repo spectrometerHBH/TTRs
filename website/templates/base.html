@@ -57,16 +57,16 @@
           <a href="/query_order?id={{ user }}&catalog=TZCOGDK" class="btn btn-outline-warning">
             购票记录
           </a>          
-          <a href="/action/logout" class="btn btn-outline-danger">
+          <div id="logout" class="btn btn-outline-danger">
             退出
-          </a>
+          </div>
           {% else %}
-          <a href="/login" class="btn btn-outline-warning" data-toggle="modal" data-target="#login-modal">
+          <div class="btn btn-outline-warning" data-toggle="modal" data-target="#login-modal">
             登录
-          </a>
-          <a href="/signup" class="btn btn-outline-danger" data-toggle="modal" data-target="#signup-modal">
+          </div>
+          <div class="btn btn-outline-danger" data-toggle="modal" data-target="#signup-modal">
             注册
-          </a>
+          </div>
           {% endif %}
         </div>
       </div>
@@ -286,8 +286,17 @@
               }
             });
           }
-    })
+    });
 
+    $("#logout").click(function(){
+      $.get(
+        "action/logout",
+        function(result){
+          location.reload();
+        }
+      )
+    }
+    );
     
     </script>
 </body>
