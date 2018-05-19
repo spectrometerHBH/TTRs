@@ -269,61 +269,68 @@ public class JSONArrayStringCreate {
 
 ###《系统安装手册》
 
-从https://pan.baidu.com/s/1Tpy77cNBqImNr3Iu4hk70g获取APK文件，打开按提示完成安装过程
+从https://pan.baidu.com/s/1Tpy77cNBqImNr3Iu4hk70g获取APK文件，打开并按提示完成安装过程
 
 ###《用户手册》
 
 #### 基础操作
 
-**1、启动app**
-<img src="images\start.gif" width="216"/>
+1、启动、注册、登录
+<img src="images\start_registe_login.gif" \>
+
+2、记住密码
+<img src="images\remember_password.gif" \>
+
+3、注册、登录错误提醒
+<img src="images\wrong_login.gif" \><img src="images\wrong_registe.gif" \>
 
 #### 用户相关
 
-**1、注册**
-<img src="images\registe.gif" width="216"/> <img src="images\wrongregiste.gif" width="216"/>
+1、用户信息修改
+<img src="images\modify_user_profile.gif" \>
 
-**2、登录**
-<img src="images\login.gif" width="216"/> <img src="images\login_admin.gif" width="216"/>
-<img src="images\rememberpassword.gif" width="216"/> <img src="images\wrongpassword.gif" width="216"/>
+2、用户信息、权限修改
+<img src="images\modify_user_profile_privilege.gif" \>
 
-**3、用户信息查询**
-<img src="images\queryuserid.gif" width="216"/> <img src="images\wrongqueryuserid.gif" width="216"/>
-
-**4、用户信息修改**
-<img src="images\modifyuserprofile.gif" width="216"/> <img src="images\wrongmodifyuserprofile.gif" width="216"/>
-
-<img src="images\modifyuserprofileadmin.gif" width="216"/> <img src="images\modifyuserprivilege.gif" width="216"/>
+4、用户信息查询错误提醒
+<img src="images\wrong_query_userid.gif" \>
 
 ####车票相关
 
-**1、我的行程**
-<img src="images\myticket.gif" width="216"/> <img src="images\wrongqueryticket.gif" width="216"/>
+1、购票、退票
+<img src="images\ticket_purchase_return.gif" \>
 
-**2、查票**
-<img src="images\querytrain.gif" width="216"/> <img src="images\querytrainid.gif" width="216"/>
+2、查票
+<img src="images\query_ticket.gif" \>
 
-<img src="images\querytraintrans.gif" width="216"/> <img src="images\wrongquerytrain.gif" width="216"/>
+3、购票、退票错误提醒
+<img src="images\wrong_ticket_purchase_return.gif" \>
 
-<img src="images\wrongquerytrainid.gif" width="216"/>
-
-**3、购票退票**
-<img src="images\purchaseticket.gif" width="216"/> <img src="images\returnticket.gif" width="216"/>
+4、查票错误提醒
+<img src="images\wrong_query_ticket.gif" \>
 
 ####车次相关
 
-**1、车次管理**
-<img src="images\addtrain.gif" width="216"/> <img src="images\addstation.gif" width="216"/>
+1、查询车次
+<img src="images\query_train.gif" \><img src="images\query_train_trans.gif" \>
 
-<img src="images\modifytrain.gif" width="216"/> <img src="images\publishtrain.gif" width="216"/>
+2、新增、修改车次
+<img src="images\add_train.gif" \><img src="images\modify_train.gif" \>
 
-<img src="images\deletetrain.gif" width="216"/> <img src="images\wrongaddtrain.gif" width="216"/>
+3、公开、删除车次
+<img src="images\publish_train.gif" \><img src="images\delete_train.gif" \>
 
-<img src="images\wrongaddstation.gif" width="216"/> <img src="images\wrongtrainoperation.gif" width="216"/>
+4、查看时刻表
+<img src="images\timetable.gif" \><img src="images\timetable2.gif" \>
 
-**2、时刻表**
-<img src="images\timetable.gif" width="216"/> <img src="images\timetable2.gif" width="216"/>
+5、查询车次错误提醒
+<img src="images\wrong_query_train.gif" \>
 
+6、新增车次错误提醒
+<img src="images\wrong_add_train.gif" \>
+
+7、公开、删除车次错误提醒
+<img src="images\wrong_train_delete_publish.gif" \>
 
 ##收获
 

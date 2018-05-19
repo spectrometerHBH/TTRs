@@ -199,7 +199,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                     if (success.equals("true"))
                         showResponse("退票成功(๑•̀ㅂ•́)و", "success");
                     else
-                        showResponse("退票失败~QAQ~", "");
+                        showResponse("退票失败~QAQ~", "error");
                     sendRequestForRefresh();
                 } catch (JSONException e) {
                     e.printStackTrace();
