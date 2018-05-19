@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -92,6 +93,24 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                     showViewDiaLogFragment();
                 }catch (Exception e){
                     e.printStackTrace();
+                }
+                return true;
+            }
+        });
+        expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if ((int) view.getTag(R.layout.ticket_purchase) == -1) {
+                    int parentpos = (int) view.getTag(R.layout.train_ticket_query);
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                    try {
+                        sendRequestForTimeTable(parentdata.get(parentpos).getTrainID());
+                    }catch (Exception e){
+                        progressbarFragment.dismiss();
+                        showResponse("不知道为什么查看时刻表没有成功~QAQ~", "error");
+                        e.printStackTrace();
+                    }
                 }
                 return true;
             }
@@ -207,6 +226,39 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                 }
             }
         });
+    }
+
+    private void sendRequestForTimeTable(final String trainId){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    HttpClient client = new HttpClient();
+                    client.setCommand("{\"type\":\"query_train\",\"train_id\":\""+trainId+"\"}");
+                    String response = client.run();
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("true")){
+                        Intent intent = new Intent(OrderManifest.this, TimeTableWithoutPrice.class);
+                        JSONArray station = jsonObject.getJSONArray("station");
+                        intent.putExtra("station", station.toString());
+                        progressbarFragment.dismiss();
+                        startActivity(intent);
+                    }else{
+                        progressbarFragment.dismiss();
+                        showResponse("这是一辆幽灵列车", "error");
+                    }
+                }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private void sendRequestForRefresh(){
@@ -331,6 +383,8 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                 depart_date.setText(train.getDepartDate());
                 if (train.getDepartTime().compareTo(train.getArriveTime()) < 0){
                     plusOne.setVisibility(View.INVISIBLE);
+                }else{
+                    plusOne.setVisibility(View.VISIBLE);
                 }
             }catch (Exception e){
                 e.printStackTrace();

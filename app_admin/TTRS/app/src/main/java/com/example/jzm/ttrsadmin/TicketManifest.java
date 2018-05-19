@@ -405,6 +405,8 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 depart_date.setText(train.getDepartDate());
                 if (train.getDepartTime().compareTo(train.getArriveTime()) < 0){
                     plusOne.setVisibility(View.INVISIBLE);
+                }else{
+                    plusOne.setVisibility(View.VISIBLE);
                 }
             }catch (Exception e){
                 e.printStackTrace();
