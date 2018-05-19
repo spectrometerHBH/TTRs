@@ -2,6 +2,9 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import client
 import json
+from Crypto.Cipher import AES
+from Crypto import Random
+
 import base64
 import re
 from jsontool import *
@@ -230,22 +233,20 @@ def action_login():
         #print(result, len(result))
         if result == "1\n":
             session['userid'] = request.form['userid']
-            return redirect('/?from=login')
+            return "1"
         else:
-            return redirect('/login?from=logfail')
-    return "invalid login"
+            return "0"
+    return "0"
 
 @app.route('/action/signup', methods=['POST', 'GET'])
 def action_signup():
     if request.method == 'POST':
-        para = ("name", "password", "password2", "email", "phone")
+        para = ("name", "password", "email", "phone")
         
         for item in para:
             if not request.form.has_key(item):
-                #print item
-                return ""
-        if (request.form['password'] != request.form['password2']):
-            return redirect('/signup?from=pwdfail')
+                return "0"
+        print str(request.form)
         result = client.register(
                 request.form['name'],
                 request.form['password'],
@@ -253,11 +254,11 @@ def action_signup():
                 request.form['phone']
                 )
         if result == "-1\n":
-            return redirect('/')
+            return "0"
         else:
             session['userid'] = result[:-1]
-            return redirect('/?from=signup')
-    return "invalid signup"
+            return "1"
+    return "0"
 
 @app.route('/action/modify_profile', methods=['POST', 'GET'])
 def action_modify_profile():
@@ -330,13 +331,10 @@ def action_query_order():
 @app.route('/action/logout')
 def action_logout():
     if (not session.has_key('userid')):
-        return render_template("warning.html",
-                            admin = get_privilege(current_user),
-                            message = "尚未登录",
-                            user = current_user)
+        return '0'
     userid = session['userid']
     session.pop('userid', None)
-    return redirect('/?from=logout')
+    return '1'
 
 @app.route('/action/query_train')
 def action_query_train():
@@ -682,19 +680,32 @@ func = {"register":(encode_register, decode_register),
         "list_unsale_train":(encode_list_unsale_train, decode_list_unsale_train)
         }
 
+BS = 16
+pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS) 
+unpad = lambda s : s[0:-ord(s[-1])]
+key = "tjuacTexIcOzId7p$HTbcDE@BlzkFl71"
+def encrypt(raw):
+    raw = pad(raw)
+    cipher = AES.new(key, AES.MODE_ECB)
+    return base64.b64encode(cipher.encrypt(raw))
+def decrypt(enc):
+    enc = base64.b64decode(enc)
+    cipher = AES.new(key, AES.MODE_ECB)
+    return unpad(cipher.decrypt(enc))
+
 @app.route('/action/post', methods=['POST', 'GET'])
 def action_post():
     if request.method == 'POST':
-        raw_text = request.form.get('input','')
+        raw_text = decrypt(request.form.get('input',''))
         #raw_text = unicode(raw_text, "utf-8")
         try:
             data = json.loads(raw_text)
         except ValueError:
-            return "not a valid json"
+            encrypt("{'success':false}")
         #return str(data)
         #print data
         if (not (isinstance(data, dict) and data.has_key("type"))):
-            return "not a valid json or type is not defined"
+            encrypt("{'success':false}")
         #print data["type"],func.has_key(data["type"])
         if func.has_key(data["type"]):
             #print data, func[data['type']][0](data)
@@ -705,10 +716,10 @@ def action_post():
             print "#quest", command
             result = client.send(command)
             result = unicode(result, "utf-8")
-            return json.dumps(func[data['type']][1](result))
+            return encrypt(json.dumps(func[data['type']][1](result)))
         else:
-            return ""
-    return ""
+            return encrypt("{'success':false}")
+    return encrypt("{'success':false}")
 
 app.secret_key = 'A0Zr98j/3asdfHH!&&mN]LWX/,?RT'
 

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block title %}登陆{% endblock %}
 {% block head_extra %}
-    <script>}
+    <script>
   $().ready(function() {
 
 // 在键盘按下并释放及提交后验证提交表单
   $("#signupForm").validate({
-    errorLabelContainer: $("div.error"),
-    errorContainer: ".error",
+    errorLabelContainer: $("div.login-error"),
+    errorContainer: ".login-error",
     wrapper: "div",
     rules: {
       userid: {
