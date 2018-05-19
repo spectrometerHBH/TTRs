@@ -253,7 +253,7 @@ public class JSONArrayStringCreate {
 
 8、车站选择列表
 
-为了方便用户选择出发地和目的地车站，我从后端获取当前所有车站数据，利用`pinyin4j-2.5.0.jar`对所有车站按拼音排序，并设置侧边栏和关键字搜索框方便用户定位和查找
+为了方便用户选择出发地和目的地车站，我们从后端获取当前所有车站数据，利用`pinyin4j-2.5.0.jar`对所有车站按拼音排序，并设置侧边栏和关键字搜索框方便用户定位和查找
 
 9、标签页切换
 
@@ -275,54 +275,54 @@ public class JSONArrayStringCreate {
 
 #### 基础操作
 
-1、启动app
-<img src="images\gif\start.gif" width="216"/>
+**1、启动app**
+<img src="images\start.gif" width="216"/>
 
 #### 用户相关
 
-1、注册
-<img src="images\gif\registe.gif" width="216"/> <img src="images\gif\wrongregiste.gif" width="216"/>
+**1、注册**
+<img src="images\registe.gif" width="216"/> <img src="images\wrongregiste.gif" width="216"/>
 
-2、登录
-<img src="images\gif\login.gif" width="216"/> <img src="images\gif\loginadmin.gif" width="216"/>
-<img src="images\gif\rememberpassword.gif" width="216"/> <img src="images\gif\wrongpassword.gif" width="216"/>
+**2、登录**
+<img src="images\login.gif" width="216"/> <img src="images\loginadmin.gif" width="216"/>
+<img src="images\rememberpassword.gif" width="216"/> <img src="images\wrongpassword.gif" width="216"/>
 
-3、用户信息查询
-<img src="images\gif\queryuserid.gif" width="216"/> <img src="images\gif\wrongqueryuserid.gif" width="216"/>
+**3、用户信息查询**
+<img src="images\queryuserid.gif" width="216"/> <img src="images\wrongqueryuserid.gif" width="216"/>
 
-4、用户信息修改
-<img src="images\gif\modifyuserprofile.gif" width="216"/> <img src="images\gif\wrongmodifyuserprofile.gif" width="216"/>
+**4、用户信息修改**
+<img src="images\modifyuserprofile.gif" width="216"/> <img src="images\wrongmodifyuserprofile.gif" width="216"/>
 
-<img src="images\gif\modifyuserprofileadmin.gif" width="216"/> <img src="images\gif\modifyuserprivilege.gif" width="216"/>
+<img src="images\modifyuserprofileadmin.gif" width="216"/> <img src="images\modifyuserprivilege.gif" width="216"/>
 
 ####车票相关
 
-1、我的行程
-<img src="images\gif\myticket.gif" width="216"/> <img src="images\gif\wrongqueryticket.gif" width="216"/>
+**1、我的行程**
+<img src="images\myticket.gif" width="216"/> <img src="images\wrongqueryticket.gif" width="216"/>
 
-2、查票
-<img src="images\gif\querytrain.gif" width="216"/> <img src="images\gif\querytrainid.gif" width="216"/>
+**2、查票**
+<img src="images\querytrain.gif" width="216"/> <img src="images\querytrainid.gif" width="216"/>
 
-<img src="images\gif\querytraintrans.gif" width="216"/> <img src="images\gif\wrongquerytrain.gif" width="216"/>
+<img src="images\querytraintrans.gif" width="216"/> <img src="images\wrongquerytrain.gif" width="216"/>
 
-<img src="images\gif\wrongquerytrainid.gif" width="216"/>
+<img src="images\wrongquerytrainid.gif" width="216"/>
 
-3、购票退票
-<img src="images\gif\purchaseticket.gif" width="216"/> <img src="images\gif\returnticket.gif" width="216"/>
+**3、购票退票**
+<img src="images\purchaseticket.gif" width="216"/> <img src="images\returnticket.gif" width="216"/>
 
 ####车次相关
 
-1、车次管理
-<img src="images\gif\addtrain.gif" width="216"/> <img src="images\gif\addstation.gif" width="216"/>
+**1、车次管理**
+<img src="images\addtrain.gif" width="216"/> <img src="images\addstation.gif" width="216"/>
 
-<img src="images\gif\modifytrain.gif" width="216"/> <img src="images\gif\publishtrain.gif" width="216"/>
+<img src="images\modifytrain.gif" width="216"/> <img src="images\publishtrain.gif" width="216"/>
 
-<img src="images\gif\deletetrain.gif" width="216"/> <img src="images\gif\wrongaddtrain.gif" width="216"/>
+<img src="images\deletetrain.gif" width="216"/> <img src="images\wrongaddtrain.gif" width="216"/>
 
-<img src="images\gif\wrongaddstation.gif" width="216"/> <img src="images\gif\wrongtrainoperation.gif" width="216"/>
+<img src="images\wrongaddstation.gif" width="216"/> <img src="images\wrongtrainoperation.gif" width="216"/>
 
-2、时刻表
-<img src="images\gif\timetable.gif" width="216"/> <img src="images\gif\timetable2.gif" width="216"/>
+**2、时刻表**
+<img src="images\timetable.gif" width="216"/> <img src="images\timetable2.gif" width="216"/>
 
 
 ##收获
