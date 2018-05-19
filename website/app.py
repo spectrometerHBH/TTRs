@@ -431,10 +431,7 @@ def action_buy():
 def action_refund():
     current_user = session.get('userid','')
     if not current_user:
-        return render_template("warning.html",
-                            admin = get_privilege(current_user),
-                            message = "尚未登录",
-                            user = current_user)
+        return "0"
     if request.method == 'POST':
         para = ("id","train_id","num","loc1", "loc2", "date", "ticket_kind")
         command = {}
@@ -443,16 +440,20 @@ def action_refund():
             if value:
                 command[item] = value
             else :
-                return ""
+                return "0"
+        if current_user != id and get_privilege(current_user) != 2:
+            return "0"
         command["type"] = "refund_ticket"
         #rint "#",encode_buy_ticket(command)
         raw_result = client.send(encode_refund_ticket(command))
         #print "$",raw_result,"$"
         raw_result = unicode(raw_result, "utf-8")
         result = decode_refund_ticket(raw_result)
-        return redirect('/query_order?from=refund&id=%s&date=%s&catalog=TZCOGDK'%(request.form["id"], command["date"]))
+        if not result["success"]:
+            return "0"
+        return "1"
     else:
-        return ""
+        return "0"
 
 @app.route('/action/add_train', methods=['POST', 'GET'])
 def action_add_train():
