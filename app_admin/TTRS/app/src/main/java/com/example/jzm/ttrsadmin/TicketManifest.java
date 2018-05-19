@@ -12,9 +12,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import es.dmoral.toasty.Toasty;
 
 public class TicketManifest extends AppCompatActivity implements ViewDialogFragment.Callback{
     private ExpandableListView expandableListView;
@@ -44,6 +49,8 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
     private String nowCatalog;
     private String nowType;
     private MyExpandableListViewAdapter adapter;
+
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +97,57 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 return true;
             }
         });
+        expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if ((int) view.getTag(R.layout.ticket_purchase) == -1) {
+                    int parentpos = (int) view.getTag(R.layout.train_ticket_query);
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                    try {
+                        sendRequestForTimeTable(parentdata.get(parentpos).getTrainID());
+                    }catch (Exception e){
+                        progressbarFragment.dismiss();
+                        showResponse("不知道为什么查看时刻表没有成功~QAQ~", "error");
+                        e.printStackTrace();
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    private void sendRequestForTimeTable(final String trainId){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    HttpClient client = new HttpClient();
+                    client.setCommand("{\"type\":\"query_train\",\"train_id\":\""+trainId+"\"}");
+                    String response = client.run();
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("true")){
+                        Intent intent = new Intent(TicketManifest.this, TimeTableWithoutPrice.class);
+                        JSONArray station = jsonObject.getJSONArray("station");
+                        intent.putExtra("station", station.toString());
+                        progressbarFragment.dismiss();
+                        startActivity(intent);
+                    }else{
+                        progressbarFragment.dismiss();
+                        showResponse("这是一辆幽灵列车", "error");
+                    }
+                }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void showViewDiaLogFragment(){
@@ -150,6 +208,13 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
+        try{
+
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         sendRequestForBuy(jsonObjectStringCreate.getResult());
     }
 
@@ -163,11 +228,17 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true"))
-                        showResponse("购票成功(๑•̀ㅂ•́)و");
+                        showResponse("购票成功(๑•̀ㅂ•́)و", "success");
                     else
-                        showResponse("购票失败~QAQ~");
+                        showResponse("购票失败~QAQ~", "error");
                     sendRequestForRefresh();
-                } catch (JSONException e) {
+                } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -186,9 +257,10 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                         expandableListView.expandGroup(i);
                         if (!isExpanded) expandableListView.collapseGroup(i);
                     }
+                    progressbarFragment.dismiss();
                 }catch (Exception e){
+                    progressbarFragment.dismiss();
                     e.printStackTrace();
-                    Toast.makeText(TicketManifest.this, "fuck", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -201,17 +273,34 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 HttpClient client = new HttpClient();
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
                 jsonObjectStringCreate.addStringPair("type", nowType);
-                jsonObjectStringCreate.addStringPair("loc1", nowLoc1);
-                jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
-                jsonObjectStringCreate.addStringPair("date", nowDate);
-                jsonObjectStringCreate.addStringPair("catalog", nowCatalog);
+                if (nowType.equals("query_ticket")) {
+                    jsonObjectStringCreate.addStringPair("loc1", nowLoc1);
+                    jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
+                    jsonObjectStringCreate.addStringPair("date", nowDate);
+                    jsonObjectStringCreate.addStringPair("catalog", nowCatalog);
+                }else {
+                    try {
+                        jsonObjectStringCreate.addStringPair("loc1", parentdata.get(0).getDeparture());
+                        jsonObjectStringCreate.addStringPair("loc2", parentdata.get(1).getDestination());
+                        jsonObjectStringCreate.addStringPair("date", parentdata.get(0).getDepartDate());
+                        jsonObjectStringCreate.addStringPair("catalog", nowCatalog);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 client.setCommand(jsonObjectStringCreate.getResult());
                 try {
                     String response = client.run();
                     JSONObject jsonObject = new JSONObject(response);
                     refreshData(jsonObject);
                     refresh();
-                } catch (JSONException e) {
+                } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -305,12 +394,20 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 TextView destination = view.findViewById(R.id.destination);
                 TextView destination_time = view.findViewById(R.id.destination_time);
                 TextView depart_time = view.findViewById(R.id.depart_time);
+                TextView depart_date = view.findViewById(R.id.textView_date);
+                ImageView plusOne = view.findViewById(R.id.plus_one_image);
                 Train train = parentdata.get(parentPos);
                 train_id.setText(train.getTrainID());
                 departure.setText(train.getDeparture());
                 destination.setText(train.getDestination());
                 destination_time.setText(train.getArriveTime());
                 depart_time.setText(train.getDepartTime());
+                depart_date.setText(train.getDepartDate());
+                if (train.getDepartTime().compareTo(train.getArriveTime()) < 0){
+                    plusOne.setVisibility(View.INVISIBLE);
+                }else{
+                    plusOne.setVisibility(View.VISIBLE);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -347,11 +444,28 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         }
     }
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(TicketManifest.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }

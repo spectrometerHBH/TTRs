@@ -66,28 +66,35 @@
         <activity
             android:name=".TicketManifest"
             android:label="车票查询"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".OrderQuery"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SelectStation"
             android:label="车站选择"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OrderManifest"
             android:label="车票查询"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TrainOperation"
             android:label="车次管理"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".GetStation"
             android:label="添加车次"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity
+            android:name=".TimeTableWithoutPrice"
+            android:label="时刻表"
+            android:launchMode="singleTask"
+            android:theme="@style/translucent">
         </activity>
     </application>
 

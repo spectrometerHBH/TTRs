@@ -30,6 +30,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import es.dmoral.toasty.Toasty;
+
 public class ModifyUserInfo extends AppCompatActivity
     implements View.OnClickListener{
 
@@ -48,6 +50,8 @@ public class ModifyUserInfo extends AppCompatActivity
     private String passwordNow;
     private String emailNow;
     private String phoneNow;
+
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,13 @@ public class ModifyUserInfo extends AppCompatActivity
             admin.setClickable(false);
             admin.performClick();
         }
+        try{
+            progressbarFragment.setCancelable(false);
+            progressbarFragment.show(getFragmentManager());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         getProfile();
         buttonModify.setOnClickListener(this);
     }
@@ -106,8 +117,17 @@ public class ModifyUserInfo extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(client.run());
                     String success = jsonObject.getString("success");
                     if (success.equals("true")) refreshProfile(jsonObject);
-                    else showResponse("不知道为什么获取不到信息~QAQ~");
+                    else {
+                        showResponse("不知道为什么获取不到信息~QAQ~", "error");
+                        progressbarFragment.dismiss();
+                    }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -125,7 +145,7 @@ public class ModifyUserInfo extends AppCompatActivity
                     editTextphone.setText(jsonObject.getString("phone"));
                     editTextpassword.setText("");
                     editTextconfirmpassword.setText("");
-
+                    progressbarFragment.dismiss();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -175,9 +195,11 @@ public class ModifyUserInfo extends AppCompatActivity
                     if (!emailCheck(email)) break;
                     if (!phoneCheck(phone)) break;
                     if (!password.equals(confirmpassword)) {
-                        showWarning("两次密码不一样呀~QAQ~");
+                        showWarning("两次密码不一样呀~QAQ~", "info");
                         break;
                     }
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
                     verifyPassword(oldpassword);
                 } catch (Exception e){
                     e.printStackTrace();
@@ -204,9 +226,16 @@ public class ModifyUserInfo extends AppCompatActivity
                     if (success.equals("true")){
                         sendRequest();
                     }else{
-                        showResponse("用户名密码不符~QAQ~");
+                        showResponse("用户名密码不符~QAQ~", "error");
+                        progressbarFragment.dismiss();
                     }
                 }catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -256,13 +285,20 @@ public class ModifyUserInfo extends AppCompatActivity
                         }
                         intent.putExtra("info", result.toString());
                         sendBroadcast(intent);
-                        showResponse("修改成功了呢O(∩_∩)O");
+                        showResponse("修改成功了呢O(∩_∩)O", "success");
                         getProfile();
 
                     }else{
-                        showWarning("不知道为什么修改失败了~QAQ~");
+                        showWarning("不知道为什么修改失败了~QAQ~", "error");
+                        progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -276,21 +312,21 @@ public class ModifyUserInfo extends AppCompatActivity
 
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showWarning("未输入" + message + "呀~QAQ~");
+            showWarning("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
         if (s.getBytes("UTF-8").length > 20){
-            showWarning(message + "太长了呀~QAQ");
+            showWarning(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showWarning(message + "不能有空格呀~QAQ~");
+            showWarning(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }
@@ -334,20 +370,54 @@ public class ModifyUserInfo extends AppCompatActivity
         return true;
     }
 
-    private void showWarning(final String message){
+    private void showWarning(final String message, final String type){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(ModifyUserInfo.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }

@@ -30,6 +30,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import es.dmoral.toasty.Toasty;
+
 public class ModifyUserInfoAdmin extends AppCompatActivity
         implements View.OnClickListener {
 
@@ -48,6 +50,7 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
     private String emailNow;
     private String phoneNow;
     private JSONObject myInfo;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,9 +178,11 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
                     if (!emailCheck(email)) break;
                     if (!phoneCheck(phone)) break;
                     if (!password.equals(confirmpassword)) {
-                        showWarning("两次密码不一样呀~QAQ~");
+                        showWarning("两次密码不一样呀~QAQ~", "info");
                         break;
                     }
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
                     sendRequest();
                 } catch (Exception e){
                     e.printStackTrace();
@@ -231,12 +236,22 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
                             phoneNow = phone;
                             privilegeNow = privilege;
                             refreshProfile();
-                            showResponse("修改成功了呢O(∩_∩)O");
+                            progressbarFragment.dismiss();
+                            showResponse("修改成功了呢O(∩_∩)O", "success");
+                        }else{
+                            progressbarFragment.dismiss();
                         }
                     }else{
-                        showWarning("不知道为什么修改失败了~QAQ~");
+                        progressbarFragment.dismiss();
+                        showWarning("不知道为什么修改失败了~QAQ~", "error");
                     }
                 } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -250,21 +265,21 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
 
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showWarning("未输入" + message + "呀~QAQ~");
+            showWarning("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
         if (s.getBytes("UTF-8").length > 20){
-            showWarning(message + "太长了呀~QAQ");
+            showWarning(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showWarning(message + "不能有空格呀~QAQ~");
+            showWarning(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }
@@ -301,20 +316,54 @@ public class ModifyUserInfoAdmin extends AppCompatActivity
         return true;
     }
 
-    private void showWarning(final String message){
+    private void showWarning(final String message, final String type){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(ModifyUserInfoAdmin.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }

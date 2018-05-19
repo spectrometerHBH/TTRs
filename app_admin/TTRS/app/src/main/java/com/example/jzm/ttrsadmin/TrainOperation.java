@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class TrainOperation extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener{
@@ -94,6 +95,10 @@ public class TrainOperation extends AppCompatActivity
         Intent intent = getIntent();
         try {
             userInfo = new JSONObject(intent.getStringExtra("info"));
+            if (userInfo.getString("privilege").equals("1")){
+                navigationView.getMenu().findItem(R.id.nav_user_management).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_settings).setVisible(false);
+            }
             refreshNav();
         }catch (JSONException e){
             e.printStackTrace();
@@ -194,9 +199,9 @@ public class TrainOperation extends AppCompatActivity
             Intent intent = new Intent(TrainOperation.this, UserQuery.class);
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
-        } else if (id == R.id.nav_settings) {
-            Toast.makeText(TrainOperation.this, "你已经在车次管理页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_info) {
+        } else if (id == R.id.nav_settings)
+            Toasty.info(TrainOperation.this, "你已经在车次管理页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT, true).show();
+        else if (id == R.id.nav_info) {
 
         }
 

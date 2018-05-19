@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +20,12 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 public class GetStation extends AppCompatActivity {
     private LinearLayout linearLayout;
@@ -35,13 +39,25 @@ public class GetStation extends AppCompatActivity {
     private List<View> viewList = new ArrayList<>();
     private List<List<View>> subviewList = new ArrayList<>();
     private String type;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_staion);
+        Toolbar toolbar = findViewById(R.id.toolbar_get_station);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         initializeWidgets();
         Intent intent = getIntent();
+        type = intent.getStringExtra("type");
         trainId = intent.getStringExtra("trainId");
         trainName = intent.getStringExtra("trainName");
         seatTypes = intent.getStringArrayListExtra("seats");
@@ -130,22 +146,53 @@ public class GetStation extends AppCompatActivity {
                 commandMaker.addJSONArrayPair("ticket", seatTypeString.getResult());
                 JSONArrayStringCreate jsonArrayStringCreate = new JSONArrayStringCreate();
                 for (int i = 0; i < viewList.size(); i++){
-                    jsonArrayStringCreate.addJSONObject(getJSON(viewList.get(i), i));
+                    String string = null;
+                    try {
+                        string = getJSON(viewList.get(i), i);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    if (string.equals("")) return;
+                    try {
+                        jsonArrayStringCreate.addJSONObject(getJSON(viewList.get(i), i));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
                 commandMaker.addJSONArrayPair("station", jsonArrayStringCreate.getResult());
                 commandMaker.addStringPair("catalog", trainCatalog);
+                try {
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest(commandMaker.getResult());
             }
         });
     }
 
-    private String getJSON(View view, int parentPos){
+    private String getJSON(View view, int parentPos) throws UnsupportedEncodingException {
         JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
         EditText stationEditText = view.findViewById(R.id.station_item);
         TextView arriveTimeEditText = view.findViewById(R.id.arrive_time_item);
         TextView startTimeEditText = view.findViewById(R.id.depart_time_item);
         TextView stopoverTimeEditText = view.findViewById(R.id.stopover_item);
+        if (!checkStation(stationEditText.getText().toString(), parentPos)) return "";
         jsonObjectStringCreate.addStringPair("name", stationEditText.getText().toString());
+        if (arriveTimeEditText.getText().toString().equals("到时")) {
+            showResponse("第" + (parentPos + 1) + "站的到时没设置呀", "info");
+            return "";
+        }
+        if (startTimeEditText.getText().toString().equals("发时")){
+            showResponse("第" + (parentPos + 1) + "站的发时没设置呀", "info");
+            return "";
+        }
+        if (stopoverTimeEditText.getText().toString().equals("停时")){
+            showResponse("第" + (parentPos + 1) + "站的停时没设置呀", "info");
+            return "";
+        }
         if (view == viewList.get(0)) jsonObjectStringCreate.addStringPair("timearriv", "xx:xx");
         else jsonObjectStringCreate.addStringPair("timearriv", arriveTimeEditText.getText().toString());
         if (view == viewList.get(viewList.size() - 1)) jsonObjectStringCreate.addStringPair("timestart", "xx:xx");
@@ -155,7 +202,9 @@ public class GetStation extends AppCompatActivity {
         List<View> templist = subviewList.get(parentPos);
         for (int i = 0; i < templist.size(); i++){
             EditText price = templist.get(i).findViewById(R.id.price_subitem);
-            jsonArrayStringCreate.addInt(price.getText().toString());
+            TextView seat = templist.get(i).findViewById(R.id.seat_subitem);
+            if (!checkPrice(price.getText().toString(), parentPos, seat.getText().toString())) return "";
+            jsonArrayStringCreate.addInt(String.valueOf(Double.valueOf(price.getText().toString())));
         }
         jsonObjectStringCreate.addJSONArrayPair("ticket", jsonArrayStringCreate.getResult());
         return jsonObjectStringCreate.getResult();
@@ -185,11 +234,28 @@ public class GetStation extends AppCompatActivity {
     }
 
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(GetStation.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }
@@ -203,14 +269,68 @@ public class GetStation extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("true")){
-                        showResponse("加车成功O(∩_∩)O");
+                        progressbarFragment.dismiss();
+                        showResponse("加车成功O(∩_∩)O", "success");
+                        finish();
                     }else{
-                        showResponse("加车失败( ⊙ o ⊙ )");
+                        progressbarFragment.dismiss();
+                        showResponse("加车失败( ⊙ o ⊙ )", "error");
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
         }).start();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    private boolean checkStation(String station, int position) throws UnsupportedEncodingException {
+        if (empty(station, "第" + (position + 1) + "站站名")) return false;
+        if (tooLong(station, "第" + (position + 1) + "站站名")) return false;
+        if (checkWhiteSpace(station, "第" + (position + 1) + "站站名")) return false;
+        return true;
+    }
+
+    private boolean checkPrice(String price, int position, String seat){
+        try{
+            Double fare = Double.valueOf(price);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            showResponse("第" + (position + 1) + "站的" + seat + "票价格式错了啦~QAQ~", "info");
+            return false;
+        }
+    }
+
+    private boolean empty(String s, String message){
+        if (s.equals("")) {
+            showResponse("未输入" + message + "呀~QAQ~", "info");
+            return true;
+        }else return false;
+    }
+
+    private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
+        if (s.getBytes("UTF-8").length > 20){
+            showResponse(message + "太长了呀~QAQ", "info");
+            return true;
+        }else return false;
+    }
+
+    private boolean checkWhiteSpace(String s, String message){
+        if (s.contains(" ")) {
+            showResponse(message + "不能有空格呀~QAQ~", "info");
+            return true;
+        }else return false;
     }
 }

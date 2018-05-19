@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class UserQuery extends AppCompatActivity
         implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
@@ -56,6 +57,7 @@ public class UserQuery extends AppCompatActivity
         }
     }
     private MyBroadCastReceiver myBroadCastReceiver;
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,10 @@ public class UserQuery extends AppCompatActivity
         Intent intent = getIntent();
         try {
             userInfo = new JSONObject(intent.getStringExtra("info"));
+            if (userInfo.getString("privilege").equals("1")){
+                navigationView.getMenu().findItem(R.id.nav_user_management).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_settings).setVisible(false);
+            }
             refreshNav();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -135,6 +141,8 @@ public class UserQuery extends AppCompatActivity
                 String useridQuery = editUserid.getText().toString();
                 try {
                     if (!useridCheck(useridQuery)) break;
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
                     sendRequest();
                 } catch (Exception e){
                     e.printStackTrace();
@@ -163,10 +171,20 @@ public class UserQuery extends AppCompatActivity
                         intent.putExtra("myInfo", userInfo.toString());
                         intent.putExtra("userInfo", jsonObject.toString());
                         intent.putExtra("userID", useridQuery);
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                     }
-                    else showResponse("不知道为什么获取不到信息~QAQ~");
+                    else{
+                        progressbarFragment.dismiss();
+                        showResponse("不知道为什么获取不到信息~QAQ~", "warning");
+                    }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -221,7 +239,7 @@ public class UserQuery extends AppCompatActivity
             intent.putExtra("info", userInfo.toString());
             startActivity(intent);
         } else if (id == R.id.nav_user_management) {
-            Toast.makeText(UserQuery.this, "你已经在用户管理页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT).show();
+            Toasty.info(UserQuery.this, "你已经在用户管理页面了哦~w(ﾟДﾟ)w", Toast.LENGTH_SHORT, true).show();
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(UserQuery.this, TrainOperation.class);
             intent.putExtra("info", userInfo.toString());
@@ -237,21 +255,21 @@ public class UserQuery extends AppCompatActivity
 
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showWarning("未输入" + message + "呀~QAQ~");
+            showWarning("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
         if (s.getBytes("UTF-8").length > 20){
-            showWarning(message + "太长了呀~QAQ");
+            showWarning(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showWarning(message + "不能有空格呀~QAQ~");
+            showWarning(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }
@@ -263,20 +281,54 @@ public class UserQuery extends AppCompatActivity
         return true;
     }
 
-    private void showWarning(final String message){
+    private void showWarning(final String message, final String type){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }
 
-    private void showResponse(final String message) {
+    private void showResponse(final String message, final String type) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(UserQuery.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }            
             }
         });
     }

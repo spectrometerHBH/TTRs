@@ -15,6 +15,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import es.dmoral.toasty.Toasty;
+
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
     private EditText editTextusername;
@@ -23,6 +25,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextemail;
     private EditText editTextphone;
     private Button buttonRegister;
+
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +81,17 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                     if (!emailCheck(email)) break;
                     if (!phoneCheck(phone)) break;
                     if (!password.equals(confirmpassword)) {
-                        showWarning("两次密码不一样呀~QAQ~");
+                        showWarning("两次密码不一样呀~QAQ~", "info");
                         break;
                     }
                 } catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getFragmentManager());
+                }catch (Exception e){
                     e.printStackTrace();
                 }
                 sendRequest();
@@ -108,11 +119,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         Intent intent = new Intent(Register.this, Login.class);
                         intent.putExtra("id", userid);
                         setResult(RESULT_OK, intent);
+                        progressbarFragment.dismiss();
                         finish();
                     }else{
-                        showWarning("不知道为什么注册失败了~QAQ~");
+                        showWarning("不知道为什么注册失败了~QAQ~", "error");
+                        progressbarFragment.dismiss();
                     }
                 } catch (Exception e){
+                    showWarning("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
@@ -120,21 +139,23 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
     private boolean empty(String s, String message){
         if (s.equals("")) {
-            showWarning("未输入" + message + "呀~QAQ~");
+            showWarning("未输入" + message + "呀~QAQ~", "info");
             return true;
         }else return false;
     }
 
     private boolean tooLong(String s, String message) throws UnsupportedEncodingException {
-        if (s.getBytes("UTF-8").length > 20){
-            showWarning(message + "太长了呀~QAQ");
+        int maxLength = 20;
+        if (message.equals("用户名")) maxLength = 40;
+        if (s.getBytes("UTF-8").length > maxLength){
+            showWarning(message + "太长了呀~QAQ", "info");
             return true;
         }else return false;
     }
 
     private boolean checkWhiteSpace(String s, String message){
         if (s.contains(" ")) {
-            showWarning(message + "不能有空格呀~QAQ~");
+            showWarning(message + "不能有空格呀~QAQ~", "info");
             return true;
         }else return false;
     }
@@ -162,7 +183,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private boolean emailCheck(String s) throws UnsupportedEncodingException {
         if (empty(s, "邮箱")) return false;
         if (tooLong(s, "邮箱")) return false;
-        if (checkWhiteSpace(s, "邮箱")) return false;
+        if (checkWhiteSpace(s, "密码")) return false;
         return true;
     }
 
@@ -173,11 +194,28 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         return true;
     }
 
-    private void showWarning(final String message){
+    private void showWarning(final String message, final String type){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(Register.this, message, Toast.LENGTH_SHORT).show();
+                switch (type){
+                    case "error" : {
+                        Toasty.error(Register.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "success" : {
+                        Toasty.success(Register.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "info" : {
+                        Toasty.info(Register.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "warning" : {
+                        Toasty.warning(Register.this, message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
             }
         });
     }

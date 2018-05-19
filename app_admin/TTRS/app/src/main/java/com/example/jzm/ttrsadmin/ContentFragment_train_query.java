@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
+
+import es.dmoral.toasty.Toasty;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -42,6 +45,8 @@ public class ContentFragment_train_query extends Fragment {
     private String userId;
     private String userCatalog;
     private String queryType;
+
+    ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
     @Nullable
     @Override
@@ -106,7 +111,7 @@ public class ContentFragment_train_query extends Fragment {
                         userCatalog = userCatalog + checkBox.getText().toString().substring(0, 1);
                 }
                 if (userCatalog.equals("")){
-                    Toast.makeText(getActivity(), "还没选要看的类型啊~QAQ~", Toast.LENGTH_SHORT).show();
+                    showResponse("还没选要看的类型啊~QAQ~", "info");
                     return;
                 }
                 JSONObjectStringCreate jsonObjectStringCreate = new JSONObjectStringCreate();
@@ -122,6 +127,13 @@ public class ContentFragment_train_query extends Fragment {
                 jsonObjectStringCreate.addStringPair("date", time);
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
+
+                try {
+                    progressbarFragment.setCancelable(false);
+                    progressbarFragment.show(getActivity().getFragmentManager());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 sendRequest(command);
             }
         });
@@ -206,7 +218,8 @@ public class ContentFragment_train_query extends Fragment {
                     client.setCommand(command);
                     JSONObject jsonObject = new JSONObject(client.run());
                     if (jsonObject.getString("success").equals("false")){
-                        showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"");
+                        progressbarFragment.dismiss();
+                        showResponse("\"没有这样的车票呀( ⊙ o ⊙ )！\"", "error");
                         return;
                     }
                     String num = jsonObject.getString("num");
@@ -219,22 +232,51 @@ public class ContentFragment_train_query extends Fragment {
                         intent.putExtra("id", userId);
                         intent.putExtra("catalog", userCatalog);
                         intent.putExtra("type", queryType);
+                        progressbarFragment.dismiss();
                         startActivity(intent);
                     }else{
-                        showResponse("没有这样的车票呀( ⊙ o ⊙ )！");
+                        progressbarFragment.dismiss();
+                        showResponse("没有这样的车票呀( ⊙ o ⊙ )！", "error");
                     }
                 } catch (Exception e){
+                    showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
+                    try{
+                        progressbarFragment.dismiss();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
             }
         }).start();
     }
 
-    private void showResponse(final String message){
+    private void showResponse(final String message, final String type){
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                try {
+                    switch (type) {
+                        case "error": {
+                            Toasty.error(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "success": {
+                            Toasty.success(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "info": {
+                            Toasty.info(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case "warning": {
+                            Toasty.warning(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
