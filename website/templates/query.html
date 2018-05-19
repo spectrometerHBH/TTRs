@@ -43,23 +43,28 @@
 
       <div class="form query">
         
-          <div class="form-row">
-            <div class="form-group-inline col-md-4 ui-widget" >
+          <div class="form-inline">
+            <div class="form-group ui-widget" >
               <label for="loc1">出发地</label>
               <input class="form-control" id="loc1" value="宁波">
             </div>
-            <div class="form-group col-md-4 ui-widget">
+            <div class="form-group">
+
+                <button class="btn btn-secondary" id="change">换</button>
+            </div>
+            <div class="form-group ui-widget">
               <label for="loc2">目的地</label>
               <input class="form-control" id="loc2" value="杭州">
             </div>
-            <div class="form-group col-md-4">
+
+            <div class="form-group">
                 <label for="date">日期</label>
                 <input class="form-control" type="date" id="date" value="2018-06-01">
               </div>
           </div>
           <div class="form-row">
 
-            <div class="form-group col-md-6">
+            <div class="form-group">
               <label>类型</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input catalog" type="checkbox" id="catalogT" value="T">
@@ -89,14 +94,24 @@
                   <input class="form-check-input catalog" type="checkbox" id="catalogK" value="K" checked>
                   <label class="form-check-label" for="catalogK">K</label>
               </div>
-            </div>
-            <div class="form-group form-check">
-              <input class="form-check-input" type="checkbox" id="transfer" />
-              <label class="form-check-label" for="transfer">是否查询中转</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="transfer" />
+                <label class="form-check-label" for="transfer">是否查询中转</label>
+              </div>
+              <button id="submit" type="submit" class="btn btn-info pull-right">查询</button>
             </div>
           </div>
-          <button id="submit" type="submit" class="btn btn-info">查询</button>
       </div>
       <div class = "row" id="result">
       </div>
+
+      <script>
+        $("#change").click(
+          function(){
+            var tmp = $("#loc1").val();
+            $("#loc1").val($("#loc2").val());
+            $("#loc2").val(tmp);
+          }
+        )
+      </script>
 {% endblock %}
