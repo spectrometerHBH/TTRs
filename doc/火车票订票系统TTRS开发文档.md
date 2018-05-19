@@ -251,11 +251,90 @@ public class JSONArrayStringCreate {
 
 为了更直观地体现信息，突出信息，丰富界面的色彩，我们采用了开源的`Toasty`组件替代原生的`Toast`组件，达到多种颜色显示提示信息的效果
 
+8、车站选择列表
+
+为了方便用户选择出发地和目的地车站，我从后端获取当前所有车站数据，利用`pinyin4j-2.5.0.jar`对所有车站按拼音排序，并设置侧边栏和关键字搜索框方便用户定位和查找
+
+9、标签页切换
+
+在车次查询和车次管理界面中使用`TabLayout`和`Fragment`，让用户在一个`Activity`里面直接选择或切换查询车次方法以及车次管理操作，减少`Activity`间跳转
+
+10、统一风格的设计
+
+统一使用Google官方的material design图标包，并使用Google官方的色调推荐，统一整个app的UI风格
+
 
 
 ##《使用手册》
 
 ###《系统安装手册》
 
+从https://pan.baidu.com/s/1Tpy77cNBqImNr3Iu4hk70g获取APK文件，打开按提示完成安装过程
+
 ###《用户手册》
 
+#### 基础操作
+
+1、启动app
+<img src="images\gif\start.gif" width="216"/>
+
+#### 用户相关
+
+1、注册
+<img src="images\gif\registe.gif" width="216"/> <img src="images\gif\wrongregiste.gif" width="216"/>
+
+2、登录
+<img src="images\gif\login.gif" width="216"/> <img src="images\gif\loginadmin.gif" width="216"/>
+<img src="images\gif\rememberpassword.gif" width="216"/> <img src="images\gif\wrongpassword.gif" width="216"/>
+
+3、用户信息查询
+<img src="images\gif\queryuserid.gif" width="216"/> <img src="images\gif\wrongqueryuserid.gif" width="216"/>
+
+4、用户信息修改
+<img src="images\gif\modifyuserprofile.gif" width="216"/> <img src="images\gif\wrongmodifyuserprofile.gif" width="216"/>
+
+<img src="images\gif\modifyuserprofileadmin.gif" width="216"/> <img src="images\gif\modifyuserprivilege.gif" width="216"/>
+
+####车票相关
+
+1、我的行程
+<img src="images\gif\myticket.gif" width="216"/> <img src="images\gif\wrongqueryticket.gif" width="216"/>
+
+2、查票
+<img src="images\gif\querytrain.gif" width="216"/> <img src="images\gif\querytrainid.gif" width="216"/>
+
+<img src="images\gif\querytraintrans.gif" width="216"/> <img src="images\gif\wrongquerytrain.gif" width="216"/>
+
+<img src="images\gif\wrongquerytrainid.gif" width="216"/>
+
+3、购票退票
+<img src="images\gif\purchaseticket.gif" width="216"/> <img src="images\gif\returnticket.gif" width="216"/>
+
+####车次相关
+
+1、车次管理
+<img src="images\gif\addtrain.gif" width="216"/> <img src="images\gif\addstation.gif" width="216"/>
+
+<img src="images\gif\modifytrain.gif" width="216"/> <img src="images\gif\publishtrain.gif" width="216"/>
+
+<img src="images\gif\deletetrain.gif" width="216"/> <img src="images\gif\wrongaddtrain.gif" width="216"/>
+
+<img src="images\gif\wrongaddstation.gif" width="216"/> <img src="images\gif\wrongtrainoperation.gif" width="216"/>
+
+2、时刻表
+<img src="images\gif\timetable.gif" width="216"/> <img src="images\gif\timetable2.gif" width="216"/>
+
+
+##收获
+
+>“不妨假设心灵是一张白纸，没有任何符号，没有任何想法。
+>你们心灵是如何丰富起来的？
+>人类无限的想象力在其中描绘出了无穷无尽的可能性，这是从哪里来的？
+>知识和推理，又是从哪里来的？
+>我的答案只有一句话，从经历中来。”
+>——约翰·洛克《人类理解论》
+
+积累了一些Android开发经验以及UI设计经验
+对Android软件架构有了深刻理解
+理解了一些软件开发哲学
+当然，最重要的，是经历
