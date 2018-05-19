@@ -18,6 +18,8 @@
 
 测试环境：Android 6.0、 Android 7.11、Android 8.0
 
+开发技术：Java + xml
+
 
 ##模块划分图
 
@@ -88,7 +90,7 @@ public class HttpClient {
             String commandEncoded = AESUtil.Encrypt(command, KEY);
             OkHttpClient client = new OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS).readTimeout(200, TimeUnit.SECONDS).build();
             RequestBody requestBody = new FormBody.Builder().add("input", commandEncoded).build();
-            Request request = new Request.Builder().url("http://120.79.236.3:5000/action/post").post(requestBody).build();
+            Request request = new Request.Builder().url("ip:port").post(requestBody).build();
             Response response = client.newCall(request).execute();
             responseData = AESUtil.Decrypt(response.body().string(), KEY);
         }catch (Exception e){
