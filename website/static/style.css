@@ -1,16 +1,32 @@
 body {
   padding-top: 4.5rem;
+  background-color: #f1f1f1;
 }
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
+
+main.container{
+  background-color: white;
+  padding:20px 15px 20px 15px;
 }
+
+.form-row{
+  margin-top:10px;
+}
+.form-group{
+  margin-left:10px;
+  margin-right:10px;
+}
+
 .form-signin {
   width: 100%;
   max-width: 500px;
   padding: 15px;
   margin: 0 auto;
 }
+
+label {
+  margin-right:10px;
+}
+
 .table tbody tr td{
         vertical-align: middle;
         margin-top:0;
