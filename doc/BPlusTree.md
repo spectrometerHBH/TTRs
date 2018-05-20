@@ -46,7 +46,7 @@ B+树的具体原理在这里不再提及
 
   `void file_alloc::print()`
 
-  ### B+树结构(class bptree)
+### B+树结构(class bptree)
 
 这是一个类模板
 
