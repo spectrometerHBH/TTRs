@@ -163,19 +163,19 @@ public class JSONArrayStringCreate {
 
 
 
-`Login`是用户/管理员登录的活动，同时也是用户/管理员进入app的第一个活动
+1.`Login`是用户/管理员登录的活动，同时也是用户/管理员进入app的第一个活动
 
-`Register`是用户注册的活动
+2.`Register`是用户注册的活动
 
-`MainActivity`是用户/管理员筛选自己订票信息的活动，同时也是整个app的主活动和主页
+3.`MainActivity`是用户/管理员筛选自己订票信息的活动，同时也是整个app的主活动和主页
 
-`ModifyUserInfo`是用户查询和修改自己信息的活动
+4.`ModifyUserInfo`是用户查询和修改自己信息的活动
 
-`ModifyUserInfoAdmin`是管理员查询和修改自己信息的活动
+5.`ModifyUserInfoAdmin`是管理员查询和修改自己信息的活动
 
-`UserQuery`是管理员查询和修改用户信息的活动
+6.`UserQuery`是管理员查询和修改用户信息的活动
 
-`OrderManifest`是用户/管理员查看自己筛选后的订票具体信息和退票的活动
+7.`OrderManifest`是用户/管理员查看自己筛选后的订票具体信息和退票的活动
 
 
 
@@ -185,13 +185,13 @@ public class JSONArrayStringCreate {
 
 
 
-`TrainQuery`是用户/管理员进行车票查询（包括中转）的活动，其中依附于该活动的`ContentFragment_train_query`和`ContentFragment_train_detail`两个碎片分别负责 $$1.$$根据站点、时间及席别查询 $2.$根据车次的ID查询
+1.`TrainQuery`是用户/管理员进行车票查询（包括中转）的活动，其中依附于该活动的`ContentFragment_train_query`和`ContentFragment_train_detail`两个碎片分别负责 $$（1）$$根据站点、时间及席别查询 $（2）$根据车次的ID查询
 
-`TrainDetailManifest`是用户/管理员根据车次ID查询火车后显示车次具体信息的活动
+`2.TrainDetailManifest`是用户/管理员根据车次ID查询火车后显示车次具体信息的活动
 
-`TrainOperation`是管理员进行车次管理的活动，其中依附于该活动的`ContentFragment_train_add`和`ContentFragment_train_other_operation`两个碎片分别负责$1.$车次的新建和修改 $2.$车次的公开和删除
+3.`TrainOperation`是管理员进行车次管理的活动，其中依附于该活动的`ContentFragment_train_add`和`ContentFragment_train_other_operation`两个碎片分别负责$（1）$车次的新建和修改 $（2）$车次的公开和删除
 
-`GetStation`是管理员在新建和修改车次时设置各站名、到时、发时、停时和票价的活动
+4.`GetStation`是管理员在新建和修改车次时设置各站名、到时、发时、停时和票价的活动
 
 
 
