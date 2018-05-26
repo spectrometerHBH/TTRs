@@ -66,8 +66,6 @@
 
 软件名称：NAIVE订票系统
 
-适用平台：Android 6.0(Marshmallow) - Android 8.1(Oreo)  (API 23 - API 27)
-
 开发环境：windows10、ubuntu16.04、Debian 9
 
 测试环境：windows10、ubuntu16.04、Debian 9
