@@ -221,7 +221,7 @@ def decode_query_transfer(data):
     else:
         result["success"] = True
         trainlist = data.split("\n")
-        #result["num"] = int(trainlist[0])
+        result["num"] = 2 
         result["ticket"] = []
         keywd = ("train_id", "locfrom", "datefrom", "timefrom", "locto",
             "dateto", "timeto")

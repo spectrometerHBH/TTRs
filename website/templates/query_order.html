@@ -30,6 +30,8 @@
             </button>
         </div>
         {% endif %}
+        <div class="alert alert-warning" id="message">
+        </div>
         <div  class="form">
           <div class="row">
         	 <div class="form-inline form-group col-sm">
@@ -53,5 +55,7 @@
       
       <div id="result" class = "row">
       </div>
-
+<script>
+  $("#message").hide();
+</script>
  {%endblock%}
