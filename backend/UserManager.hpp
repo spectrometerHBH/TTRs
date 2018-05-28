@@ -182,6 +182,9 @@ public:
 		}
 		iofile.seekg(sizeof(UserID) + (id2 - 2018) * sizeof(User), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (&user2), sizeof(User));
+		if (user2.privilege == 2 && privilege == 2) {
+			return 1;
+		}
 		if (user2.privilege == 2) {
 			return 0;
 		}
