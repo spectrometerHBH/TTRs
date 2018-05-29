@@ -392,7 +392,14 @@ public:
 				s_array[i].day = 0;
 			}
 			else {
-				if (s_array[i].arrive > s_array[i - 1].depart) {
+				bool flag;
+				if (s_array[i - 1].arrive == "xx:xx") {
+					flag = s_array[i].arrive > s_array[i - 1].depart;
+				}
+				else {
+					flag = s_array[i].arrive > s_array[i - 1].arrive;
+				}
+				if (flag) {
 					s_array[i].day = s_array[i - 1].day;
 				}
 				else {
