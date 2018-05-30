@@ -120,13 +120,8 @@ def query_user():
     current_user = session.get('userid','')
     fromWhere = request.args.get("from","")
     admin = get_privilege(current_user)
-    if (admin != 2):
-        return render_template("warning.html",
-                            admin = get_privilege(current_user),
-                            message = "权限不足",
-                            user = current_user
-            )        
     return render_template('query_user.html',
+                            uid = request.args.get("uid",""),
                             admin = get_privilege(current_user),
                             message = message.get(fromWhere, ""),
                             user = current_user)
@@ -267,12 +262,10 @@ def action_modify_profile():
         para = ("userid", "name", "password", "password2", "email", "phone")
         for item in para:
             if not request.form.has_key(item):
-                #print item
-                return ""
-        print request.form
+                return "0"
         userid = request.form['userid']
         if (request.form['password'] != request.form['password2']):
-            return redirect('/user/'+userid+'?from=pwdfail')
+            return "0"
         if request.form['password']:
             result = client.modify_profile(
                 request.form['userid'],
@@ -289,22 +282,22 @@ def action_modify_profile():
                 request.form['phone']
                 )
         if result == "0\n":
-            return redirect('/user/'+userid+'?from=modifyfail')
-        privilege_input = request.form.get("privilege", "off")
-        if (privilege_input == "on") != (get_privilege(userid) == 2):
+            return "0"
+        privilege_input = request.form.get("privilege","false")
+        if (privilege_input == "true") != (get_privilege(userid) == 2):
             command = {
                 "type":"modify_privilege",
                 "id1":current_user,
                 "id2":userid,
-                "privilege": {"on":2, "off":1}[privilege_input]
+                "privilege": {"true":2, "false":1}[privilege_input]
             }
             raw_result = client.send(encode_modify_privilege(command))
             raw_result = unicode(raw_result, "utf-8")
             result = decode_modify_privilege(raw_result) 
             if (not result["success"]):
-                return redirect('/user/'+userid+'?from=modifyfail')
-        return redirect('/user/'+userid+'?from=modify')
-    return "invalid login"
+                return "0"
+        return "1"
+    return "0"
 
 @app.route('/action/query_order')
 def action_query_order():
@@ -354,11 +347,11 @@ def action_query_train():
 @app.route('/action/query_user')
 def action_query_user():
     current_user = session.get('userid','')
-    if get_privilege(current_user) != 2:
-        return u"权限不足"
     userid = request.args.get("id","")
     if not userid:
         return ""
+    if get_privilege(current_user) != 2 and current_user!= userid:
+        return u"权限不足"
     command = {"type" : "query_profile",
                "id" : userid}
     raw_result = client.send(encode_query_profile(command))

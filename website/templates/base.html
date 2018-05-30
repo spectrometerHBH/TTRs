@@ -52,7 +52,7 @@
 
         <div class="" id="nav">
           {% if user %}
-          <a href="/user/{{ user }}" class="btn btn-outline-light">
+          <a href="/query_user?uid={{user}}" class="btn btn-outline-light">
             {{ user }}
           </a>
           <a href="/query_order?id={{ user }}&catalog=TZCOGDK" class="btn btn-outline-warning">
@@ -97,7 +97,7 @@
               <div class="form-group">
                 <input type="password" class="form-control" id="login-password" name="password" placeholder="密码">
               </div>
-              <button type="login-submit"class="btn btn-primary">登录</button>
+              <button type="login-submit"class="btn btn-primary" style="margin: 0px auto;display: table;">登录</button>
             </form>
           </div>
             
@@ -149,7 +149,7 @@
                         <input class="form-control" name="phone" id="signup-phone"placeholder="电话">
                       </div>
                     </div>
-                  <button type="signup-submit" class="btn btn-primary">注册</button>
+                  <button type="signup-submit" class="btn btn-primary" style="margin: 0px auto;display: table;">注册</button>
                 </form>
             </div>
               
