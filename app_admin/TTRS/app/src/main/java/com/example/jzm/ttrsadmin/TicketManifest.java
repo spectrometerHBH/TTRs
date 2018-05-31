@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +51,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
     private String nowCatalog;
     private String nowType;
     private MyExpandableListViewAdapter adapter;
+    private PullRefreshLayout pullRefreshLayout;
 
     ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
@@ -113,6 +116,21 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                     }
                 }
                 return true;
+            }
+        });
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Train train = parentdata.get(0);
+                Seats seatType = childdata.get(parentdata.get(0).getTrainID()).get(0);
+                nowDate = train.getDepartDate();
+                nowLoc1 = train.getDeparture();
+                nowLoc2 = train.getDestination();
+                nowTime1 = train.getDepartTime();
+                nowTime2 = train.getArriveTime();
+                nowTrainId = train.getTrainID();
+                nowTicketKind = seatType.getName();
+                sendRequestForRefresh();
             }
         });
     }
@@ -209,7 +227,6 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
         try{
-
             progressbarFragment.setCancelable(false);
             progressbarFragment.show(getFragmentManager());
         }catch (Exception e){
@@ -257,8 +274,10 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                         expandableListView.expandGroup(i);
                         if (!isExpanded) expandableListView.collapseGroup(i);
                     }
+                    if (pullRefreshLayout.isShown()) pullRefreshLayout.setRefreshing(false);
                     progressbarFragment.dismiss();
                 }catch (Exception e){
+                    if (pullRefreshLayout.isShown()) pullRefreshLayout.setRefreshing(false);
                     progressbarFragment.dismiss();
                     e.printStackTrace();
                 }
@@ -297,6 +316,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
                 } catch (Exception e) {
                     showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
+                        if (pullRefreshLayout.isShown()) pullRefreshLayout.setRefreshing(false);
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
                         ex.printStackTrace();
@@ -320,6 +340,7 @@ public class TicketManifest extends AppCompatActivity implements ViewDialogFragm
         seatTypes.put(8, "软卧");
         seatTypes.put(9, "动卧");
         seatTypes.put(10, "高级软卧");
+        pullRefreshLayout = findViewById(R.id.swipeRefreshLayout);
     }
 
     private class MyExpandableListViewAdapter extends BaseExpandableListAdapter{

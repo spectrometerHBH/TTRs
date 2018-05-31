@@ -80,10 +80,12 @@ public class ContentFragment_train_query extends Fragment {
         yearTextview.setText(String.valueOf(calendar.get(Calendar.YEAR)));
         monthTextview.setText(String.valueOf(calendar.get(Calendar.MONTH) + 1));
         dayTextview.setText(String.valueOf(calendar.get(Calendar.DATE)));
-        CheckBox checkBoxAll = checkBoxes.get(0);
+        final CheckBox checkBoxAll = checkBoxes.get(0);
         checkBoxAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!buttonView.isPressed())
+                    return;
                 if (isChecked) {
                     for (CheckBox checkBox : checkBoxes)
                         checkBox.setChecked(true);
@@ -93,6 +95,21 @@ public class ContentFragment_train_query extends Fragment {
                 }
             }
         });
+        for (int i = 1; i < 8; i++){
+            CheckBox checkBox = checkBoxes.get(i);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b){
+
+                    } else {
+                        if (checkBoxAll.isChecked()){
+                            checkBoxAll.setChecked(false);
+                        }
+                    }
+                }
+            });
+        }
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
