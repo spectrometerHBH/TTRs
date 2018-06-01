@@ -22,6 +22,7 @@ def send(command):
         else:
             break
     data = ''.join(buffer)
+    #print data,"#"
     s.close()
     return data
 
