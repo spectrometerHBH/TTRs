@@ -134,10 +134,12 @@ public class MainActivity extends AppCompatActivity
         intentFilter = new IntentFilter("usertrans");
         myBroadCastReceiver = new MyBroadCastReceiver();
         registerReceiver(myBroadCastReceiver, intentFilter);
-        CheckBox checkBoxAll = checkBoxes.get(0);
+        final CheckBox checkBoxAll = checkBoxes.get(0);
         checkBoxAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!buttonView.isPressed())
+                    return;
                 if (isChecked) {
                     for (CheckBox checkBox : checkBoxes)
                         checkBox.setChecked(true);
@@ -147,6 +149,21 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+        for (int i = 1; i < 8; i++){
+            CheckBox checkBox = checkBoxes.get(i);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b){
+
+                    } else {
+                        if (checkBoxAll.isChecked()){
+                            checkBoxAll.setChecked(false);
+                        }
+                    }
+                }
+            });
+        }
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,7 +190,6 @@ public class MainActivity extends AppCompatActivity
                 jsonObjectStringCreate.addStringPair("catalog", userCatalog);
                 String command = jsonObjectStringCreate.getResult();
                 try{
-
                     progressbarFragment.setCancelable(false);
                     progressbarFragment.show(getFragmentManager());
                 }catch (Exception e){
