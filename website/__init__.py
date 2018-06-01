@@ -3,4 +3,4 @@ from app import *
 app.secret_key = 'A0Zr98j/3asdfHH!&&mN]LWX/,?RT'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')

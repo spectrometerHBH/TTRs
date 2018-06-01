@@ -344,6 +344,21 @@ def action_query_train():
     return render_template('query_train_result.html',
         data = result)
 
+@app.route('/action/query_train_simple')
+def action_query_train_simple():
+    train_id = request.args.get("train_id",'')
+    if not train_id:
+        return ""
+    command = {"type" : "query_train",
+               "train_id" : train_id}
+    raw_result = client.send(encode_query_train(command))
+    #print "#", raw_result
+    raw_result = unicode(raw_result, "utf-8")
+    result = decode_query_train(raw_result)
+    #print result
+    return render_template('query_train_simple.html',
+        data = result)
+
 @app.route('/action/query_user')
 def action_query_user():
     current_user = session.get('userid','')

@@ -129,12 +129,14 @@ span.ticketnum{
 span.icon-from{
   color:#278ed6;
   font-size:12px;
+  padding:1px;
   border:#d9d9d9 solid 1px;
 }
 
 span.icon-to{
   color:#f7a749;
   font-size:12px;
+  padding:1px;
   border:#d9d9d9 solid 1px;
 }
 
@@ -147,4 +149,12 @@ p.intro{
   text-indent:2em;
   font-size:14px;
   line-height:175%
+}
+table.train-table{
+  width:100%;
+  padding:0px;
+  text-align:center;
+  font-size:12px;
+  border-collapse: collapse;
+  border-spacing:0px;
 }
