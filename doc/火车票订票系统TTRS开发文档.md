@@ -276,24 +276,24 @@ public class JSONArrayStringCreate {
 #### 基础操作
 
 1、启动、注册、登录
-<img src="images\start_registe_login.gif" \>
+![](images\start_registe_login.gif)
 
 2、记住密码
-<img src="images\remember_password.gif" \>
+![](images\remember_password.gif)
 
 3、注册、登录错误提醒
-<img src="images\wrong_login.gif" \><img src="images\wrong_registe.gif" \>
+![](images\wrong_login.gif)![](images\wrong_registe.gif)
 
 #### 用户相关
 
 1、用户信息修改
-<img src="images\modify_user_profile.gif" \>
+![](images\modify_user_profile.gif)
 
 2、用户信息、权限修改
-<img src="images\modify_user_profile_privilege.gif" \>
+![](images\modify_user_profile_privilege.gif)
 
 4、用户信息查询错误提醒
-<img src="images\wrong_query_userid.gif" \>
+![](images\wrong_query_userid.gif)
 
 ####车票相关
 
