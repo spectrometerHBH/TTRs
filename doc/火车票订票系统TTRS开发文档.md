@@ -295,42 +295,6 @@ public class JSONArrayStringCreate {
 4、用户信息查询错误提醒
 ![](images\wrong_query_userid.gif)
 
-####车票相关
-
-1、购票、退票
-<img src="images\ticket_purchase_return.gif" \>
-
-2、查票
-<img src="images\query_ticket.gif" \>
-
-3、购票、退票错误提醒
-<img src="images\wrong_ticket_purchase_return.gif" \>
-
-4、查票错误提醒
-<img src="images\wrong_query_ticket.gif" \>
-
-####车次相关
-
-1、查询车次
-<img src="images\query_train.gif" \><img src="images\query_train_trans.gif" \>
-
-2、新增、修改车次
-<img src="images\add_train.gif" \><img src="images\modify_train.gif" \>
-
-3、公开、删除车次
-<img src="images\publish_train.gif" \><img src="images\delete_train.gif" \>
-
-4、查看时刻表
-<img src="images\timetable.gif" \><img src="images\timetable2.gif" \>
-
-5、查询车次错误提醒
-<img src="images\wrong_query_train.gif" \>
-
-6、新增车次错误提醒
-<img src="images\wrong_add_train.gif" \>
-
-7、公开、删除车次错误提醒
-<img src="images\wrong_train_delete_publish.gif" \>
 
 ##收获
 
