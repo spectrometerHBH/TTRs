@@ -1,8 +1,8 @@
-#火车票订票系统TTRS开发文档
+# 火车票订票系统TTRS开发文档
 
 ---
 
-#简介
+# 简介
 
 软件名称：小熊猫12306
 
@@ -20,13 +20,13 @@
 
 
 
-##模块划分图
+## 模块划分图
 
 ![](images/project.png)
 
-##模块设计
+## 模块设计
 
-###通讯模块
+### 通讯模块
 
 > 一切安全问题开始于隔阂（Gap）。比如说，如果从现在开始来设计编译器和CPU，还会有缓冲区溢出吗？这里体现的就是历史的隔阂。人无法超越他所处的时代，时代的变化产生人所无法预料的新隔阂。
 >
@@ -276,27 +276,27 @@ public class JSONArrayStringCreate {
 #### 基础操作
 
 1、启动、注册、登录
-![](images\start_registe_login.gif)
+![](images/start_registe_login.gif)
 
 2、记住密码
-![](images\remember_password.gif)
+![](images/remember_password.gif)
 
 3、注册、登录错误提醒
-![](images\wrong_login.gif)![](images\wrong_registe.gif)
+![](images/wrong_login.gif)![](images/wrong_registe.gif)
 
 #### 用户相关
 
 1、用户信息修改
-![](images\modify_user_profile.gif)
+![](images/modify_user_profile.gif)
 
 2、用户信息、权限修改
-![](images\modify_user_profile_privilege.gif)
+![](images/modify_user_profile_privilege.gif)
 
 4、用户信息查询错误提醒
-![](images\wrong_query_userid.gif)
+![](images/wrong_query_userid.gif)
 
 
-##收获
+## 收获
 
 >“不妨假设心灵是一张白纸，没有任何符号，没有任何想法。
 >你们心灵是如何丰富起来的？
