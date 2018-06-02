@@ -42,6 +42,8 @@ public class ContentFragment_train_add extends Fragment {
         checkBoxAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (!compoundButton.isPressed())
+                    return;
                 if (b){
                     for (CheckBox checkBox : checkBoxList)
                         checkBox.setChecked(true);
@@ -51,6 +53,21 @@ public class ContentFragment_train_add extends Fragment {
                 }
             }
         });
+        for (int i = 0; i < 11; i++){
+            CheckBox checkBox = checkBoxList.get(i);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b){
+
+                    } else {
+                        if (checkBoxAll.isChecked()){
+                            checkBoxAll.setChecked(false);
+                        }
+                    }
+                }
+            });
+        }
         addTrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

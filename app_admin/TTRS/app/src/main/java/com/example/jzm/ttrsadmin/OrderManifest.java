@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
     private String nowTicketKind;
     private String nowCatalog;
     private MyExpandableListViewAdapter adapter;
+    private PullRefreshLayout pullRefreshLayout;
 
     ProgressbarFragment progressbarFragment = new ProgressbarFragment();
 
@@ -115,6 +118,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                 return true;
             }
         });
+        pullRefreshLayout.setEnabled(false);
     }
 
     public void showViewDiaLogFragment(){
@@ -176,7 +180,6 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         jsonObjectStringCreate.addStringPair("loc2", nowLoc2);
         jsonObjectStringCreate.addStringPair("date", nowDate);
         jsonObjectStringCreate.addStringPair("ticket_kind", nowTicketKind);
-
         try{
 
             progressbarFragment.setCancelable(false);
@@ -220,8 +223,10 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                         expandableListView.expandGroup(i);
                         if (!isExpanded) expandableListView.collapseGroup(i);
                     }
+                    //if (pullRefreshLayout.isShown()) pullRefreshLayout.setRefreshing(false);
                     progressbarFragment.dismiss();
                 }catch (Exception e){
+                    //if (pullRefreshLayout.isShown()) pullRefreshLayout.setRefreshing(false);
                     e.printStackTrace();
                 }
             }
@@ -251,6 +256,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
                 }catch (Exception e){
                     showResponse("小熊猫联系不上饲养员了，请检查网络连接%>_<%", "warning");
                     try{
+                        //if (pullRefreshLayout.isShown()) pullRefreshLayout.setRefreshing(false);
                         progressbarFragment.dismiss();
                     }catch (Exception ex){
                         ex.printStackTrace();
@@ -297,6 +303,7 @@ public class OrderManifest extends AppCompatActivity implements ViewDialogFragme
         seatTypes.put(8, "软卧");
         seatTypes.put(9, "动卧");
         seatTypes.put(10, "高级软卧");
+        pullRefreshLayout = findViewById(R.id.swipeRefreshLayout);
     }
 
     private class MyExpandableListViewAdapter extends BaseExpandableListAdapter{

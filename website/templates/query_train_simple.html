@@ -1,0 +1,23 @@
+<meta charset="utf-8">
+<link href="/static/style.css" rel="stylesheet">
+<table class="train-table"  border="0" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">站点</th>
+          <th scope="col">到达时间</th>
+            <th scope="col">出发时间</th>
+            <th scope="col">停留时间</th>
+         </tr>
+        </thead>
+    <tbody>    
+    {% for i in range(data.station|length()) %}
+    <tr>
+        <td>{{i+1}}</td>
+        <td>{{data.station[i].name}}</td>
+        <td>{{data.station[i].timearriv}}</td>
+        <td>{{data.station[i].timestart}}</td>
+        <td>{{data.station[i].timestopover}}</td>
+    </tr>
+    {% endfor %}
+</table>

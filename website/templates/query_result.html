@@ -12,7 +12,8 @@
   {% for item in data.ticket %}
   
   <tr>
-    <td><strong>{{item.train_id}}</strong></td>
+    <td><strong>{{item.train_id}}</strong>
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#{{item.train_id}}" aria-expanded="false" aria-controls="{{item.train_id}}">▼</button></td>
     <td> <div class="timefrom"><b>{{item.datefrom}} {{item.timefrom}} </b></div>
          <div class="timeto">{{item.dateto}} {{item.timeto}}</div></td>
     <td> <div class="locfrom"><span class="icon-from">始</span> {{item.locfrom}} </div>
@@ -35,6 +36,11 @@
         {%endfor%}
         </div>
      </td>
+  </tr>
+  <tr id="{{item.train_id}}" class="collapse train_info" style="background:#f7f7f7;">
+    <td colspan="4" >
+      info
+    </td>
   </tr>
 
 
@@ -86,4 +92,11 @@
     </div>
   </div>
 </div>
-
+<script>
+   $(".train_info").on('show.bs.collapse', function () {
+    var train_id = this.id;
+    $.get("/action/query_train_simple?train_id="+this.id, function(result){
+      $("#"+train_id).children().html(result);
+    });         
+  })
+</script>
