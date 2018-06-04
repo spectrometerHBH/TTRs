@@ -5,7 +5,7 @@
 #include <strstream>
 #include "command.h"
 #include <cstring>
-#define bufsize 65536
+#define bufsize 1000000
 #include <ctime>
 using boost::asio::ip::tcp;
 int Session(tcp::socket socket) {
@@ -27,19 +27,18 @@ int Session(tcp::socket socket) {
       std::istringstream is(bin);
       std::ostringstream os(bout);
 
-      char * response = "";
+      char response[bufsize] = "";
       
 
       read_command(is, os);
       os << "\0";      
 
       //sleep(60);
-
       //char response[1024];
-      response = new char[os.str().size() + 1];
       strcpy(response, os.str().c_str());
-      socket.write_some(boost::asio::buffer(response,os.str().length()));
-
+      //std::cout << strlen(os.str().c_str())<< ' ' <<strlen(response) << std::endl;
+      socket.write_some(boost::asio::buffer(response,strlen(response) ));
+    //}
   } catch (std::exception& e) {
     std::cerr << "Exception: " <<  e.what() << std::endl;
   }
