@@ -19,6 +19,7 @@ private:
 		User() : privilege(1) {}
 	};
 
+	std::fstream iofile;
 	String<20> user_file_name;
 	UserID current_id;
 
@@ -38,16 +39,19 @@ private:
 
 public:
 	UserManager() : user_file_name("user_record") {
-		std::fstream iofile;
 		iofile.open(user_file_name.getAddress());
 		if (!iofile) {
 			init();
+			iofile.open(user_file_name.getAddress());
 		}
 		else {
 			iofile.seekg(0, std::ios::beg);
 			iofile.read(reinterpret_cast<char *> (&current_id), sizeof(UserID));
-			iofile.close();
 		}
+	}
+
+	~UserManager() {
+		iofile.close();
 	}
 
 	void init() {
@@ -68,13 +72,10 @@ public:
 		if (current_id == 2018) {
 			user.privilege = 2;
 		}
-		std::fstream iofile;
-		iofile.open(user_file_name.getAddress());
 		iofile.seekp(0, std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&current_id), sizeof(UserID));
 		iofile.seekp(0, std::ios::end);
 		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
-		iofile.close();
 		return user.id;
 	}
 
@@ -85,12 +86,9 @@ public:
 		if (user_id > current_id || user_id < 2018) {
 			return 0;
 		}
-		std::fstream iofile;
-		iofile.open(user_file_name.getAddress());
 		iofile.seekg(sizeof(UserID) + (user_id - 2018) * sizeof(User), std::ios::beg);
 		User user;
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
-		iofile.close();
 		if (user.password == password) return 1;
 		else return 0;
 	}
@@ -99,12 +97,9 @@ public:
 		if (user_id > current_id || user_id < 2018) {
 			return 0;
 		}
-		std::fstream iofile;
-		iofile.open(user_file_name.getAddress());
 		iofile.seekg(sizeof(UserID) + (user_id - 2018) * sizeof(User), std::ios::beg);
 		User user;
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
-		iofile.close();
 		os << user.name << ' ' << user.email << ' ' << user.phone << ' ' << user.privilege << '\n';
 		return 1;
 	}
@@ -119,15 +114,12 @@ public:
 		if (user.id > current_id || user.id < 2018) {
 			return 0;
 		}
-		std::fstream iofile;
-		iofile.open(user_file_name.getAddress());
 		iofile.seekg(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
 		is >> user.name >> user.password >> user.email >> user.phone;
 		
 		iofile.seekp(sizeof(UserID) + (user.id - 2018) * sizeof(User), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
-		iofile.close();
 		return 1;
 	}
 
@@ -139,8 +131,6 @@ public:
 			return 0;
 		}
 
-		std::fstream iofile;
-		iofile.open(user_file_name.getAddress());
 		iofile.seekg(sizeof(UserID) + (id - 2018) * sizeof(User), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
 
@@ -148,7 +138,6 @@ public:
 
 		iofile.seekp(sizeof(UserID) + (id - 2018) * sizeof(User), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&user), sizeof(User));
-		iofile.close();
 
 		return 1;
 	}
@@ -160,11 +149,8 @@ public:
 		if (id > current_id || id < 2018) {
 			return 0;
 		}
-		std::fstream iofile;
-		iofile.open(user_file_name.getAddress());
 		iofile.seekg(sizeof(UserID) + (id - 2018) * sizeof(User), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (&user), sizeof(User));
-		iofile.close();
 		return user.privilege;
 	}
 
@@ -173,8 +159,6 @@ public:
 			return 0;
 		}
 		User user1, user2;
-		std::fstream iofile;
-		iofile.open(user_file_name.getAddress());
 		iofile.seekg(sizeof(UserID) + (id1 - 2018) * sizeof(User), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (&user1), sizeof(User));
 		if (user1.privilege == 1) {
@@ -182,16 +166,13 @@ public:
 		}
 		iofile.seekg(sizeof(UserID) + (id2 - 2018) * sizeof(User), std::ios::beg);
 		iofile.read(reinterpret_cast<char *> (&user2), sizeof(User));
-		if (user2.privilege == 2 && privilege == 2) {
-			return 1;
-		}
 		if (user2.privilege == 2) {
+            if (privilege == 2) return 1;
 			return 0;
 		}
 		user2.privilege = privilege;
 		iofile.seekp(sizeof(UserID) + (id2 - 2018) * sizeof(User), std::ios::beg);
 		iofile.write(reinterpret_cast<char *> (&user2), sizeof(User));
-		iofile.close();
 		return 1;
 	}
 
