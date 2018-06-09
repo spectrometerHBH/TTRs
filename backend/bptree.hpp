@@ -5,7 +5,7 @@
 #include <iostream>
 #include <functional>
 //typedef int off_t;
-template <class key_t, class value_t, size_t node_size = 4096, class Compare = std::less<key_t>>
+template <class key_t, class value_t, size_t node_size = 8192, class Compare = std::less<key_t>>
 class bptree {
 	typedef sjtu::pair<key_t, value_t> pair_t;
 	typedef sjtu::vector<pair_t> array_t;
@@ -51,7 +51,7 @@ private:
 
 	char buffer[node_size];
 	inline void file_reopen() {
-		if (file) fflush(file);
+		//if (file) fflush(file);
 	}
 	inline void move_to_data(const node &p) {
 		fseek(file, p.pos + sizeof(node), SEEK_SET);
@@ -145,7 +145,7 @@ private:
 	}
 	inline off_t new_node() {
 		sz++;
-		save_index();
+		//save_index();
 		return alloc.alloc(node_size);
 	}
 	inline node new_tnode(
