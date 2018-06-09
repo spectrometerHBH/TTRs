@@ -727,6 +727,7 @@ def action_post():
             print "#quest", command
             result = client.send(command)
             result = unicode(result, "utf-8")
+            #print "@",result
             return encrypt(json.dumps(func[data['type']][1](result)))
         else:
             return encrypt("{'success':false}")
