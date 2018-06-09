@@ -5,7 +5,7 @@
 #include <iostream>
 #include <functional>
 //typedef int off_t;
-template <class key_t, class value_t, size_t node_size = 8192, class Compare = std::less<key_t>>
+template <class key_t, class value_t, size_t node_size = 4096, class Compare = std::less<key_t>>
 class bptree {
 	typedef sjtu::pair<key_t, value_t> pair_t;
 	typedef sjtu::vector<pair_t> array_t;
@@ -51,7 +51,7 @@ private:
 
 	char buffer[node_size];
 	inline void file_reopen() {
-		//if (file) fflush(file);
+		if (file) fflush(file);
 	}
 	inline void move_to_data(const node &p) {
 		fseek(file, p.pos + sizeof(node), SEEK_SET);
@@ -80,18 +80,18 @@ private:
 	inline void buf_save_b(char * b, node p) {
 		move_to_data(p);
 		fwrite(b, 1, (sizeof(key_t) + sizeof(value_t)) * p.sz, file);
-		//file_reopen();
+		file_reopen();
 	}
 
 	inline void save_node(const node &p) {
 		fseek(file, p.pos, SEEK_SET);
 		fwrite(&p, sizeof(node), 1, file);
-		//file_reopen();
+		file_reopen();
 	}
 
 	inline void free_node(const node &p) {
 		alloc.free(p.pos, node_size);
-		//save_index();
+		save_index();
 	}
 
 	key_t * nthk_b(buffer_p b, size_t n) {
@@ -145,7 +145,7 @@ private:
 	}
 	inline off_t new_node() {
 		sz++;
-		//save_index();
+		save_index();
 		return alloc.alloc(node_size);
 	}
 	inline node new_tnode(
@@ -261,7 +261,7 @@ private:
 		buf_save_b(b, p);
 		if (tail == p.pos) {
 			tail = q.pos;
-			//save_info();
+			save_info();
 		}
 		if (q.next != invalid_off) {
 			node qn = read_node(q.next);
@@ -365,7 +365,7 @@ private:
 				root = new_root.pos;
 				_insert_t(new_root, p.key, p.pos);
 				_insert_t(new_root, q.key, q.pos);
-				//save_info();
+				save_info();
 			}
 			return q;
 		}
@@ -524,7 +524,7 @@ private:
 				//printf("haha");
 				free_node(p);
 				head = tail = invalid_off;
-				//save_info();
+				save_info();
 				save_node(p);
 				buf_save_b(b, p);
 				return 2;
@@ -577,7 +577,7 @@ private:
 				free_node(p);
 				if (p.father == invalid_off) {
 					head = tail = root = invalid_off;
-					//save_info();
+					save_info();
 				}
 			}
 			save_node(p);
@@ -755,7 +755,7 @@ private:
 		else if (result == 2) {
 			free_node(p);
 			head = tail = root = invalid_off;
-			//save_info();
+			save_info();
 			return 2;
 		}
 		else {
@@ -887,7 +887,7 @@ public:
 		new_node();
 		head = tail = root = invalid_off;
 		fseek(file, 0, SEEK_SET);
-		//save_info();
+		save_info();
 	}
 
 	inline void load_index() {
@@ -930,7 +930,7 @@ public:
 			node q = new_block(key, p.pos);
 			root = p.pos;
 			head = tail = q.pos;
-			//save_info();
+			save_info();
 			//printf("~%lld %lld\n", p.pos, root);
 			_insert_b(q, key, v);
 			_insert_t(p, key, q.pos);

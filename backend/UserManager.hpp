@@ -15,7 +15,7 @@ private:
 		Password password;
 		Email email;
 		Phone phone;
-		short privilege;
+		int privilege;
 		User() : privilege(1) {}
 	};
 
