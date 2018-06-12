@@ -1,6 +1,4 @@
-# 火车票订票系统TTRS开发文档
-
----
+# 火车订票系统TTRS for Android开发文档
 
 # 简介
 
@@ -17,6 +15,8 @@
 测试环境：Android 6.0、 Android 7.11、Android 8.0
 
 开发技术：Java + xml
+
+开发人员：侯博涵（通讯模块，用户模块、车票模块）、蔡亚星（UI模块）
 
 
 
@@ -107,27 +107,28 @@ public class HttpClient {
 
 
 
-封装`JSONArrayStringCreate`类用于构造JSON对象，进行通讯传递
+封装`JSONObjectStringCreate`类用于构造JSON对象，进行通讯传递
 
 ```java
-public class JSONArrayStringCreate {
+public class JSONObjectStringCreate {
     private String result;
 
-    public JSONArrayStringCreate() { result = ""; }
-    public void addString(String item){
-        result = result + "\"" + item + "\",";
+    public JSONObjectStringCreate() { result = ""; }
+    public void addStringPair(String key, String value){
+        result = result + "\"" + key + "\":\"" + value + "\",";
     }
-    public void addInt(String jsonObject){
-        result = result + jsonObject + ",";
+    public void addIntPair(String key, String value){
+        result = result + "\"" + key + "\":" + value + ",";
     }
-    public void addJSONObject(String jsonObject){
-        result = result + jsonObject + ",";
+    public void addJSONArrayPair(String key, String value){
+        result = result + "\"" + key + "\":" + value + ",";
     }
     public String getResult(){
         String ans = result.substring(0, result.length() - 1);
-        return "[" + ans + "]";
+        return "{" + ans + "}";
     }
 }
+
 ```
 
 
@@ -159,7 +160,7 @@ public class JSONArrayStringCreate {
 
 ### 用户模块
 
-用户模块主要由`Login/Register/MainActivity/ModifyUserInfo/ModifyUserInfoAdmin/UserQuery/OrderManifest`七个`Activity` 负责
+用户模块主要由`Login`/`Register`/`MainActivity`/`ModifyUserInfo`/`ModifyUserInfoAdmin`/`UserQuery`/`OrderManifest`七个`Activity` 负责 
 
 
 
@@ -181,15 +182,31 @@ public class JSONArrayStringCreate {
 
 ### 车次模块
 
-车次模块主要由`TrainQuery(ContentFragment_train_query/ContentFragment_train_detail)/TrainOperation(ContentFragment_train_add/ContentFragment_train_other_operation)/GetStation/TicketManifest/TrainDetailManifest`四个`Activity`和四个`Fragment`负责，同时开发了工具类`Seats/SeatsAdapter/Train/TrainAdapter`
+车次模块主要由
+
+`TrainQuery(ContentFragment_train_query/ContentFragment_train_detail)`		
+
+/`TrainOperation(ContentFragment_train_add/ContentFragment_train_other_operation)`
+
+/`GetStation`
+
+/`TicketManifest`/`TrainDetailManifest`
+
+五个`Activity`和四个`Fragment`负责，
+
+同时开发了工具类`Seats/SeatsAdapter/Train/TrainAdapter`
 
 
 
-1.`TrainQuery`是用户/管理员进行车票查询（包括中转）的活动，其中依附于该活动的`ContentFragment_train_query`和`ContentFragment_train_detail`两个碎片分别负责 $$（1）$$根据站点、时间及席别查询 $（2）$根据车次的ID查询
+1.`TrainQuery`是用户/管理员进行车票查询（包括中转）的活动，其中依附于该活动的`ContentFragment_train_query`和`ContentFragment_train_detail`两个碎片分别负责
 
-`2.TrainDetailManifest`是用户/管理员根据车次ID查询火车后显示车次具体信息的活动
+$$（1）$$根据站点、时间及席别查询 $（2）$根据车次的ID查询
 
-3.`TrainOperation`是管理员进行车次管理的活动，其中依附于该活动的`ContentFragment_train_add`和`ContentFragment_train_other_operation`两个碎片分别负责$（1）$车次的新建和修改 $（2）$车次的公开和删除
+2.`TrainDetailManifest`是用户/管理员根据车次ID查询火车后显示车次具体信息的活动
+
+3.`TrainOperation`是管理员进行车次管理的活动，其中依附于该活动的`ContentFragment_train_add`和`ContentFragment_train_other_operation`两个碎片分别负责
+
+$（1）$车次的新建和修改 $（2）$车次的公开和删除
 
 4.`GetStation`是管理员在新建和修改车次时设置各站名、到时、发时、停时和票价的活动
 
@@ -262,87 +279,3 @@ public class JSONArrayStringCreate {
 10、统一风格的设计
 
 统一使用Google官方的material design图标包，并使用Google官方的色调推荐，统一整个app的UI风格
-
-
-
-## 《使用手册》
-
-### 《系统安装手册》
-
-从https://pan.baidu.com/s/1Tpy77cNBqImNr3Iu4hk70g获取APK文件，打开并按提示完成安装过程
-
-### 《用户手册》
-
-#### 基础操作
-
-1、启动、注册、登录
-![](images/start_registe_login.gif)
-
-2、记住密码
-![](images/remember_password.gif)
-
-3、注册、登录错误提醒
-![](images/wrong_login.gif)![](images/wrong_registe.gif)
-
-#### 用户相关
-
-1、用户信息修改
-![](images/modify_user_profile.gif)
-
-2、用户信息、权限修改
-![](images/modify_user_profile_privilege.gif)
-
-4、用户信息查询错误提醒
-![](images/wrong_query_userid.gif)
-
-#### 车票相关
-
-1、购票、退票
-![](images/ticket_purchase_return.gif)
-
-2、查票
-![](images/query_ticket.gif)
-
-3、购票、退票错误提醒
-![](images/wrong_ticket_purchase_return.gif)
-
-4、查票错误提醒
-![](images/wrong_query_ticket.gif)
-
-#### 车次相关
-
-1、查询车次
-![](images/query_train.gif)![](images/query_train_trans.gif)
-
-2、新增、修改车次
-![](images/add_train.gif)![](images/modify_train.gif)
-
-3、公开、删除车次
-![](images/publish_train.gif)![](images/delete_train.gif)
-
-4、查看时刻表
-![](images/timetable.gif)![](images/timetable2.gif)
-
-5、查询车次错误提醒
-![](images/wrong_query_train.gif)
-
-6、新增车次错误提醒
-![](images/wrong_add_train.gif)
-
-7、公开、删除车次错误提醒
-![](images/wrong_train_delete_publish.gif)
-
-## 收获
-
->“不妨假设心灵是一张白纸，没有任何符号，没有任何想法。
->你们心灵是如何丰富起来的？
->人类无限的想象力在其中描绘出了无穷无尽的可能性，这是从哪里来的？
->知识和推理，又是从哪里来的？
->我的答案只有一句话，从经历中来。”
->——约翰·洛克《人类理解论》
-
-积累了一些Android开发经验以及UI设计经验
-对Android软件架构有了深刻理解
-理解了一些软件开发哲学
-当然，最重要的，是经历
-
